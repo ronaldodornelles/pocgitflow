@@ -1,0 +1,412 @@
+﻿body {
+    margin: 0px;
+}
+
+div {
+    background-repeat: no-repeat;
+}
+
+.raw_image {
+    width: 100%;
+    height: 100%;
+}
+
+.preload {
+    display: none;
+}
+#main_container {
+}
+
+.form_sketch {
+    border-color: transparent;
+    background-color: transparent;
+}
+
+.u0_normal {
+    background-image: url('../Pesquisar_Unidade_Organizacional_files/u0_normal.png');
+}
+
+.u0_container {
+    position:absolute;
+    left:0px;
+    top:283px;
+    width:826px;
+    height:323px;
+}
+
+#u0_img {
+    position:absolute;
+    left:0px;
+    top:0px;
+    width:826px;
+    height:323px;
+}
+
+.u1 {
+    position:absolute;
+    left:2px;
+    top:154px;
+    width:822px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u2_normal {
+    background-image: url('../Pesquisar_Unidade_Organizacional_files/u2_normal.png');
+}
+
+.u2_container {
+    position:absolute;
+    left:2px;
+    top:2px;
+    width:821px;
+    height:282px;
+}
+
+#u2_img {
+    position:absolute;
+    left:0px;
+    top:0px;
+    width:821px;
+    height:282px;
+}
+
+.u3 {
+    position:absolute;
+    left:2px;
+    top:133px;
+    width:817px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u4_normal {
+    background-image: url('../Pesquisar_Unidade_Organizacional_files/u4_normal.png');
+}
+
+.u4_container {
+    position:absolute;
+    left:105px;
+    top:137px;
+    width:15px;
+    height:15px;
+}
+
+#u4_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:21px;
+    height:21px;
+}
+
+.u5 {
+    position:absolute;
+    left:2px;
+    top:0px;
+    width:11px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u6_normal {
+    background-image: url('../Pesquisar_Unidade_Organizacional_files/u4_normal.png');
+}
+
+.u6_container {
+    position:absolute;
+    left:294px;
+    top:203px;
+    width:15px;
+    height:15px;
+}
+
+#u6_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:21px;
+    height:21px;
+}
+
+.u7 {
+    position:absolute;
+    left:2px;
+    top:0px;
+    width:11px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u8_normal {
+    background-image: url('../Pesquisar_Unidade_Organizacional_files/u4_normal.png');
+}
+
+.u8_container {
+    position:absolute;
+    left:187px;
+    top:389px;
+    width:15px;
+    height:15px;
+}
+
+#u8_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:21px;
+    height:21px;
+}
+
+.u9 {
+    position:absolute;
+    left:2px;
+    top:0px;
+    width:11px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u10_normal {
+    background-image: url('../Pesquisar_Unidade_Organizacional_files/u4_normal.png');
+}
+
+.u10_container {
+    position:absolute;
+    left:187px;
+    top:468px;
+    width:15px;
+    height:15px;
+}
+
+#u10_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:21px;
+    height:21px;
+}
+
+.u11 {
+    position:absolute;
+    left:2px;
+    top:0px;
+    width:11px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u12_normal {
+    background-image: url('../Pesquisar_Unidade_Organizacional_files/u4_normal.png');
+}
+
+.u12_container {
+    position:absolute;
+    left:187px;
+    top:428px;
+    width:15px;
+    height:15px;
+}
+
+#u12_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:21px;
+    height:21px;
+}
+
+.u13 {
+    position:absolute;
+    left:2px;
+    top:0px;
+    width:11px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u14_normal {
+    background-image: url('../Pesquisar_Unidade_Organizacional_files/u4_normal.png');
+}
+
+.u14_container {
+    position:absolute;
+    left:271px;
+    top:506px;
+    width:15px;
+    height:15px;
+}
+
+#u14_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:21px;
+    height:21px;
+}
+
+.u15 {
+    position:absolute;
+    left:2px;
+    top:0px;
+    width:11px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u16_normal {
+    background-image: url('../Pesquisar_Unidade_Organizacional_files/u4_normal.png');
+}
+
+.u16_container {
+    position:absolute;
+    left:758px;
+    top:573px;
+    width:15px;
+    height:15px;
+}
+
+#u16_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:21px;
+    height:21px;
+}
+
+.u17 {
+    position:absolute;
+    left:2px;
+    top:0px;
+    width:11px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u18 {
+    position:absolute;
+    left:6px;
+    top:646px;
+    width:850px;
+    height:224px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u19_normal {
+    background-image: url('../resources/images/transparent.gif');
+}
+
+.u19_container {
+    position:absolute;
+    left:733px;
+    top:762px;
+    width:180px;
+    height:60px;
+}
+
+#u19_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:186px;
+    height:66px;
+}
+
+.u20 {
+    position:absolute;
+    left:2px;
+    top:22px;
+    width:176px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u21_normal {
+    background-image: url('../Versao_Sistema_files/u11_normal.png');
+}
+
+.u21_container {
+    position:absolute;
+    left:1px;
+    top:606px;
+    width:828px;
+    height:26px;
+}
+
+#u21_img {
+    position:absolute;
+    left:0px;
+    top:0px;
+    width:828px;
+    height:26px;
+}
+
+.u22 {
+    position:absolute;
+    left:2px;
+    top:5px;
+    width:824px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+

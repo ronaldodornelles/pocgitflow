@@ -1,0 +1,112 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:stella="http://stella.caelum.com.br/faces">
+
+			<rich:panel id="panelIncluirDependente">
+				<f:facet name="header">Servidor</f:facet>
+				<h3><h:outputText value="Dependentes"/></h3>
+				<rich:separator styleClass="separatorTitulo" />
+				
+				<h:panelGrid columns="1">
+					
+				<rich:dataTable width="483" id="dependenteDataTable" rows="5"
+					value="#{manterDependenteAction.listarDependentes()}" var="_dependente" rendered="#{not empty manterDependenteAction.listarDependentes()}">
+				
+				<rich:column sortBy="#{_dependente.nomDependente}">
+					<f:facet name="header">
+						<h:outputText value="Nome" />
+					</f:facet>
+					<h:outputText value="#{_dependente.nomDependente}" />
+				</rich:column>
+				
+				<rich:column>
+					<f:facet name="header">
+						<h:outputText value="Dt. Nascimento" />
+					</f:facet>
+					<h:outputText value="#{_dependente.datNascimento !=null ? manterDependenteAction.formataData(_dependente.datNascimento, 'dd/MM/yyyy') : '-'}" />
+				</rich:column>
+				
+				<rich:column sortBy="#{_dependente.numCpf}">
+					<f:facet name="header">
+						<h:outputText value="CPF" />
+					</f:facet>
+					<h:outputText value="#{_dependente.numCpf}" />
+				</rich:column>
+				
+				<rich:column sortBy="3">
+					<f:facet name="header">
+						<h:outputText value="Dependente para Fins" />
+					</f:facet>
+					<h:outputText value="#{_dependente.fimDependentes !=null ? manterDependenteAction.gerarString(_dependente.fimDependentes) : '-'}" />
+				</rich:column>
+				
+				<rich:column style="width:80px">
+					<f:facet name="header">
+						<h:outputText value="Ações" />
+					</f:facet>
+					<div align="center">
+						<a4j:commandButton image="#{imagemUtil.getURLIcone('EDITAR')}" ajaxSingle="true" immediate="true"
+							title="Editar" oncomplete="#{rich:component('incluirEditarDependenteModal')}.show();" 
+							reRender="incluirEditarDependenteModal" rendered="#{!isVisualizar}"
+							action="#{manterDependenteAction.irEditarDependente(_dependente)}" style="padding-right: 2px;"/>
+						<a4j:commandButton image="#{imagemUtil.getURLIcone('DETALHAR')}" ajaxSingle="true" immediate="true"
+							title="Visualizar" oncomplete="#{rich:component('incluirEditarDependenteModal')}.show();"
+							reRender="incluirEditarDependenteModal" 
+							action="#{manterDependenteAction.irVisualizarDependente(_dependente)}" />
+							
+						<a4j:commandButton image="#{imagemUtil.getURLIcone('EXCLUIR')}"
+							title="Excluir" rendered="#{!isVisualizar}" ajaxSingle="true"
+							action="#{manterDependenteAction.prepararExclusao(_dependente)}"
+							oncomplete="#{rich:component('modalExcluirDependemte')}.show();"
+							reRender="modalExcluirDependemte" />
+					</div>
+				</rich:column>
+			</rich:dataTable>
+			
+			<br />
+			<h:outputText id="totalOutputDep" style="font-weight:bold;"
+					value="Total: #{manterDependenteAction.listarDependentes().size()}" 
+					rendered="#{not empty manterDependenteAction.listarDependentes()}"/>
+			<br />
+			<rich:datascroller align="center" for="dependenteDataTable"
+				renderIfSinglePage="false" />
+					
+			</h:panelGrid>
+				
+			<div align="right">
+				<a4j:commandButton action="#{manterDependenteAction.incluirDependentes()}" value="Adicionar" immediate="true" rendered="#{!isVisualizar}"
+					reRender="modalIncluirEditarDependente, incluirEditarDependenteModal"
+					oncomplete="#{rich:component('incluirEditarDependenteModal')}.show();"/>
+			</div>
+			
+			</rich:panel>
+			<rich:modalPanel id="modalExcluirDependemte" width="450" height="160">
+		        <f:facet name="header">
+		            <h:panelGroup>
+		                <h:outputText value="Excluir Dependente"></h:outputText>
+		            </h:panelGroup>
+		        </f:facet>
+		        <f:facet name="controls">
+		            <h:panelGroup>
+		                <rich:componentControl for="modalExcluirDependemte" attachTo="hidelink" operation="hide" event="onclick"/>
+		            </h:panelGroup>
+		        </f:facet>
+		       	<h3><h:outputText value="Deseja realmente excluir o Dependente?"/></h3>
+		        <br/>
+		        <div align="center">
+			        <a4j:commandButton value="Sim" action="#{manterDependenteAction.excluirDependente()}" 
+			        	oncomplete="#{rich:component('modalExcluirDependemte')}.hide();" ajaxSingle="true" reRender="dependenteDataTable,totalOutputDep, panelIncluirDependente"/>
+			        <a4j:commandButton value="Não" action="#{manterDependenteAction.voltarModal()}" ajaxSingle="true"
+			        	oncomplete="#{rich:component('modalExcluirDependemte')}.hide();" />
+		        </div>
+		    </rich:modalPanel>
+</ui:composition>

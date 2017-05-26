@@ -1,0 +1,330 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j">
+			
+			<rich:panel id="cargoFuncaoAba">
+				<f:facet name="header">Servidor</f:facet>
+				<h3><h:outputText value="Provimento de Cargo Efetivo"/></h3>
+				<rich:separator styleClass="separatorTitulo" />
+				
+				<h:panelGrid columns="1">
+							
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Área de Atuação:</ui:define>
+						<h:selectOneMenu value="#{servidor.cargoEfetivo.areaAtuacao}" id="areaAtuacao" required="#{!isVisualizar and campoCargoEfetivo and campoCargoEfetivoEstagio and campoCargoEfetivoAposentado}" disabled="#{isVisualizar or !campoCargoEfetivo or !campoCargoEfetivoContratoTempo or !campoCargoEfetivoEstagio or !campoCargoEfetivoAposentado}"  style="width:450px">
+							<s:selectItems  value="#{combosAuxiliarAction.getAreaAtuacaos()}" var="_areaAtuacao" 
+								label="#{_areaAtuacao.nomAreaAtuacao}" noSelectionLabel="Selecione"/>
+							<s:convertEntity/>
+						</h:selectOneMenu>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Nível:</ui:define>
+						<h:selectOneMenu value="#{nivelCargoFuncionario}" id="nivelCargoEfetivoCod" disabled="#{isVisualizar or !campoCargoEfetivo or !campoCargoEfetivoContratoTempo or !campoCargoEfetivoEstagio or !campoCargoEfetivoAposentado}" >
+							<s:selectItems  value="#{combosAuxiliarAction.getNivelCargoFuncionarios()}" var="_nivelCargoFuncionario" 
+								label="#{_nivelCargoFuncionario.codSiapeNivelCargo}" noSelectionLabel="--"/>
+								<a4j:support event="onchange" reRender="nivelCargoEfetivo, grupoCod, grupo" ajaxSingle="true" focus="nivelCargoEfetivoCod"/>
+							<s:convertEntity/>
+						</h:selectOneMenu>
+						<h:selectOneMenu value="#{nivelCargoFuncionario}" id="nivelCargoEfetivo" disabled="#{isVisualizar or !campoCargoEfetivo or !campoCargoEfetivoContratoTempo or !campoCargoEfetivoEstagio or !campoCargoEfetivoAposentado}" >
+							<s:selectItems  value="#{combosAuxiliarAction.getNivelCargoFuncionarios()}" var="_nivelCargoFuncionario" 
+								label="#{_nivelCargoFuncionario.txtDescricao}" noSelectionLabel="Selecione"/>
+								<a4j:support event="onchange" reRender="nivelCargoEfetivoCod, grupoCod, grupo" ajaxSingle="true" focus="nivelCargoEfetivo"/>
+							<s:convertEntity/>
+						</h:selectOneMenu>	
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Grupo:</ui:define>
+						<h:selectOneMenu value="#{grupoFuncionario}" id="grupoCod" disabled="#{isVisualizar or !campoCargoEfetivo or !campoCargoEfetivoContratoTempo or !campoCargoEfetivoEstagio or !campoCargoEfetivoAposentado}" >
+							<s:selectItems  value="#{combosAuxiliarAction.getGrupoFuncionarios()}" var="_grupoFuncionario" 
+								label="#{_grupoFuncionario.codSiapeGrupoFunc}" noSelectionLabel="--"/>
+								<a4j:support event="onchange" reRender="grupo, codCargo, cargo" ajaxSingle="true" focus="grupoCod"/>
+							<s:convertEntity/>
+						</h:selectOneMenu>
+						<h:selectOneMenu value="#{grupoFuncionario}" id="grupo" disabled="#{isVisualizar or !campoCargoEfetivo or !campoCargoEfetivoContratoTempo or !campoCargoEfetivoEstagio or !campoCargoEfetivoAposentado}" >
+							<s:selectItems  value="#{combosAuxiliarAction.getGrupoFuncionarios()}" var="_grupoFuncionario" 
+								label="#{_grupoFuncionario.txtDescricao}" noSelectionLabel="Selecione"/>
+								<a4j:support event="onchange" reRender="grupoCod, codCargo, cargo" ajaxSingle="true" focus="grupo"/>
+							<s:convertEntity/>
+						</h:selectOneMenu>
+					</s:decorate>
+					
+				</h:panelGrid>
+					
+				<h:panelGrid columns="1">
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Cargo/Função:</ui:define>
+						<h:selectOneMenu value="#{servidor.cargoEfetivo.cargoFuncionario}" id="codCargo" required="#{!isVisualizar and campoCargoEfetivo and campoCargoEfetivoEstagio and campoCargoEfetivoAposentado}" disabled="#{isVisualizar or !campoCargoEfetivo or !campoCargoEfetivoContratoTempo or !campoCargoEfetivoEstagio or !campoCargoEfetivoAposentado}" >
+							<s:selectItems  value="#{combosAuxiliarAction.getCargoFuncionarios()}" var="_cargoFuncionario" 
+								label="#{util.formatCargo(3,_cargoFuncionario.codSiapeCargo)}" noSelectionLabel="--"/>
+							<s:convertEntity/>
+							<a4j:support event="onchange" reRender="cargo" ajaxSingle="true" focus="codCargo"/>
+						</h:selectOneMenu>
+						<h:selectOneMenu value="#{servidor.cargoEfetivo.cargoFuncionario}" id="cargo" disabled="#{isVisualizar or !campoCargoEfetivo or !campoCargoEfetivoContratoTempo or !campoCargoEfetivoEstagio or !campoCargoEfetivoAposentado}"  style="width:430px">
+							<s:selectItems  value="#{combosAuxiliarAction.getCargoFuncionarios()}" var="_cargoFuncionario" 
+								label="#{_cargoFuncionario.txtDescricao}" noSelectionLabel="Selecione"/>
+							<s:convertEntity/>
+							<a4j:support event="onchange" reRender="codCargo" ajaxSingle="true" focus="cargo"/>
+						</h:selectOneMenu>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Estável:</ui:define>
+						<h:selectOneMenu value="#{servidor.cargoEfetivo.indEstavel}" id="indEstavel" disabled="#{isVisualizar or !campoCargoEfetivo or !campoCargoEfetivoContratoTempo or !campoCargoEfetivoEstagio or !campoCargoEfetivoAposentado}" >
+							<f:selectItem itemLabel="--"/>
+							<f:selectItem itemValue="1" itemLabel="Sim"/>
+							<f:selectItem itemValue="0" itemLabel="Não"/>
+						</h:selectOneMenu>
+					</s:decorate>
+					
+				</h:panelGrid>
+
+				<h:panelGrid columns="2">
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Classe:</ui:define>
+						<h:selectOneMenu value="#{classeFuncionario}" id="classe" disabled="#{isVisualizar or !campoCargoEfetivo or !campoCargoEfetivoContratoTempo or !campoCargoEfetivoEstagio or !campoCargoEfetivoAposentado}" >
+							<s:selectItems  value="#{combosAuxiliarAction.getClasseFuncionarios()}" var="_classe" 
+								label="#{_classe.txtDescricao}" noSelectionLabel="--"/>
+							<a4j:support event="onchange" reRender="padrao" ajaxSingle="true" focus="classe"/>
+							<s:convertEntity/>
+						</h:selectOneMenu>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Padrão:</ui:define>
+						<h:selectOneMenu value="#{servidor.cargoEfetivo.padraoCargo}" id="padrao" disabled="#{isVisualizar or !campoCargoEfetivo or !campoCargoEfetivoContratoTempo or !campoCargoEfetivoEstagio or !campoCargoEfetivoAposentado}" >
+							<s:selectItems  value="#{combosAuxiliarAction.getPadraoCargos()}" var="_padrao" 
+								label="#{_padrao.txtDescricao}" noSelectionLabel="--"/>
+							<s:convertEntity/>
+						</h:selectOneMenu>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Código de Vaga:</ui:define>
+						<rich:jQuery selector="#codVaga" query="setMask()" timing="onload"/>
+						<h:inputText value="#{servidor.cargoEfetivo.codVaga}" id="codVaga" readonly="#{isVisualizar or !campoCargoEfetivo or !campoCargoEfetivoContratoTempo or !campoCargoEfetivoEstagio or !campoCargoEfetivoAposentado}" alt="999999"  onkeypress="this.value=trataTxt(this.value);" onblur="this.value=trataTxt(this.value);"  />
+					</s:decorate>
+					<ui:remove>
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">CBO:</ui:define>
+						<h:selectOneMenu value="#{servidor.cargoEfetivo.cbo}" id="cbo" disabled="#{isVisualizar or !campoCargoEfetivo or !campoCargoEfetivoContratoTempo or !campoCargoEfetivoEstagio or !campoCargoEfetivoAposentado}" >
+							<s:selectItems  value="#{cboManager.listarTodos()}" var="_CBO" 
+								label="#{_CBO.nomCbo}" noSelectionLabel="Selecione"/>
+							<s:convertEntity/>
+						</h:selectOneMenu>
+					</s:decorate>
+					</ui:remove>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Data de Posse:</ui:define>
+						<rich:jQuery selector="#datPosse" query="setMask()" timing="onload"/>
+						<h:inputText value="#{servidor.cargoEfetivo.datPosse}" id="datPosseCargo" required="#{!isVisualizar and campoCargoEfetivo and campoCargoEfetivoEstagio and campoCargoEfetivoAposentado}" readonly="#{isVisualizar or !campoCargoEfetivo or !campoCargoEfetivoContratoTempo or !campoCargoEfetivoEstagio or !campoCargoEfetivoAposentado}" maxlength = "10" size="12" alt="date"  validator="dateValidator" >
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:inputText>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Data de Exercício:</ui:define>
+						<rich:jQuery selector="#datExercicio" query="setMask()" timing="onload"/>
+						<h:inputText value="#{servidor.cargoEfetivo.datExercicio}" id="datExercicioCargo" required="#{!isVisualizar and campoCargoEfetivo and campoCargoEfetivoEstagio and campoCargoEfetivoAposentado}" readonly="#{isVisualizar or !campoCargoEfetivo or !campoCargoEfetivoContratoTempo or !campoCargoEfetivoEstagio or !campoCargoEfetivoAposentado}" maxlength = "10" size="12" alt="date"  validator="dateValidator" >
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:inputText>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Gratificação:</ui:define>
+						<h:selectOneMenu value="#{servidor.cargoEfetivo.indGratificacao}" id="indGratificacao" disabled="#{isVisualizar or !campoCargoEfetivo or !campoCargoEfetivoContratoTempo or !campoCargoEfetivoEstagio or !campoCargoEfetivoAposentado}" >
+							<f:selectItem itemLabel="--"/>
+							<f:selectItem itemValue="GSISTE" itemLabel="GSISTE"/>
+							<f:selectItem itemValue="GSISP" itemLabel="GSISP"/>
+							<a4j:support event="onchange" reRender="desGratificacao" ajaxSingle="true" />
+						</h:selectOneMenu>
+						
+						<h:selectOneMenu value="#{servidor.cargoEfetivo.desGratificacao}" id="desGratificacao" disabled="#{isVisualizar or !campoCargoEfetivo or !campoCargoEfetivoContratoTempo or !campoCargoEfetivoEstagio or !campoCargoEfetivoAposentado}" style="width:120px;">
+							<f:selectItem itemLabel="Selecione"/>
+							<c:if test="#{servidor.cargoEfetivo.indGratificacao=='GSISTE'}">
+								<f:selectItem itemValue="SIPECNS" itemLabel="SIPEC - NIVEL SUPERIOR"/>
+								<f:selectItem itemValue="SIPECNM" itemLabel="SIPEC - NIVEL MEDIO"/>
+								<f:selectItem itemValue="SISGNS" itemLabel="SISG - NIVEL SUPERIOR"/>
+								<f:selectItem itemValue="SISGNM" itemLabel="SISG - NIVEL MEDIO"/>
+								<f:selectItem itemValue="MPAACNS" itemLabel="MPAAC - NIVEL SUPERIOR"/>
+							</c:if>
+							<c:if test="#{servidor.cargoEfetivo.indGratificacao=='GSISP'}">
+								<f:selectItem itemValue="NS" itemLabel="NIVEL SUPERIOR"/>
+								<f:selectItem itemValue="NM" itemLabel="NIVEL MEDIO"/>
+							</c:if>
+						</h:selectOneMenu>
+					</s:decorate>										
+			</h:panelGrid>
+			
+			
+				
+			<c:if test="#{campoCargoEfetivoAposentado}">
+			<h3><h:outputText value="Provimento de Cargo em Comissão/Função"/></h3>
+			<rich:separator styleClass="separatorTitulo" />
+				
+			<h:panelGrid columns="1">
+							
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Cargo/Função:</ui:define>
+						<h:selectOneMenu value="#{servidor.codSiape}" id="tipoCargoComissinadoCod" disabled="#{isVisualizar or !campoCargoEfetivoContratoTempo or !campoCargoEfetivoEstagio}" >
+							<s:selectItems  value="#{tipoCargoComissionadoManager.listarTodosCodSiage()}" var="_tipoCargoComissinado" 
+								label="#{_tipoCargoComissinado}" noSelectionLabel="--"/>
+								<a4j:support event="onchange" reRender="tipoCargoComissinado" ajaxSingle="true" focus="tipoCargoComissinadoCod" action="#{combosAuxiliarAction.getTipoCargoComissionados()}"/>
+						</h:selectOneMenu>
+						<h:selectOneMenu value="#{servidor.cargoComissionado.tipoCargoComissinado}" id="tipoCargoComissinado" disabled="#{isVisualizar or !campoCargoEfetivoContratoTempo or !campoCargoEfetivoEstagio}" style="width:360px;">
+							<s:selectItems  value="#{combosAuxiliarAction.listTipoCargoComissinado}" var="_tipoCargoComissinado" 
+								label="#{_tipoCargoComissinado.txtDescricao}" noSelectionLabel="Selecione"/>
+							<s:convertEntity/>
+						</h:selectOneMenu>	
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Data Publicação:</ui:define>
+						<rich:jQuery selector="#datPublicacaoDocComi" query="setMask()" timing="onload"/>
+						<h:inputText value="#{servidor.cargoComissionado.datPublicacaoDocNom}" id="datPublicacaoDocComi" readonly="#{isVisualizar or !campoCargoEfetivoContratoTempo or !campoCargoEfetivoEstagio}" maxlength = "10" size="12" alt="date"  validator="dateValidator" >
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:inputText>
+					</s:decorate>
+			</h:panelGrid>
+			
+			<h:panelGrid columns="2">
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Documento Legal:</ui:define>
+						<h:selectOneMenu value="#{servidor.cargoComissionado.indDocLegalNom}" 
+							id="documentoLegalCom" disabled="#{isVisualizar or !campoCargoEfetivoContratoTempo or !campoCargoEfetivoEstagio}" >
+							<f:selectItem itemLabel="Selecione"/>
+							<f:selectItem itemLabel="LEI" itemValue="1"/>                
+							<f:selectItem itemLabel="PORTARIA" itemValue="2"/>            
+							<f:selectItem itemLabel="DECRETO" itemValue="3"/>
+							<f:selectItem itemLabel="INSTRUCAO NORMATIVA" itemValue="4"/>
+							<f:selectItem itemLabel="DECRETO LEI" itemValue="5"/>         
+							<f:selectItem itemLabel="EXPOSICAO MOTIVOS" itemValue="6"/>       
+							<f:selectItem itemLabel="EDITAL" itemValue="7"/>              
+							<f:selectItem itemLabel="MEMORANDO" itemValue="8"/>           
+							<f:selectItem itemLabel="OFICIO" itemValue="9"/>                
+							<f:selectItem itemLabel="MEDIDA PROVISORIA" itemValue="10"/>     
+							<f:selectItem itemLabel="CONSTITUICAO FEDERAL" itemValue="11"/>  
+							<f:selectItem itemLabel="LEI COMPLEMENTAR" itemValue="12"/>      
+							<f:selectItem itemLabel="ATO DE CONCESSAO" itemValue="13"/>      
+							<f:selectItem itemLabel="ORDEM DE SERVICO" itemValue="14"/>      
+							<f:selectItem itemLabel="ATA" itemValue="15"/>                   
+							<f:selectItem itemLabel="ACAO CIVIL" itemValue="16"/>           
+							<f:selectItem itemLabel="NOTA" itemValue="17"/>                  
+							<f:selectItem itemLabel="CERTIDAO" itemValue="18"/>              
+							<f:selectItem itemLabel="CONTRATO" itemValue="19"/>              
+							<f:selectItem itemLabel="DECISAO JUDICIAL" itemValue="20"/>      
+							<f:selectItem itemLabel="OFICIO CIRCULAR" itemValue="21"/>       
+							<f:selectItem itemLabel="RESOLUCAO" itemValue="22"/>             
+							<f:selectItem itemLabel="ATO DO CONGRESSO" itemValue="23"/>      
+							<f:selectItem itemLabel="NORMA OPERACIONAL" itemValue="24"/>     
+							<f:selectItem itemLabel="OUTROS" itemValue="25"/>                
+							<f:selectItem itemLabel="REQUERIMENTO" itemValue="26"/>          
+							<f:selectItem itemLabel="APOSTILA" itemValue="27"/>              
+							<f:selectItem itemLabel="PARECER" itemValue="28"/>               
+							<f:selectItem itemLabel="NORMA COMPLEMENTAR" itemValue="29"/>    
+							<f:selectItem itemLabel="ATO" itemValue="30"/>
+						</h:selectOneMenu>	
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Número:</ui:define>
+						<h:inputText value="#{servidor.cargoComissionado.numDocLegalNom}" id="numDocumentoLegalNom" maxlength="6" readonly="#{isVisualizar or !campoCargoEfetivoContratoTempo or !campoCargoEfetivoEstagio}" onkeypress="return somenteNumeros(event);"/>
+					</s:decorate>
+					
+			</h:panelGrid>
+			
+			<h:panelGrid columns="1">
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Data de Posse:</ui:define>
+						<rich:jQuery selector="#datPosse" query="setMask()" timing="onload"/>
+						<h:inputText value="#{servidor.cargoComissionado.datPosse}" id="datPosse" readonly="#{isVisualizar or !campoCargoEfetivoContratoTempo or !campoCargoEfetivoEstagio}" maxlength = "10" size="12" alt="date"  validator="dateValidator" >
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:inputText>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Data de Exercício:</ui:define>
+						<rich:jQuery selector="#datExercicio" query="setMask()" timing="onload"/>
+						<h:inputText value="#{servidor.cargoComissionado.datExercicio}" id="datExercicio" readonly="#{isVisualizar or !campoCargoEfetivoContratoTempo or !campoCargoEfetivoEstagio}" maxlength = "10" size="12" alt="date"  validator="dateValidator" >
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:inputText>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Data da Exoneração:</ui:define>
+						<rich:jQuery selector="#datExoneracao" query="setMask()" timing="onload"/>
+						<h:inputText value="#{servidor.cargoComissionado.datExoneracao}" id="datExoneracao" readonly="#{isVisualizar or !campoCargoEfetivoContratoTempo or !campoCargoEfetivoEstagio}" maxlength = "10" size="12" alt="date"  validator="dateValidator" >
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:inputText>
+					</s:decorate>
+					
+			</h:panelGrid>
+				
+			<h:panelGrid columns="2">
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Documento Legal:</ui:define>
+						<h:selectOneMenu value="#{servidor.cargoComissionado.indDocLegalExo}" 
+							id="documentoLegalExo" disabled="#{isVisualizar or !campoCargoEfetivoContratoTempo or !campoCargoEfetivoEstagio}" >
+							<f:selectItem itemLabel="Selecione"/>
+							<f:selectItem itemLabel="LEI" itemValue="1"/>                
+							<f:selectItem itemLabel="PORTARIA" itemValue="2"/>            
+							<f:selectItem itemLabel="DECRETO" itemValue="3"/>
+							<f:selectItem itemLabel="INSTRUCAO NORMATIVA" itemValue="4"/>
+							<f:selectItem itemLabel="DECRETO LEI" itemValue="5"/>         
+							<f:selectItem itemLabel="EXPOSICAO MOTIVOS" itemValue="6"/>       
+							<f:selectItem itemLabel="EDITAL" itemValue="7"/>              
+							<f:selectItem itemLabel="MEMORANDO" itemValue="8"/>           
+							<f:selectItem itemLabel="OFICIO" itemValue="9"/>                
+							<f:selectItem itemLabel="MEDIDA PROVISORIA" itemValue="10"/>     
+							<f:selectItem itemLabel="CONSTITUICAO FEDERAL" itemValue="11"/>  
+							<f:selectItem itemLabel="LEI COMPLEMENTAR" itemValue="12"/>      
+							<f:selectItem itemLabel="ATO DE CONCESSAO" itemValue="13"/>      
+							<f:selectItem itemLabel="ORDEM DE SERVICO" itemValue="14"/>      
+							<f:selectItem itemLabel="ATA" itemValue="15"/>                   
+							<f:selectItem itemLabel="ACAO CIVIL" itemValue="16"/>           
+							<f:selectItem itemLabel="NOTA" itemValue="17"/>                  
+							<f:selectItem itemLabel="CERTIDAO" itemValue="18"/>              
+							<f:selectItem itemLabel="CONTRATO" itemValue="19"/>              
+							<f:selectItem itemLabel="DECISAO JUDICIAL" itemValue="20"/>      
+							<f:selectItem itemLabel="OFICIO CIRCULAR" itemValue="21"/>       
+							<f:selectItem itemLabel="RESOLUCAO" itemValue="22"/>             
+							<f:selectItem itemLabel="ATO DO CONGRESSO" itemValue="23"/>      
+							<f:selectItem itemLabel="NORMA OPERACIONAL" itemValue="24"/>     
+							<f:selectItem itemLabel="OUTROS" itemValue="25"/>                
+							<f:selectItem itemLabel="REQUERIMENTO" itemValue="26"/>          
+							<f:selectItem itemLabel="APOSTILA" itemValue="27"/>              
+							<f:selectItem itemLabel="PARECER" itemValue="28"/>               
+							<f:selectItem itemLabel="NORMA COMPLEMENTAR" itemValue="29"/>    
+							<f:selectItem itemLabel="ATO" itemValue="30"/>
+						</h:selectOneMenu>	
+					
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Número:</ui:define>
+						<h:inputText value="#{servidor.cargoComissionado.numDocLegalExo}" id="numDocumentoLegalExo" maxlength="6" readonly="#{isVisualizar or !campoCargoEfetivoContratoTempo or !campoCargoEfetivoEstagio}" onkeypress="return somenteNumeros(event);"/>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Data de Publicação:</ui:define>
+						<rich:jQuery selector="#datPublicacaoDocExo" query="setMask()" timing="onload"/>
+						<h:inputText value="#{servidor.cargoComissionado.datPublicacaoDocExo}" id="datPublicacaoDocExo" readonly="#{isVisualizar or !campoCargoEfetivoContratoTempo or !campoCargoEfetivoEstagio}" maxlength = "10" size="12" alt="date"  validator="dateValidator" >
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:inputText>
+					</s:decorate>
+					
+			</h:panelGrid>
+			</c:if>	
+		</rich:panel>
+			
+</ui:composition>

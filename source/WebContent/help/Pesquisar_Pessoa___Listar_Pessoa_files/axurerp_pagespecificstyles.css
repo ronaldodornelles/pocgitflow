@@ -1,0 +1,276 @@
+﻿body {
+    margin: 0px;
+}
+
+div {
+    background-repeat: no-repeat;
+}
+
+.raw_image {
+    width: 100%;
+    height: 100%;
+}
+
+.preload {
+    display: none;
+}
+#main_container {
+}
+
+.form_sketch {
+    border-color: transparent;
+    background-color: transparent;
+}
+
+.u0_normal {
+    background-image: url('../Pesquisar_Pessoa___Listar_Pessoa_files/u0_normal.png');
+}
+
+.u0_container {
+    position:absolute;
+    left:2px;
+    top:3px;
+    width:740px;
+    height:375px;
+}
+
+#u0_img {
+    position:absolute;
+    left:0px;
+    top:0px;
+    width:740px;
+    height:375px;
+}
+
+.u1 {
+    position:absolute;
+    left:2px;
+    top:180px;
+    width:736px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u2 {
+    position:absolute;
+    left:4px;
+    top:409px;
+    width:850px;
+    height:252px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u3_normal {
+    background-image: url('../Pesquisar_Pessoa___Listar_Pessoa_files/u3_normal.png');
+}
+
+.u3_container {
+    position:absolute;
+    left:619px;
+    top:261px;
+    width:15px;
+    height:15px;
+}
+
+#u3_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:21px;
+    height:21px;
+}
+
+.u4 {
+    position:absolute;
+    left:2px;
+    top:0px;
+    width:11px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u5_normal {
+    background-image: url('../Pesquisar_Pessoa___Listar_Pessoa_files/u3_normal.png');
+}
+
+.u5_container {
+    position:absolute;
+    left:691px;
+    top:316px;
+    width:15px;
+    height:15px;
+}
+
+#u5_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:21px;
+    height:21px;
+}
+
+.u6 {
+    position:absolute;
+    left:2px;
+    top:0px;
+    width:11px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u7_normal {
+    background-image: url('../Pesquisar_Pessoa___Listar_Pessoa_files/u3_normal.png');
+}
+
+.u7_container {
+    position:absolute;
+    left:686px;
+    top:261px;
+    width:15px;
+    height:15px;
+}
+
+#u7_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:21px;
+    height:21px;
+}
+
+.u8 {
+    position:absolute;
+    left:2px;
+    top:0px;
+    width:11px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u9_normal {
+    background-image: url('../Pesquisar_Pessoa___Listar_Pessoa_files/u3_normal.png');
+}
+
+.u9_container {
+    position:absolute;
+    left:185px;
+    top:157px;
+    width:15px;
+    height:15px;
+}
+
+#u9_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:21px;
+    height:21px;
+}
+
+.u10 {
+    position:absolute;
+    left:2px;
+    top:0px;
+    width:11px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u11_normal {
+    background-image: url('../Pesquisar_Pessoa___Listar_Pessoa_files/u3_normal.png');
+}
+
+.u11_container {
+    position:absolute;
+    left:186px;
+    top:195px;
+    width:15px;
+    height:15px;
+}
+
+#u11_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:21px;
+    height:21px;
+}
+
+.u12 {
+    position:absolute;
+    left:2px;
+    top:0px;
+    width:11px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u13_normal {
+    background-image: url('../resources/images/transparent.gif');
+}
+
+.u13_container {
+    position:absolute;
+    left:633px;
+    top:556px;
+    width:160px;
+    height:60px;
+}
+
+#u13_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:166px;
+    height:66px;
+}
+
+.u14 {
+    position:absolute;
+    left:2px;
+    top:14px;
+    width:156px;
+    height:32px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+

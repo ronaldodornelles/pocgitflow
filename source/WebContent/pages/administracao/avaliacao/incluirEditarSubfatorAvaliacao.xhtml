@@ -1,0 +1,100 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	template="/layout/template.xhtml"
+	xmlns:stella="http://stella.caelum.com.br/faces">
+	<html>
+		<head>
+			<script
+				src="#{facesContext.externalContext.requestContextPath}/js/teste.js"
+				language="javascript" type="text/javascript" />
+		</head>
+		
+	<ui:define name="conteudo">
+		<h:form name="formulario" id="formulario">
+		
+				<ui:include src="/layout/mensagens.xhtml" />
+			
+			<h4>
+				<h:outputText rendered="#{manterSubfatorAction.isIncluindo}" value="Inclusão de Subfator de Avaliação" />
+				<h:outputText rendered="#{manterSubfatorAction.isEditando}" value="Edição de Subfator de Avaliação" />
+				<h:outputText rendered="#{manterSubfatorAction.isVisualizando}" value="Visualização de Subfator de Avaliação" />
+			</h4>
+			<rich:separator styleClass="separatorTitulo" />
+			<br/>
+			<rich:panel id="panel">
+				<f:facet name="header">Subfator de Avaliação</f:facet>
+				<h3>Subfator de Avaliação</h3>
+				<rich:separator styleClass="separatorTitulo" />
+				
+				<h:panelGrid columns="1">
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Descrição:</ui:define>
+						<h:inputTextarea required="true" max-size="70" id="descSubfator" value="#{manterSubfatorAction.subFator.descricao}" rows="5" cols="50" readonly="#{isVisualizar}" disabled="#{isVisualizar}" onkeyup="this.value = this.value.substring(0, 200);">
+						</h:inputTextarea>
+						<br/>
+						<h:outputText style="font-size: 9px;" value="Máximo 200 caracteres" />
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Valor Máximo do Subfator:</ui:define>
+						<h:inputText required="true" style="margin-top: 10px;" size="6" id="valorMaximo" value="#{manterSubfatorAction.subFator.escalaMaxima}" maxlength="150"  onblur="this.value=trataTxt(this.value);" readonly="#{isVisualizar}" onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;" >
+						</h:inputText>	
+					</s:decorate>
+				</h:panelGrid>
+				<h3 style="margin-left: 4px; margin-bottom: 5px;">Escalas:</h3>
+					<fieldset>
+					<a4j:repeat value="#{manterSubfatorAction.escalas}" var="escala" id="repeatEscala" rowKeyVar="idx">
+						<h:panelGrid columns="2" style="margin-bottom: -4px;">
+							
+							<s:decorate template="/layout/edit.xhtml">
+								<ui:define name="label">Descrição:</ui:define>
+								<h:inputText style="margin-left: -35px;" required="true" size="35" id="descricaoEscala" value="#{escala.descricao}" readonly="#{isVisualizar}"/>		
+							</s:decorate>
+							
+							<s:decorate template="/layout/edit.xhtml">
+								<ui:define name="label">Pontos:</ui:define>
+								<h:inputText style="margin-left: -50px;" required="true" size="6" id="pontos" value="#{escala.pontos}" readonly="#{isVisualizar}" onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;" >
+									<a4j:support event="onkeyup" reRender="mensagemSomaSuperiorPanel, botoes" />
+								</h:inputText>
+								<a4j:outputPanel id="botoes">
+									<a4j:commandButton id="botaoRemove" style="margin-bottom:-3px; margin-left: 5px;" immediate="true" image="#{imagemUtil.getURLIcone('REMOVE')}" action="#{manterSubfatorAction.excluirEscala(escala)}" reRender="panel" rendered="#{manterSubfatorAction.habilitarBotaoRemove() and !isVisualizar}"/>
+									<a4j:commandButton id="botaoReplicar" style="margin-bottom:-4px; margin-left: 5px;" image="#{imagemUtil.getURLIcone('ADD')}" action="#{manterSubfatorAction.incluirEscala()}" reRender="panel" rendered="#{(((idx + 1) eq escalas.size()) and !isVisualizar) and !manterSubfatorAction.habilitarMensagem(true)}"/>
+								</a4j:outputPanel>
+							</s:decorate>
+						</h:panelGrid>
+					</a4j:repeat>
+					</fieldset>
+					
+				<h:panelGrid columns="2" style="margin-top:10px;" id="mensagemSomaSuperiorPanel">
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Soma dos Pontos das Escalas:</ui:define>
+						<h:inputText readonly="true" style="margin-top: 10px;" size="6" id="somaNotas" value="#{manterSubfatorAction.somaEscalas}"/>
+					</s:decorate>
+					<s:decorate template="/layout/edit.xhtml">
+						<h:outputText style="margin-top: 10px; margin-left: -135px; color: red; font-size: 13px;" size="6" id="mensagemSomaSuperior" value="Soma dos pontos de Escala deve ser igual ao Valor Máximo do Subfator." rendered="#{manterSubfatorAction.habilitarMensagem(false)}"/>
+					</s:decorate>
+				</h:panelGrid>
+			</rich:panel>
+			
+			<div align="right">
+					<a4j:commandButton action="#{manterSubfatorAction.salvarEInserirNovo()}" value="Salvar e Inserir Novo Subfator" rendered="#{!isVisualizar and !isEditar}" reRender="formulario"/>
+					<a4j:commandButton action="#{manterSubfatorAction.salvarEVoltar()}" value="Salvar" rendered="#{!isVisualizar and !isEditar}" reRender="formulario"/>
+					<a4j:commandButton action="#{manterSubfatorAction.editar()}" value="Salvar" rendered="#{!isVisualizar and !isIncluir}" reRender="formulario"/>
+					<s:button action="#{manterSubfatorAction.cancelar()}" value="Voltar" rendered="#{isVisualizar}"/>
+					<s:button action="#{manterSubfatorAction.cancelar()}" value="Voltar" rendered="#{!isVisualizar}"/>
+				<br class="Clear" />
+			</div>
+			<br />
+		</h:form>
+	</ui:define>
+	</html>
+</ui:composition>

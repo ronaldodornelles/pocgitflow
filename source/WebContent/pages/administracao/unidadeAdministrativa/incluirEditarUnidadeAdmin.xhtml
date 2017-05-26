@@ -1,0 +1,119 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	template="/layout/template.xhtml"
+	xmlns:stella="http://stella.caelum.com.br/faces">
+	<ui:define name="conteudo">
+		<a4j:form id="formularioIncluirEditarUnidade" name="formularioIncluirEditarUnidade">
+			<ui:include src="/layout/modalAjaxStatus.xhtml" />
+			<ui:include src="/layout/mensagens.xhtml" />
+			<h4>
+				<h:outputText rendered="#{manterUnidadeAdministrativaAction.isIncluindo}" value="Incluir Unidade Organizacional" />
+				<h:outputText rendered="#{manterUnidadeAdministrativaAction.isEditando}" value="Editar Unidade Organizacional" />
+				<h:outputText rendered="#{manterUnidadeAdministrativaAction.isVisualizando}" value="Visualizar Unidade Organizacional" />
+			</h4>
+			<rich:separator styleClass="separatorTitulo" />
+			<br/>
+			<rich:panel>
+				<f:facet name="header">Unidade Organizacional</f:facet>
+				<h3><h:outputText value="Unidade Administrativa"/></h3>
+				<rich:separator styleClass="separatorTitulo" />
+				
+				<h:panelGrid columns="1">
+				
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Nome:</ui:define>
+						<h:inputText id="nomeUnidadeAdm" value="#{unidadeAdministrativa.nomUnidadeAdministrativa}" maxlength="130" size="78"  
+						readonly="true"/>
+					</s:decorate>
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Código:</ui:define>
+						<h:inputText id="codigoUnidade" value="#{unidadeAdministrativa.id}" maxlength="130" size="20"  
+						 readonly="true"/>
+					</s:decorate>
+				</h:panelGrid>	
+					
+				<h:panelGrid columns="2">
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Sigla:</ui:define>
+						<h:inputText id="siglaUnidade" value="#{unidadeAdministrativa.siglaUnidade}" maxlength="130" size="20" 
+							 readonly="true"/>
+					</s:decorate>
+				
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">UF:</ui:define>
+						<h:inputText id="ufUnidade" value="#{unidadeAdministrativa.codUf.desSigla}" maxlength="130" size="20"  style="margin-left:0"
+						 readonly="true"/>
+					</s:decorate>
+
+				</h:panelGrid>
+				<h:panelGrid columns="1">
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">E-mail de Contato:</ui:define>
+						<h:inputText id="emailContatoUnidade" value="#{unidadeAdministrativa.txtEmailContato}" maxlength="150" size="78"  onkeypress="this.value=trataTxt(this.value);" onblur="this.value=trataTxt(this.value);"
+						 readonly="#{isVisualizar}"/>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Telefone de Contato:</ui:define>
+						<rich:jQuery selector="#telefoneContatoUnidade" query="setMask()" timing="onload"/>
+						<h:inputText id="telefoneContatoUnidade" value="#{unidadeAdministrativa.txtTelefoneContato}" maxlength="20" size="20" alt="telefone" 
+						 readonly="#{isVisualizar}"/>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Endereço:</ui:define>
+						<h:inputText id="enderecoContato" value="#{unidadeAdministrativa.txtEndereco}" maxlength="150" size="78"  onkeypress="this.value=trataTxt(this.value);" onblur="this.value=trataTxt(this.value);" 
+						 readonly="#{isVisualizar}"/>
+					</s:decorate>
+					
+				<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Superintendência:</ui:define>
+						<h:selectOneMenu value="#{unidadeAdministrativa.indSuperintendecia }" id="superIntUnidade" disabled="#{isVisualizar}" >
+							<f:selectItem itemLabel="--"/>
+							<f:selectItem itemValue="1" itemLabel="Sim"/>
+							<f:selectItem itemValue="0" itemLabel="Não"/>
+						</h:selectOneMenu>
+					</s:decorate>
+				
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Unidade Pai:</ui:define>
+						<h:inputText id="nomeUnidadeAdmPai" value="#{unidadeAdministrativa.unidadeAdministrativa.nomUnidadeAdministrativa}" maxlength="130" size="30" 
+							readonly="true"/>
+						<a4j:commandButton value="Visualizar" action="#{manterUnidadeAdministrativaAction.preparaModalConsulta()}"
+							reRender="consultaUnidadeAdminModal" immediate="true" ajaxSingle="true" title="Buscar"  alt="Buscar" rendered="#{!isVisualizar}"
+							oncomplete="#{rich:component('consultaUnidadeAdminModal')}.show();" image="#{imagemUtil.getURLIcone('VISUALIZAR')}"/>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Servidor Responsável:</ui:define>
+						<h:inputText id="servidoResponsavelUnidade" value="#{unidadeAdministrativa.servidor.pessoaFisica.nomPessoaFisica}" maxlength="130" size="30" 
+							readonly="true" />
+						<a4j:commandButton value="Visualizar" action="#{manterUnidadeAdministrativaAction.preparaModalConsultaServidor()}"
+							reRender="consultaServidorModal" immediate="true" ajaxSingle="true" alt="Buscar" title="Buscar" rendered="#{!isVisualizar}"
+							oncomplete="#{rich:component('consultaServidorModal')}.show();" image="#{imagemUtil.getURLIcone('VISUALIZAR')}"/>
+					</s:decorate>
+										
+				</h:panelGrid>
+				
+			</rich:panel>
+			
+			<div align="right">
+				<h:commandButton action="#{manterUnidadeAdministrativaAction.salvar()}" value="Salvar" rendered="#{!isVisualizar}"/>
+				<s:button action="#{manterUnidadeAdministrativaAction.cancelar()}" value="Voltar"/>
+				<br class="Clear" />
+			</div>
+			<br />
+			</a4j:form>
+			<ui:include src="/pages/administracao/unidadeAdministrativa/modal/modalConsultarUnidadeAdmin.xhtml" />
+			<ui:include src="/pages/administracao/unidadeAdministrativa/modal/modalConsultarServidor.xhtml" />
+	</ui:define>
+</ui:composition>

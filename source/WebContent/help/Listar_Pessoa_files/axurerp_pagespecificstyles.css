@@ -1,0 +1,344 @@
+﻿body {
+    margin: 0px;
+}
+
+div {
+    background-repeat: no-repeat;
+}
+
+.raw_image {
+    width: 100%;
+    height: 100%;
+}
+
+.preload {
+    display: none;
+}
+#main_container {
+}
+
+.form_sketch {
+    border-color: transparent;
+    background-color: transparent;
+}
+
+.u0_normal {
+    background-image: url('../Listar_Pessoa_files/u0_normal.png');
+}
+
+.u0_container {
+    position:absolute;
+    left:2px;
+    top:165px;
+    width:826px;
+    height:349px;
+}
+
+#u0_img {
+    position:absolute;
+    left:0px;
+    top:0px;
+    width:826px;
+    height:349px;
+}
+
+.u1 {
+    position:absolute;
+    left:2px;
+    top:166px;
+    width:822px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u2_normal {
+    background-image: url('../Listar_Pessoa_files/u2_normal.png');
+}
+
+.u2_container {
+    position:absolute;
+    left:2px;
+    top:514px;
+    width:826px;
+    height:39px;
+}
+
+#u2_img {
+    position:absolute;
+    left:0px;
+    top:0px;
+    width:826px;
+    height:39px;
+}
+
+.u3 {
+    position:absolute;
+    left:2px;
+    top:12px;
+    width:822px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u4 {
+    position:absolute;
+    left:7px;
+    top:556px;
+    width:850px;
+    height:140px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u5_normal {
+    background-image: url('../Listar_Pessoa_files/u5_normal.png');
+}
+
+.u5_container {
+    position:absolute;
+    left:728px;
+    top:447px;
+    width:15px;
+    height:15px;
+}
+
+#u5_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:21px;
+    height:21px;
+}
+
+.u6 {
+    position:absolute;
+    left:2px;
+    top:0px;
+    width:11px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u7_normal {
+    background-image: url('../Listar_Pessoa_files/u5_normal.png');
+}
+
+.u7_container {
+    position:absolute;
+    left:784px;
+    top:447px;
+    width:15px;
+    height:15px;
+}
+
+#u7_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:21px;
+    height:21px;
+}
+
+.u8 {
+    position:absolute;
+    left:2px;
+    top:0px;
+    width:11px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u9_normal {
+    background-image: url('../resources/images/transparent.gif');
+}
+
+.u9_container {
+    position:absolute;
+    left:585px;
+    top:637px;
+    width:100px;
+    height:20px;
+}
+
+#u9_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:106px;
+    height:26px;
+}
+
+.u10 {
+    position:absolute;
+    left:2px;
+    top:2px;
+    width:96px;
+    height:15px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u11_normal {
+    background-image: url('../resources/images/transparent.gif');
+}
+
+.u11_container {
+    position:absolute;
+    left:658px;
+    top:651px;
+    width:120px;
+    height:20px;
+}
+
+#u11_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:126px;
+    height:26px;
+}
+
+.u12 {
+    position:absolute;
+    left:2px;
+    top:2px;
+    width:116px;
+    height:15px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u13_normal {
+    background-image: url('../Listar_Pessoa_files/u5_normal.png');
+}
+
+.u13_container {
+    position:absolute;
+    left:777px;
+    top:394px;
+    width:15px;
+    height:15px;
+}
+
+#u13_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:21px;
+    height:21px;
+}
+
+.u14 {
+    position:absolute;
+    left:2px;
+    top:0px;
+    width:11px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u15_normal {
+    background-image: url('../resources/images/transparent.gif');
+}
+
+.u15_container {
+    position:absolute;
+    left:592px;
+    top:667px;
+    width:100px;
+    height:16px;
+}
+
+#u15_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:106px;
+    height:22px;
+}
+
+.u16 {
+    position:absolute;
+    left:2px;
+    top:0px;
+    width:96px;
+    height:15px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u17_normal {
+    background-image: url('../Logo_e_Menu___Usuario_Logado_files/u17_normal.png');
+}
+
+.u17_container {
+    position:absolute;
+    left:2px;
+    top:2px;
+    width:825px;
+    height:172px;
+}
+
+#u17_img {
+    position:absolute;
+    left:0px;
+    top:0px;
+    width:825px;
+    height:172px;
+}
+
+.u18 {
+    position:absolute;
+    left:2px;
+    top:78px;
+    width:821px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+

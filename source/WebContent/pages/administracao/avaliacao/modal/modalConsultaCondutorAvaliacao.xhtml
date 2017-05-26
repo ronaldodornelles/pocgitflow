@@ -1,0 +1,144 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:stella="http://stella.caelum.com.br/faces">
+
+	<rich:modalPanel id="consultarCondutorAvaliacao" moveable="false"
+		resizeable="false" onresize="false" width="670" height="500" style="background-color: white; overflow: auto">
+		
+		<f:facet name="header">
+            <h:panelGroup>
+                <h:outputText value="Cadastro do Condutor do Processo Avaliativo"></h:outputText>
+            </h:panelGroup>
+        </f:facet>
+		
+		<h:form name="formConsultarCondutorAvaliacao," id="formConsultarCondutorAvaliacao">
+			<s:div styleClass="Error" id="formularioMessages"
+				rendered="#{reRenderModal}">
+				<rich:panel styleClass="message" style="padding:0"
+					rendered="#{! empty facesContext.maximumSeverity}">
+					<rich:effect event="onclick" type="DropOut" params="duration:0.8" />
+					<h:messages globalOnly="true" layout="vertical" errorClass="errormsg"
+						errorStyle="padding-left:70px;" fatalClass="errormsg"
+						fatalStyle="padding-left:70px" infoClass="infomsg"
+						infoStyle="padding-left:70px" warnClass="warnmsg"
+						warnStyle="padding-left:70px" />
+				</rich:panel>
+			</s:div>
+			<h4>
+				<h:outputText value="Consultar Servidor Condutor" />
+			</h4>
+			<rich:separator styleClass="separatorTitulo" />
+			<br/>
+			
+			<rich:panel>
+				<f:facet name="header">Filtro de pesquisa</f:facet>
+				<h:panelGrid columns="2">
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Nome:</ui:define>
+						<h:inputText id="nomePessoaFisica" value="#{servidor.pessoaFisica.nomPessoaFisica}" maxlength="150" size="30" onkeypress="this.value=trataTxt(this.value);" onblur="this.value=trataTxt(this.value);"  />
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Matrícula:</ui:define>
+						<h:inputText id="numMatricula" value="#{servidor.numMatricula}" maxlength="7" size="9">
+							<f:convertNumber pattern="#0000000" />
+						</h:inputText>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">CPF:</ui:define>
+						<rich:jQuery selector="#numCpf" query="setMask()" timing="onload"/>
+						<h:inputText value="#{servidor.pessoaFisica.numCpf}" id="numCpf" maxlength="14" alt="cpf">
+						</h:inputText>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+					</s:decorate>					
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Data entrada IPHAN: </ui:define>
+						<rich:jQuery selector="#datIngressoOrgaoInicio" query="setMask()" timing="onload"/>
+						<h:inputText value="#{servidor.datIngressoOrgaoInicio}" id="datIngressoOrgaoInicio" maxlength = "10" size="12" alt="date"  validator="dateValidator">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:inputText>
+						<h:outputText value=" a " />
+						<rich:jQuery selector="#datIngressoOrgaoFim" query="setMask()" timing="onload"/>
+						<h:inputText value="#{servidor.datIngressoOrgaoFim}" id="datIngressoOrgaoFim" maxlength = "10" size="12" alt="date"  validator="dateValidator">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:inputText>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+					</s:decorate>	
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Situação Funcional: </ui:define>
+						<h:selectOneMenu value="#{servidor.situacaoFuncional}" id="codSitucaoFuncional">
+							<s:selectItems  value="#{combosAuxiliarAction.getSituacaoFuncionals()}" var="_situacaoFuncional" 
+								label="#{_situacaoFuncional.txtDescricao}" noSelectionLabel="Selecione"/>
+							<s:convertEntity/>
+						</h:selectOneMenu>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+					</s:decorate>	
+
+				</h:panelGrid>
+			</rich:panel>
+			
+			<div align="right">
+				<a4j:commandButton action="#{manterGerenciadorAvaliacaoAction.procurarServidorCondutor()}" 
+					oncomplete="#{rich:component('consultarCondutorAvaliacao')}.show();"
+					value="Consultar" reRender="consultarCondutorAvaliacao"/>
+				<a4j:commandButton action="#{manterGerenciadorAvaliacaoAction.cancelarModalCondutor()}" value="Cancelar"
+					oncomplete="#{reRenderModal ? false : rich:component('consultarCondutorAvaliacao')}.hide()" reRender="consultarCondutorAvaliacao"/>
+				<br class="Clear" />
+			</div>
+			<br />
+			<rich:dataTable width="483" id="servidorDataTable" rows="5"
+				value="#{listServidorModal}" var="_servidor" rendered="#{not empty listServidorModal}">
+				<rich:column sortBy="#{_servidor.pessoaFisica.nomPessoaFisica}">
+					<f:facet name="header">
+						<h:outputText value="Nome" />
+					</f:facet>
+					<h:outputText value="#{_servidor.pessoaFisica.nomPessoaFisica}" />
+				</rich:column>
+				
+				<rich:column sortBy="_servidor.numMatricula">
+					<f:facet name="header">
+						<h:outputText value="Matrícula" />
+					</f:facet>
+					<h:outputText value="#{_servidor.numMatricula}" />
+				</rich:column>
+				
+				<rich:column style="width:80px">
+					<f:facet name="header">
+						<h:outputText value="Ações" />
+					</f:facet>
+					<div align="center">
+						<a4j:commandButton image="#{imagemUtil.getURLIcone('ADD')}" style="margin-bottom:-4px; padding-right: 2px;"
+							title="Vincular" oncomplete="#{reRenderModal ? false : rich:component('consultarCondutorAvaliacao')}.hide()"
+							reRender="condutorPanel"
+							action="#{manterGerenciadorAvaliacaoAction.vincularServidor(_servidor)}"/>
+					</div>
+				</rich:column>
+			</rich:dataTable>
+			<br />
+			<h:outputText id="totalOutput" style="font-weight:bold;"
+					value="Total: #{listServidorModal.size()}" 
+					rendered="#{not empty listServidorModal}"/>
+			<br />
+			<rich:datascroller align="center" for="servidorDataTable"
+				renderIfSinglePage="false" />
+			
+		</h:form>
+	</rich:modalPanel>
+</ui:composition>

@@ -1,0 +1,113 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:c="http://java.sun.com/jstl/core"
+                xmlns:a4j="http://richfaces.org/a4j">
+
+	<style type="text/css">
+	.rich-menu-item-enabled, .rich-menu-group-enabled {
+    border: 0 solid transparent;
+    padding: 2px 20px 2px 2px;
+	}
+	rich-menu-item-hover	{
+	border: 0;
+    color:purple;
+	width: 900px
+	}
+	
+	.rich-menu-item, .rich-menu-group {
+	padding: 1px 20px 1px 1px;
+	position: relative;
+    white-space: nowrap;
+	}
+	</style>
+	
+	<s:div id="MenuHorizontal" styleClass="NoPrint">
+		<h:form>
+			<rich:toolBar rendered="#{identity.loggedIn}">
+				<rich:menuItem value="Home" id="home" action="home" />
+				<rich:dropDownMenu>
+					<f:facet name="label">
+						Gerenciar
+					</f:facet>
+						<rich:menuItem submitMode="ajax" value="Pessoa" id="pessoa" action="pessoa" />
+						<rich:menuItem submitMode="ajax" value="Servidor" id="servidor" action="servidor" />
+						<rich:menuItem submitMode="ajax" value="Unidade Organizacional" id="unidadeAdministrativa" action="unidadeAdministrativa" />
+						<rich:menuItem submitMode="ajax" value="Área de Atuação" id="areaAtuacao" action="areaAtuacao" />
+						<rich:menuItem submitMode="ajax" value="Instituição de Ensino" id="instituicaoEnsino" action="instituicaoEnsino" />
+				</rich:dropDownMenu>
+				
+				<rich:dropDownMenu mode="ajax">
+	                <f:facet name="label">
+	                    Avaliações
+	                </f:facet>
+		                <rich:menuItem submitMode="ajax" value="Gerenciador de Avaliação" id="gerenciadorAvaliacao" action="gerenciadorAvaliacoes"/>
+		                <rich:menuGroup submitMode="ajax" value="Cadastros Auxiliares" id="cadastrosAuxiliares" direction="right-down">
+		                	<rich:menuItem submitMode="ajax" value="Tipo de Avaliação" id="tipoAvaliacao" action="tipoAvaliacao" />
+		                    <rich:menuItem submitMode="ajax" value="Subfator de Avaliação" id="subfatorAvaliacao" action="subfatorAvaliacao"/>
+		                    <rich:menuItem submitMode="ajax" value="Equipe" id="equipe" action="equipeAvaliacao"/>
+		                    <rich:menuItem submitMode="ajax" value="Categoria / Subcategoria" id="categoria" action="categoriaAvaliacao"/>
+		                </rich:menuGroup>
+           		</rich:dropDownMenu>
+				
+				<rich:dropDownMenu>
+					<f:facet name="label">
+						Sincronizar
+					</f:facet>
+						<rich:menuGroup submitMode="ajax" value="Sincronizar" id="sincronizarMenu" direction="right-down">
+							<rich:menuItem submitMode="ajax" value="SIAPE" id="sincronizar" action="#{sincronizacaoAction.irSincronizacaoSiape()}" oncomplete="#{rich:component('modalSincronizacao')}.show();" />
+							<rich:menuItem submitMode="ajax" value="Arquivo" id="sincronizarUpload" action="#{sincronizacaoAction.irUpload()}" />
+						</rich:menuGroup>
+						<rich:menuItem submitMode="ajax" value="Histórico Sincronizações" id="historicoSincronizacoes" action="#{historicoSincronizacaoAction.irHistoricoSincronizacoes()}" />
+				</rich:dropDownMenu>
+				
+				<rich:dropDownMenu onmouseover="document.getElementById('ajuda').style.color = 'black';"
+                   			   onmouseout="document.getElementById('ajuda').style.color = 'white';" style="align:right;">
+					<f:facet name="label">
+						    <a href="#{controllerHelper.controle()}" style="text-decoration: none;" target="blank">
+							<span id="ajuda" style="color: #FFFFFF;text-decoration: none;"
+							      onmouseover="document.getElementById('ajuda').style.color = 'black';"
+	                              onmouseout="document.getElementById('ajuda').style.color = 'white';">Ajuda</span>
+	                        </a>      
+					</f:facet>
+				</rich:dropDownMenu>
+				
+				<rich:toolBarGroup location="right" itemSeparator="line" rendered="#{identity.loggedIn}" style="color:white;" >
+					Usuário: #{credentials.username}
+					<h:commandLink action="logout" actionListener="#{identity.logout()}" value="Sair" style="color:white;" />
+				</rich:toolBarGroup>
+			</rich:toolBar>
+		</h:form>
+	</s:div>
+	
+				<rich:modalPanel id="modalSincronizacao" width="350" height="120">
+		        <f:facet name="header">
+		            <h:panelGroup>
+		                <h:outputText>Sincronização</h:outputText>
+		            </h:panelGroup>
+		        </f:facet>
+		        <f:facet name="controls">
+		            <h:panelGroup>
+		                <rich:componentControl for="modalSincronizacao" attachTo="hidelink" operation="hide" event="onclick"/>
+		            </h:panelGroup>
+		        </f:facet>
+		       	<center>
+			       	<h3>
+			       		<h:outputText value="Deseja realmente iniciar a sincronização?"/>
+			       	</h3>
+		       	</center>
+		        <br/>
+		        <h:form id="sincroModal">
+			        <div align="center">
+				        <a4j:commandButton value="Sim" action="#{sincronizacaoAction.sincronizar()}" oncomplete="#{rich:component('modalSincronizacao')}.hide();" reRender="mensagemSincronizacaoPanel"></a4j:commandButton>
+				        <h:commandButton value="Não" oncomplete="#{rich:component('modalSincronizacao')}.hide();" />
+			        </div>
+		        </h:form>
+		  </rich:modalPanel>
+	
+</ui:composition>

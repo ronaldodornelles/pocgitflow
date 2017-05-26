@@ -1,0 +1,101 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j">
+
+	<rich:modalPanel id="consultaUnidadeAdminModal" moveable="true"
+		resizeable="false" onresize="false" width="670" height="500" style="background-color: white;  overflow: auto;">
+		
+		<f:facet name="header">
+            <h:panelGroup>
+                <h:outputText value="Unidade Organizacional"></h:outputText>
+            </h:panelGroup>
+        </f:facet>
+		
+		<h:form name="modalConsultaUnidadeAdmin">
+			<s:div styleClass="Error" id="formularioMessages"
+				rendered="#{reRenderModal}">
+				<rich:panel styleClass="message" style="padding:0"
+					rendered="#{! empty facesContext.maximumSeverity}">
+					<rich:effect event="onclick" type="DropOut" params="duration:0.8" />
+					<h:messages globalOnly="true" layout="vertical" errorClass="errormsg"
+						errorStyle="padding-left:70px;" fatalClass="errormsg"
+						fatalStyle="padding-left:70px" infoClass="infomsg"
+						infoStyle="padding-left:70px" warnClass="warnmsg"
+						warnStyle="padding-left:70px" />
+				</rich:panel>
+			</s:div>
+			<h4>Consulta de Unidade Organizacional</h4>
+			<rich:separator styleClass="separatorTitulo" />
+			<br/>
+			<rich:panel>
+				<f:facet name="header">Filtro de pesquisa</f:facet>
+				<h:panelGrid columns="1">
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Unidade:</ui:define>
+						<h:inputText id="nomeUnidadeM" value="#{manterUnidadeAdministrativaAction.unidadeAdminConsultaModal.nomUnidadeAdministrativa}" maxlength="130" size="30" onkeypress="this.value=trataTxt(this.value);" onblur="this.value=trataTxt(this.value);"  />
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Unidade Pai:</ui:define>
+						<h:inputText id="nomeUnidadePaiM" value="#{manterUnidadeAdministrativaAction.unidadeAdminConsultaModal.unidadeAdministrativa.nomUnidadeAdministrativa}" maxlength="130" size="30" onkeypress="this.value=trataTxt(this.value);" onblur="this.value=trataTxt(this.value);"  />
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Sigla:</ui:define>
+						<h:inputText id="siglaUnidadeM" value="#{manterUnidadeAdministrativaAction.unidadeAdminConsultaModal.siglaUnidade}" maxlength="20" size="30" onkeypress="this.value=trataTxt(this.value);" onblur="this.value=trataTxt(this.value);"  />
+					</s:decorate>
+					
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">UF:</ui:define>
+						<h:selectOneMenu value="#{manterUnidadeAdministrativaAction.unidadeAdminConsultaModal.codUf}" id="uf">
+							<s:selectItems  value="#{combosAuxiliarAction.getUfs()}" var="_uf" 
+								label="#{_uf.desSigla}" noSelectionLabel="Selecione"/>
+							<s:convertEntity/>
+						</h:selectOneMenu>
+					</s:decorate>
+					
+				</h:panelGrid>
+			</rich:panel>
+
+				<div align="right">
+				<a4j:commandButton action="#{manterUnidadeAdministrativaAction.procurarModal()}" 
+					oncomplete="#{rich:component('consultaUnidadeAdminModal')}.show();"
+					value="Consultar" reRender="consultaUnidadeAdminModal"/>
+				<s:button value="Cancelar"
+					oncomplete="#{reRenderModal ? false : rich:component('consultaUnidadeAdminModal')}.hide()"/>
+				<br class="Clear" />
+			</div>
+			<br />	
+			<br />			
+			
+			<rich:tree id="unidadeAdmistrativaDataTable" switchType="ajax" ajaxSingle="true"   >   
+                <rich:recursiveTreeNodesAdaptor id="treeUnidadeRecursiveTreeNodesAdaptor"   
+                    roots="#{listNodesModal}" var="node"   
+                    nodes="#{node.unidadeAdministrativas}">   
+                    <rich:treeNode data="#{node.id}" icon="#{imagemUtil.getURLIcone('HOME1')}" iconLeaf="#{imagemUtil.getURLIcone('HOME2')}" >   
+                        <h:outputText value="#{node.nomUnidadeAdministrativa}" />
+						<a4j:commandButton reRender="formularioIncluirEditarUnidade" image="#{imagemUtil.getURLIcone('ADD')}" style="margin-bottom:-4px; padding-right: 2px;"
+							title="Vincular" immediate="true"
+							oncomplete="#{reRenderModal ? false : rich:component('consultaUnidadeAdminModal')}.hide()" 
+							action="#{manterUnidadeAdministrativaAction.vincularUnidadeAdministrativaPai(node)}" />		
+                    </rich:treeNode>   
+                </rich:recursiveTreeNodesAdaptor>   
+            </rich:tree>  
+			
+			<br />
+			<h:outputText id="totalOutput" style="font-weight:bold;"
+					value="Total: #{listUnidadeAdministrativaModal.size()}" 
+					rendered="#{not empty listUnidadeAdministrativaModal}"/>
+			<br />
+			
+		</h:form>
+	</rich:modalPanel>
+</ui:composition>

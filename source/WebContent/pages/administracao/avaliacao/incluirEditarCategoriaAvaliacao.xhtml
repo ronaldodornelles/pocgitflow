@@ -1,0 +1,78 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	template="/layout/template.xhtml"
+	xmlns:stella="http://stella.caelum.com.br/faces">
+	<html>
+		<head>
+			<script
+				src="#{facesContext.externalContext.requestContextPath}/js/teste.js"
+				language="javascript" type="text/javascript" />
+		</head>
+		
+	<ui:define name="conteudo">
+		<h:form name="formulario" id="formulario">
+			<rich:panel id="panel">
+				<ui:include src="/layout/modalAjaxStatus.xhtml" />
+				<ui:include src="/layout/mensagens.xhtml" />
+			
+			<h4>
+				<h:outputText rendered="#{manterCategoriaAction.isIncluindo}" value="Inclusão de Categoria de Avaliação" />
+				<h:outputText rendered="#{manterCategoriaAction.isEditando}" value="Edição de Categoria de Avaliação" />
+				<h:outputText rendered="#{manterCategoriaAction.isVisualizando}" value="Visualização de Categoria de Avaliação" />
+			</h4>
+			<rich:separator styleClass="separatorTitulo" />
+			<br/>
+			
+				<f:facet name="header">Categoria de Avaliação</f:facet>
+				<h3>Categoria</h3>
+				<rich:separator styleClass="separatorTitulo" />
+				
+				<h:panelGrid columns="1">
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Título:</ui:define>
+						<h:inputText style="margin-left: -73px;" required="true" size="86" id="titulo" value="#{manterCategoriaAction.categoria.titulo}" maxlength="70"  readonly="#{isVisualizar}" >
+						</h:inputText>	
+					</s:decorate>
+				</h:panelGrid>
+				
+				<h3 style="margin-left: 4px; margin-bottom: 5px;">Subcategorias:</h3>
+					
+					<fieldset>
+					<a4j:repeat value="#{manterCategoriaAction.subcategorias}" var="subcategoria" id="repeatSubcategoria" rowKeyVar="idx">
+						<h:panelGrid columns="1" style="margin-bottom: -4px;">	
+							<s:decorate template="/layout/edit.xhtml">
+								<ui:define name="label">Descrição:</ui:define>
+								<h:inputText style="margin-left: -50px;" required="true" size="80" id="descricaoSubcategoria" value="#{subcategoria.descricao}" maxlength="55"  readonly="#{isVisualizar}">
+								</h:inputText>
+								<a4j:outputPanel id="botoes">
+									<a4j:commandButton id="botaoRemove" style="margin-bottom:-3px; margin-left: 5px;" immediate="true" image="#{imagemUtil.getURLIcone('REMOVE')}" action="#{manterCategoriaAction.excluirSubcategoria(subcategoria)}" reRender="panel" rendered="#{manterCategoriaAction.habilitarBotaoRemove() and !isVisualizar}"/>
+									<a4j:commandButton id="botaoReplicar" style="margin-bottom:-4px; margin-left: 5px;" image="#{imagemUtil.getURLIcone('ADD')}" action="#{manterCategoriaAction.incluirSubcategoria()}" reRender="panel" rendered="#{(((idx + 1) eq subcategorias.size()) and !isVisualizar)}"/>
+								</a4j:outputPanel>
+							</s:decorate>
+						</h:panelGrid>
+					</a4j:repeat>
+					</fieldset>
+			
+			
+			<div align="right">
+					<a4j:commandButton action="#{manterCategoriaAction.salvar()}" value="Salvar" rendered="#{!isVisualizar}" reRender="formulario"/>
+					<s:button action="#{manterCategoriaAction.cancelar()}" value="Voltar" rendered="#{isVisualizar}"/>
+					<s:button action="#{manterCategoriaAction.cancelar()}" value="Voltar" rendered="#{!isVisualizar}"/>
+				<br class="Clear" />
+			</div>
+			<br />
+			</rich:panel>
+		</h:form>
+	</ui:define>
+	</html>
+</ui:composition>

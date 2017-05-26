@@ -1,0 +1,82 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:stella="http://stella.caelum.com.br/faces">
+
+	<rich:modalPanel id="incluirEditarFatorModal" moveable="false" resizeable="false" onresize="false" width="720" height="550" style="background-color: white;">
+		<rich:panel id="fatorPanel">
+			<f:facet name="header">
+				<h:panelGroup>
+					<h:outputText value="Fator"></h:outputText>
+				</h:panelGroup>
+			</f:facet>
+			<a4j:form name="modalIncluirEditarFator" id="modalIncluirEditarFator" prependId="false">
+			<ui:include src="/layout/mensagens.xhtml" />
+				<h:panelGrid  columns="1">
+					<h4>
+						<h:outputText value="Inserir Novo Fator" rendered="#{manterFatorAction.isIncluirFator}" style="font-weight:bold; font-size:15px;"/>
+						<h:outputText value="Editar Fator" rendered="#{manterFatorAction.isEditarFator}" style="font-weight:bold; font-size:15px;"/>
+						<h:outputText value="Visualizar Fator" rendered="#{manterFatorAction.isVisualizarFator}" style="font-weight:bold; font-size:15px;"/>
+					</h4>
+				</h:panelGrid>
+
+
+				<a4j:outputPanel id="cargoEfetivoPanel">
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Nome do Fator:</ui:define>
+						<h:inputText value="#{manterFatorAction.fator.nome}" disabled="#{manterFatorAction.isVisualizarFator or manterTipoAvaliacaoAction.isVisualizando}" maxlength="100" required="true" requiredMessage="Informe o nome do Fator"/>
+					</s:decorate>
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Descrição:</ui:define>
+						<h:inputTextarea required="true" requiredMessage="Informe a descrição do Fator" max-size="70" id="descSubfator" value="#{manterFatorAction.fator.descricao}" rows="5" cols="50" disabled="#{manterFatorAction.isVisualizarFator or manterTipoAvaliacaoAction.isVisualizando}" onkeyup="this.value = this.value.substring(0, 200);" /><br/>
+						<h:outputText style="font-size: 9px;" value="Máximo 200 caracteres" />
+					</s:decorate>
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Peso:</ui:define>
+						<h:inputText required="true" requiredMessage="Informe a peso do Fator" style="margin-top: 10px;" size="6" id="valorMaximo" value="#{manterFatorAction.fator.peso}" maxlength="150"  onblur="this.value=trataTxt(this.value);" onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;" disabled="#{manterFatorAction.isVisualizarFator or manterTipoAvaliacaoAction.isVisualizando}" />
+					</s:decorate>	
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Subfatores:</ui:define>
+						<a4j:commandButton action="#{manterSubfatorAction.irSelecionar()}" value="Selecionar" immediate="true" reRender="modalSelecionarSubFator" oncomplete="#{rich:component('modalSelecionarSubFator')}.show();" rendered="#{!manterFatorAction.isVisualizarFator or !manterTipoAvaliacaoAction.isVisualizando}" style="margin-left: 124px; margin-top: -26px;"/>
+						<div style="overflow-y:scroll;  max-height: 210px; width: 541px; margin-left: 124px;">					
+							<a4j:outputPanel id="subFatoresPanel">
+								<a4j:repeat value="#{manterFatorAction.fator.fatorSubfatores}" var="fatorSubfator" id="repeatFatorSubfator" rowKeyVar="idx">
+									<h:panelGrid columns="2">
+										<h:outputText value="#{fatorSubfator.subfator.descricao}" />
+										<a4j:commandButton image="#{imagemUtil.getURLIcone('EXCLUIR')}" title="Excluir" action="#{manterFatorAction.excluirFatorSubfator(fatorSubfator)}" immediate="true" reRender="subFatoresPanel"  disabled="#{manterFatorAction.isVisualizarFator or manterTipoAvaliacaoAction.isVisualizando}" />
+									</h:panelGrid>
+								</a4j:repeat>
+							</a4j:outputPanel>
+						</div>
+						
+					</s:decorate>
+
+				</a4j:outputPanel>
+				
+				<br class="Clear" />
+				
+				<div align="right">
+					<a4j:commandButton actionListener="#{manterFatorAction.adicionarFator(manterFatorAction.tipoAvaliacao)}" value="Salvar" reRender="modalIncluirEditarFator, listaFatoresPanel" rendered="#{!manterFatorAction.isVisualizarFator or !manterTipoAvaliacaoAction.isVisualizando}" oncomplete="#{(manterFatorAction.fator.nome.length() > 0 and manterFatorAction.fator.fatorSubfatores ne null)?'Richfaces.hideModalPanel(\'incluirEditarFatorModal\')':'Richfaces.showModalPanel(\'incluirEditarFatorModal\')'}"/>
+					<a4j:commandButton value="Cancelar" ajaxSingle="true" oncomplete="#{rich:component('incluirEditarFatorModal')}.hide()"/>
+					<br class="Clear" />
+				</div>
+
+			</a4j:form>
+			
+			<ui:include src="/pages/administracao/tipoAvaliacao/modalSelecionarSubFator.xhtml" />
+			
+
+		</rich:panel>
+
+	</rich:modalPanel>
+
+
+
+</ui:composition>

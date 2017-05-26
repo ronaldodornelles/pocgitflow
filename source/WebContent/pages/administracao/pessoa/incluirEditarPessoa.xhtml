@@ -1,0 +1,294 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:stella="http://stella.caelum.com.br/faces"
+	template="/layout/template.xhtml">
+
+	<ui:define name="conteudo">
+		<h:form name="formulario">
+			<ui:include src="/layout/modalAjaxStatus.xhtml" />
+			<ui:include src="/layout/mensagens.xhtml" />
+			<h4>
+				<h:outputText rendered="#{manterPessoaFisicaAction.isIncluindo}" value="Inclusão de Pessoa" />
+				<h:outputText rendered="#{manterPessoaFisicaAction.isEditando}" value="Edição de Pessoa" />
+				<h:outputText rendered="#{manterPessoaFisicaAction.isVisualizando}" value="Visualização de Pessoa" />
+			</h4>
+			<rich:separator styleClass="separatorTitulo" />
+			<br/>
+			<rich:panel>
+				<f:facet name="header">Pessoa</f:facet>
+				<h3><h:outputText value="Dados Pessoais"/></h3>
+				<rich:separator styleClass="separatorTitulo" />
+				
+				<h:panelGrid columns="1">
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Nome:</ui:define>
+						<h:inputText id="nomePessoaFisica" value="#{pessoaFisica.nomPessoaFisica}" maxlength="150" size="80"
+							readonly="#{isVisualizar}" required="#{!isVisualizar}"
+							onkeypress="this.value=trataTxt(this.value);" onblur="this.value=trataTxt(this.value);"  validator="campoVazioValidator"/>
+					</s:decorate>
+				</h:panelGrid>
+				
+				<h:panelGrid columns="2">
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Dt. Nascimento:</ui:define>
+						<rich:jQuery selector="#datNascimento" query="setMask()" timing="onload"/>
+						<h:inputText value="#{pessoaFisica.datNascimento}" id="datNascimento" readonly="#{isVisualizar}" required="#{!isVisualizar}" maxlength = "10" size="12" alt="date"  validator="dateValidator" >
+							<f:convertDateTime pattern="dd/MM/yyyy"  />
+						</h:inputText>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Sexo:</ui:define>
+						<h:selectOneMenu value="#{pessoaFisica.indSexo}" id="indSexo" disabled="#{isVisualizar}" required="#{!isVisualizar}">
+							<f:selectItem itemLabel="Selecione"/>
+							<f:selectItem itemValue="M" itemLabel="Masculino"/>
+							<f:selectItem itemValue="F" itemLabel="Feminino"/>
+						</h:selectOneMenu>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Etnia/Cor:</ui:define>
+						<h:selectOneMenu value="#{pessoaFisica.codCorRaca}" id="codCorRaca" disabled="#{isVisualizar}" >
+							<s:selectItems  value="#{combosAuxiliarAction.getCorRacas()}" var="_corRaca" 
+								label="#{_corRaca.id}" noSelectionLabel="--"/>
+							<s:convertEntity/>
+							<a4j:support event="onchange" reRender="corRaca" ajaxSingle="true" focus="codCorRaca"/>
+						</h:selectOneMenu>
+						<h:selectOneMenu value="#{pessoaFisica.codCorRaca}" id="corRaca" disabled="#{isVisualizar}" >
+							<s:selectItems  value="#{combosAuxiliarAction.getCorRacas()}" var="_corRaca" 
+								label="#{_corRaca.nomCorRaca}" noSelectionLabel="Selecione"/>
+							<s:convertEntity/>
+							<a4j:support event="onchange" reRender="codCorRaca" ajaxSingle="true" focus="corRaca"/>
+						</h:selectOneMenu>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Estado Civil:</ui:define>
+						<h:selectOneMenu value="#{pessoaFisica.codEstadoCivil}" id="codEstadoCivil" disabled="#{isVisualizar}" >
+							<s:selectItems  value="#{combosAuxiliarAction.getEstadoCivils()}" var="_estadoCivil" 
+								label="#{_estadoCivil.id}" noSelectionLabel="--"/>
+							<s:convertEntity/>
+							<a4j:support event="onchange" reRender="estadoCivil" ajaxSingle="true" focus="codEstadoCivil"/>
+						</h:selectOneMenu>
+						<h:selectOneMenu value="#{pessoaFisica.codEstadoCivil}" id="estadoCivil" disabled="#{isVisualizar}"  required="#{!isVisualizar}" style="width:145px;">
+							<s:selectItems  value="#{combosAuxiliarAction.getEstadoCivils()}" var="_estadoCivil" 
+								label="#{_estadoCivil.nomEstadoCivil}" noSelectionLabel="Selecione"/>
+							<s:convertEntity/>
+							<a4j:support event="onchange" reRender="codEstadoCivil" ajaxSingle="true" focus="estadoCivil"/>
+						</h:selectOneMenu>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Tipo Sanguíneo:</ui:define>
+						<h:selectOneMenu value="#{pessoaFisica.codGrupoSanguineo}" id="codGrupoSanguineo" disabled="#{isVisualizar}" style="width:50px">
+							<s:selectItems  value="#{combosAuxiliarAction.getGrupoSanguineos()}" var="_grupoSanguineo" 
+								label="#{_grupoSanguineo.desSigla}" noSelectionLabel="--"/>
+							<s:convertEntity/>
+						</h:selectOneMenu>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Escolaridade:</ui:define>
+						<h:selectOneMenu value="#{pessoaFisica.escolaridadePessoa}" id="escolaridadePessoaId" disabled="#{isVisualizar}" >
+							<s:selectItems  value="#{combosAuxiliarAction.getEscolaridadePessoas()}" var="_escolaridade" 
+								label="#{_escolaridade.id}" noSelectionLabel="--"/>
+							<s:convertEntity/>
+							<a4j:support event="onchange" reRender="escolaridadePessoa" ajaxSingle="true" focus="escolaridadePessoaId"/>
+						</h:selectOneMenu>
+						<h:selectOneMenu value="#{pessoaFisica.escolaridadePessoa}" id="escolaridadePessoa" disabled="#{isVisualizar}" required="#{!isVisualizar}" style="width:140px;">
+							<s:selectItems  value="#{combosAuxiliarAction.getEscolaridadePessoas()}" var="_escolaridade" 
+								label="#{_escolaridade.txtDescricao}" noSelectionLabel="Selecione"/>
+							<s:convertEntity/>
+							<a4j:support event="onchange" reRender="escolaridadePessoaId" ajaxSingle="true" focus="escolaridadePessoa"/>
+						</h:selectOneMenu>
+					</s:decorate>
+										
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">UF:</ui:define>
+						<h:selectOneMenu value="#{combosAuxiliarAction.uf}" id="codUf" disabled="#{isVisualizar}" style="width:50px" required="#{!isVisualizar}">
+							<s:selectItems  value="#{combosAuxiliarAction.getUfs()}" var="_uf" label="#{_uf.desSigla}" noSelectionLabel="--"/>
+							<s:convertEntity/>
+							<a4j:support event="onchange" reRender="nomMunicipio" ajaxSingle="true" action="#{combosAuxiliarAction.getNaturalidades()}" focus="nomMunicipio"/>
+						</h:selectOneMenu>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Naturalidade:</ui:define>
+						<h:selectOneMenu value="#{pessoaFisica.codMunicipio}" id="nomMunicipio" disabled="#{isVisualizar}" required="#{!isVisualizar}">
+							<s:selectItems  value="#{combosAuxiliarAction.getNaturalidades()}" var="_municipio" 
+								label="#{_municipio.nomMunicipio}" noSelectionLabel="Selecione"/>
+							<s:convertEntity/>
+						</h:selectOneMenu>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Telefone Fixo:</ui:define>
+					<rich:jQuery selector="#telefoneFixo" query="setMask()" timing="onload"/>
+						<h:inputText value="#{pessoaFisica.pessoaContatoTel.txtContato}" id="telefoneFixo" readonly="#{isVisualizar}" size="14" alt="telefone" />
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Telefone Celular:</ui:define>
+						<rich:jQuery selector="#telefoneCelular" query="setMask()" timing="onload"/>
+						<h:inputText value="#{pessoaFisica.pessoaContatoCel.txtContato}" id="telefoneCelular" size="14" readonly="#{isVisualizar}" alt="telefone" />
+					</s:decorate>
+				
+				</h:panelGrid>
+				<h:panelGrid columns="1" >	
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">E-mail Pessoal:</ui:define>
+						<h:inputText value="#{pessoaFisica.pessoaContatoEmail.txtContato}" id="emailPessoal" readonly="#{isVisualizar}" 
+							maxlength="50" size="80" onkeypress="this.value=trataTxt(this.value);" onblur="this.value=trataTxt(this.value);"  />
+					</s:decorate>
+					
+				</h:panelGrid>
+				
+				<h3><h:outputText value="Endereço"/></h3>
+				
+				<rich:separator styleClass="separatorTitulo" />
+				
+				<h:panelGrid columns="1">
+				
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Logradouro:</ui:define>
+						<h:inputText value="#{pessoaFisica.pessoaEndereco.nomLogradouro}" id="nomLogradouro" maxlength="150" size="80" required="#{!isVisualizar}" readonly="#{isVisualizar}"  onkeypress="this.value=trataTxt(this.value);" onblur="this.value=trataTxt(this.value);"  />
+					</s:decorate>
+				</h:panelGrid>
+				
+				<h:panelGrid columns="2">
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Número:</ui:define>
+						<h:inputText value="#{pessoaFisica.pessoaEndereco.numEndereco}" id="numEndereco" maxlength="6" readonly="#{isVisualizar}"  onkeypress="this.value=trataTxt(this.value);" onblur="this.value=trataTxt(this.value);"  />
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Bairro:</ui:define>
+						<h:inputText value="#{pessoaFisica.pessoaEndereco.nomBairro}" id="nomBairro" maxlength="150" readonly="#{isVisualizar}" required="#{!isVisualizar}"  onkeypress="this.value=trataTxt(this.value);" onblur="this.value=trataTxt(this.value);"  />
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">UF:</ui:define>
+						<h:selectOneMenu value="#{combosAuxiliarAction.uf2}" id="codUf" disabled="#{isVisualizar}"  style="width:50px" required="#{!isVisualizar}">
+							<s:selectItems  value="#{combosAuxiliarAction.getUfs()}" var="_uf" 
+								label="#{_uf.desSigla}" noSelectionLabel="--"/>
+							<s:convertEntity/>
+							<a4j:support event="onchange" reRender="nomMunicipioEnd" ajaxSingle="true" action="#{combosAuxiliarAction.getMunicipios()}" focus="nomMunicipioEnd"/>
+						</h:selectOneMenu>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Cidade:</ui:define>
+						<h:selectOneMenu value="#{pessoaFisica.pessoaEndereco.municipio}" id="nomMunicipioEnd" disabled="#{isVisualizar}" required="#{!isVisualizar}">
+							<s:selectItems  value="#{combosAuxiliarAction.getMunicipios()}" var="_municipio" 
+								label="#{_municipio.nomMunicipio}" noSelectionLabel="Selecione"/>
+							<s:convertEntity/>
+						</h:selectOneMenu>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">CEP:</ui:define>
+						<rich:jQuery selector="#codCep" query="setMask()" timing="onload"/>
+						<h:inputText value="#{pessoaFisica.pessoaEndereco.cep}" size="9" id="codCep" readonly="#{isVisualizar}" alt="cep" />
+					</s:decorate>
+					
+				</h:panelGrid>
+				<h:panelGrid columns="1">
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Complemento:</ui:define>
+						<h:inputText value="#{pessoaFisica.pessoaEndereco.txtComplemento}" id="txtComplemento" maxlength="150" size="80" readonly="#{isVisualizar}"  onkeypress="this.value=trataTxt(this.value);" onblur="this.value=trataTxt(this.value);"  />
+					</s:decorate>
+				</h:panelGrid>
+				<h3><h:outputText value="Filiação"/></h3>
+				<rich:separator styleClass="separatorTitulo" />
+				
+				<h:panelGrid columns="1">
+				
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Mãe:</ui:define>
+						<h:inputText value="#{pessoaFisica.nomMae}" id="nomPai" size="80" maxlength="150" readonly="#{isVisualizar}" required="#{!isVisualizar}" onkeypress="this.value=trataTxt(this.value);" onblur="this.value=trataTxt(this.value);" validator="campoVazioValidator"/>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Pai:</ui:define>
+						<h:inputText value="#{pessoaFisica.nomPai}" id="nomPai" size="80" maxlength="150" readonly="#{isVisualizar}" onkeypress="this.value=trataTxt(this.value);" onblur="this.value=trataTxt(this.value);" />
+					</s:decorate>
+					
+				</h:panelGrid>
+				
+				<h3><h:outputText value="Documentos"/></h3>
+				<rich:separator styleClass="separatorTitulo" />
+				
+				<h:panelGrid columns="2">
+				
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">CPF:</ui:define>
+						<rich:jQuery selector="#numCpf" query="setMask()" timing="onload"/>
+						<h:inputText value="#{pessoaFisica.numCpf}" id="numCpf" maxlength="14" readonly="#{isVisualizar}" 
+							required="#{!isVisualizar}" alt="cpf">
+							<stella:validateCPF formatted="true"/>
+						</h:inputText>
+					</s:decorate>
+					
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Título de Eleitor:</ui:define>
+						<h:inputText value="#{pessoaFisica.numTituloEleitoral}" id="numTituloEleitoral" maxlength="12" readonly="#{isVisualizar}" 
+							onkeypress="return somenteNumeros(event);"/>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">RG:</ui:define>
+						<h:inputText value="#{pessoaFisica.numRg}" id="numRg" maxlength="20" readonly="#{isVisualizar}" />
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Data Emissão:</ui:define>
+						<rich:jQuery selector="#datEmissaoRg" query="setMask()" timing="onload"/>
+						<h:inputText value="#{pessoaFisica.datEmissaoRg}" id="datEmissaoRg" readonly="#{isVisualizar}" maxlength = "10" size="12" alt="date"  validator="dateValidator" >
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:inputText>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Órgão Expedidor:</ui:define>
+						<h:inputText value="#{pessoaFisica.nomOrgaoEmi}" id="nomMae" readonly="#{isVisualizar}" 
+							maxlength="150" onkeypress="this.value=trataTxt(this.value);" onblur="this.value=trataTxt(this.value);" />
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">UF:</ui:define>
+						<h:selectOneMenu value="#{pessoaFisica.codUfRg}" id="codUfRg" disabled="#{isVisualizar}" style="width:50px">
+							<s:selectItems  value="#{combosAuxiliarAction.getUfs()}" var="_uf" 
+								label="#{_uf.desSigla}" noSelectionLabel="--"/>
+							<s:convertEntity/>
+						</h:selectOneMenu>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Pis/Pasep:</ui:define>
+						<h:inputText value="#{pessoaFisica.numNis}" id="numNis" maxlength="11" readonly="#{isVisualizar}" />
+					</s:decorate>
+				</h:panelGrid>
+				
+			</rich:panel>
+			
+			<div align="right">
+				<h:commandButton action="#{manterPessoaFisicaAction.salvar()}" value="Salvar" rendered="#{!isVisualizar}"/>
+				<s:button action="#{manterPessoaFisicaAction.cancelar()}" value="Voltar"/>
+				<br class="Clear" />
+			</div>
+			<br />
+			
+		</h:form>
+	</ui:define>
+</ui:composition>

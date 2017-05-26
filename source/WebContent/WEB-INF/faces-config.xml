@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<faces-config
+    xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd"
+    version="1.2">
+	<application>
+		<view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
+		<locale-config>
+			<default-locale>pt</default-locale>
+			<supported-locale>pt</supported-locale>
+		</locale-config>
+		
+	</application>
+	<converter>  
+	    <converter-id>listShuttleconverter</converter-id>  
+	    <converter-class>br.gov.iphan.sisgep.util.ListShuttleconverter</converter-class>  
+	</converter>
+	<converter>  
+	    <converter-id>idLongConverter</converter-id>  
+	    <converter-class>br.gov.iphan.sisgep.action.IdLongConverter</converter-class>  
+	</converter>
+	<validator>
+        <validator-id>dateValidator</validator-id>
+        <validator-class>br.gov.iphan.sisgep.util.DateValidator</validator-class>
+    </validator>
+    <validator>
+    	<validator-id>validadorEmail</validator-id>
+     	<validator-class>br.gov.iphan.sisgep.util.EmailValidator</validator-class>
+ 	</validator>
+    <validator>
+        <validator-id>campoVazioValidator</validator-id>
+        <validator-class>br.gov.iphan.sisgep.util.CampoVazioValidator</validator-class>
+    </validator>
+</faces-config>

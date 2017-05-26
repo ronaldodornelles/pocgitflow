@@ -1,0 +1,164 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j" template="/layout/template.xhtml">
+
+	<ui:define name="conteudo">
+
+		<h:form name="formulario">
+			<a4j:outputPanel id="mensagensPanel">
+				<ui:include src="/layout/modalAjaxStatus.xhtml" />
+				<ui:include src="/layout/mensagens.xhtml" />
+			</a4j:outputPanel>
+			<h4>Histórico de Sincronizações</h4>
+			<rich:separator styleClass="separatorTitulo" />
+			<br />
+
+			<rich:panel>
+				<f:facet name="header">Filtro de pesquisa</f:facet>
+				<h:panelGrid columns="2">
+					<a4j:outputPanel id="pesquisaHistoricoPanel">
+						<s:decorate template="/layout/edit.xhtml">
+							<ui:define name="label">Usuário Responsável:</ui:define>
+							<h:inputText id="nomeUsuario"
+								value="#{sincronizacao.nomeUsuario}" maxlength="150" size="50"
+								onkeypress="this.value=trataTxt(this.value);"
+								onblur="this.value=trataTxt(this.value);" />
+						</s:decorate>
+
+						<s:decorate template="/layout/edit.xhtml">
+							<ui:define name="label">Status: </ui:define>
+							<h:selectOneMenu value="#{sincronizacao.status}"
+								id="statusHistorico" noSelectionLabel="Selecione">
+								<f:selectItem itemLabel="Selecione" />
+								<f:selectItem itemLabel="ERRO" itemValue="ERRO" />
+								<f:selectItem itemLabel="SUCESSO" itemValue="SUCESSO" />
+								<f:selectItem itemLabel="CONCLUÍDO COM RESSALVA"
+									itemValue="CONCLUÍDO COM RESSALVA" />
+								<f:selectItem itemLabel="ANDAMENTO" itemValue="ANDAMENTO" />
+							</h:selectOneMenu>
+						</s:decorate>
+
+						<s:decorate template="/layout/edit.xhtml">
+						</s:decorate>
+
+						<s:decorate template="/layout/edit.xhtml">
+							<ui:define name="label">Data: </ui:define>
+							<rich:jQuery selector="#datHoraInicio" query="setMask()"
+								timing="onload" />
+							<h:inputText value="#{sincronizacao.dataHoraInicio}"
+								id="datHoraInicio" maxlength="10" size="12" alt="date"
+								validator="dateValidator">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:inputText>
+							<h:outputText value=" a " />
+							<rich:jQuery selector="#datHoraFim" query="setMask()"
+								timing="onload" />
+							<h:inputText value="#{sincronizacao.dataHoraFim}" id="datHoraFim"
+								maxlength="10" size="12" alt="date" validator="dateValidator">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:inputText>
+						</s:decorate>
+					</a4j:outputPanel>
+				</h:panelGrid>
+			</rich:panel>
+			<br />
+			<div align="right">
+				<h:commandButton id="btnReset" value="Limpar" type="reset" />
+				<a4j:commandButton action="#{historicoSincronizacaoAction.procurarSincronizacao()}" value="Consultar"
+					reRender="sincronizacaoDataTablePanel, mensagensPanel" />
+				<br class="Clear" />
+			</div>
+			<br />
+			<a4j:outputPanel id="sincronizacaoDataTablePanel">
+				<rich:dataTable width="483" id="historicoDataTable" rows="10"
+					value="#{historicoSincronizacaoAction.listSincronizacao}"
+					var="sincronizacao" rendered="#{not empty listSincronizacao}">
+
+					<rich:column sortBy="#{sincronizacao.tipoSincronizacao}">
+						<f:facet name="header">
+							<h:outputText value="Tipo" />
+						</f:facet>
+						<h:outputText value="#{sincronizacao.tipoSincronizacao}" />
+					</rich:column>
+
+					<rich:column sortBy="#{sincronizacao.dataHoraInicio}">
+						<f:facet name="header">
+							<h:outputText value="Data/Hora Início" />
+						</f:facet>
+						<h:outputText value="#{sincronizacao.dataHoraInicio}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+						</h:outputText>
+					</rich:column>
+
+					<rich:column sortBy="#{sincronizacao.dataHoraFim}">
+						<f:facet name="header">
+							<h:outputText value="Data/Hora Fim" />
+						</f:facet>
+						<h:outputText id="dataFim" value="#{sincronizacao.dataHoraFim}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+						</h:outputText>
+					</rich:column>
+
+					<rich:column sortBy="#{sincronizacao.nomeUsuario}">
+						<f:facet name="header">
+							<h:outputText value="Usuário Responsável" />
+						</f:facet>
+						<h:outputText value="#{sincronizacao.nomeUsuario}" />
+					</rich:column>
+
+					<rich:column sortBy="#{sincronizacao.status}">
+						<f:facet name="header">
+							<h:outputText value="Status" />
+						</f:facet>
+						<a4j:commandLink value="#{sincronizacao.status}"
+							action="#{historicoSincronizacaoAction.irDetalhesSincronizacao(sincronizacao)}"
+							rendered="#{sincronizacao.status eq 'ERRO'}"
+							reRender="formulario"></a4j:commandLink>
+						<a4j:commandLink value="#{sincronizacao.status}"
+							action="#{historicoSincronizacaoAction.irDetalhesSincronizacao(sincronizacao)}"
+							rendered="#{sincronizacao.status eq 'SUCESSO'}"
+							reRender="formulario"></a4j:commandLink>
+						<a4j:commandLink value="#{sincronizacao.status}"
+							action="#{historicoSincronizacaoAction.irDetalhesSincronizacao(sincronizacao)}"
+							rendered="#{sincronizacao.status eq 'CONCLUÍDO COM RESSALVA'}"
+							reRender="formulario"></a4j:commandLink>
+						<h:outputText value="#{sincronizacao.status}"
+							rendered="#{sincronizacao.status eq 'ANDAMENTO'}" />
+					</rich:column>
+				</rich:dataTable>
+				<br />
+				<h:outputText id="totalOutputPesqu" style="font-weight:bold;"
+					value="Total: #{listSincronizacao.size()}"
+					rendered="#{not empty listSincronizacao}" />
+				<br />
+				<rich:datascroller align="center" for="historicoDataTable"
+					renderIfSinglePage="false" />
+			</a4j:outputPanel>
+		</h:form>
+
+		<rich:modalPanel id="modalMensagemErro" width="260" height="75">
+			<f:facet name="header">
+				<h:panelGroup>
+					<h:outputText value="Erro na Sincronização"></h:outputText>
+				</h:panelGroup>
+			</f:facet>
+			<h:outputText value="Houve um Erro durante a sincronização." />
+			<br></br>
+			<!-- <div style="width: 380px; height: 160px; overflow-y: scroll;">
+	       	<h:outputText value="#{sincronizacao.mensagemErro}" />
+	       	<br></br>
+	      	</div> -->
+			<div align="center">
+				<h:commandButton value="Fechar" ajaxSingle="true"
+					onclick="#{rich:component('modalMensagemErro')}.hide();" />
+			</div>
+		</rich:modalPanel>
+	</ui:define>
+</ui:composition>

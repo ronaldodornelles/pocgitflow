@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project default="warTarget" basedir=".">
+
+    <property name="base" value="."/>
+	
+		
+    <property name="source" value="${base}/source"/>
+    <target name="warTarget">
+        <war warfile="sisgep.war" needxmlfile="false" >
+        	<fileset dir="${source}"></fileset>
+        </war>
+    </target>
+</project>
+

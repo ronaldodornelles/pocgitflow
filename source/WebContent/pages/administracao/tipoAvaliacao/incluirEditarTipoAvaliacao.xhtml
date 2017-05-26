@@ -1,0 +1,139 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	template="/layout/template.xhtml"
+	xmlns:stella="http://stella.caelum.com.br/faces">
+	<html>
+		<head>
+			<script src="#{facesContext.externalContext.requestContextPath}/js/teste.js" language="javascript" type="text/javascript" />
+		</head>
+		
+		<ui:define name="conteudo">
+			<h:form name="formulario" id="formulario">
+				<ui:include src="/layout/mensagens.xhtml" />
+				<h4>
+					<h:outputText rendered="#{manterTipoAvaliacaoAction.isIncluindo}" value="Inclusão de Tipo de Avaliação" />
+					<h:outputText rendered="#{manterTipoAvaliacaoAction.isEditando}" value="Edição de Tipo de Avaliação" />
+					<h:outputText rendered="#{manterTipoAvaliacaoAction.isVisualizando}" value="Visualização de Tipo de Avaliação" />
+				</h4>
+				<rich:separator styleClass="separatorTitulo" /><br/>
+				<rich:panel id="panel">
+					<f:facet name="header">Tipo de Avaliação</f:facet>
+					<h3>Tipo de Avaliação</h3>
+				<rich:separator styleClass="separatorTitulo" />
+				
+				<h:panelGrid columns="1">
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Título:</ui:define>
+						<h:inputText required="true" size="57"  maxlength="250" id="titulo" value="#{manterTipoAvaliacaoAction.tipoAvaliacao.titulo}" readonly="#{manterTipoAvaliacaoAction.isVisualizando}" />
+					</s:decorate>
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Categoria:</ui:define>
+						<h:selectOneMenu value="#{manterTipoAvaliacaoAction.tipoAvaliacao.subcategoria.categoria}" id="categoriaEdit" style="width: 200px;" immediate="true" disabled="#{manterTipoAvaliacaoAction.isVisualizando}" >
+							<s:selectItems value="#{manterTipoAvaliacaoAction.listCategoria}" var="categoria" label="#{categoria.titulo}" noSelectionLabel="Selecione"/>
+							<s:convertEntity/>
+							<a4j:support event="onchange" reRender="subCategoriaEdit" ajaxSingle="true" focus="categoriaEdit"/>
+						</h:selectOneMenu>
+						<h:selectOneMenu value="#{manterTipoAvaliacaoAction.tipoAvaliacao.subcategoria}" id="subCategoriaEdit" style="margin-left: 20px; width: 150px;" required="true" immediate="true" disabled="#{manterTipoAvaliacaoAction.isVisualizando}" >
+							<s:selectItems value="#{manterTipoAvaliacaoAction.tipoAvaliacao.subcategoria.categoria.subcategorias}" var="subcateg" label="#{subcateg.descricao}" noSelectionLabel="Selecione"/>
+							<s:convertEntity/>
+						</h:selectOneMenu>
+					</s:decorate>
+				</h:panelGrid>
+				<h3>Cadastro de Fatores</h3>
+				<fieldset>
+					<legend style="color: black;">Lista de Fatores Cadastrados</legend>
+				
+					<a4j:outputPanel id="listaFatoresPanel">
+						<rich:dataTable width="483" id="fatorDataTable" rows="10" value="#{manterTipoAvaliacaoAction.tipoAvaliacao.fatores}" var="fatorDataTable" rendered="#{not empty manterTipoAvaliacaoAction.tipoAvaliacao.fatores}">
+							<rich:column sortBy="#{fatorDataTable.peso}">
+								<f:facet name="header">
+									<h:outputText value="Peso" />
+								</f:facet>
+								<h:outputText value="#{fatorDataTable.peso}" />
+							</rich:column>
+							<rich:column sortBy="#{fatorDataTable.nome}">
+								<f:facet name="header">
+									<h:outputText value="Título" />
+								</f:facet>
+								<h:outputText value="#{fatorDataTable.nome}" />
+							</rich:column>
+							
+							<rich:column style="width:80px">
+								<f:facet name="header">
+									<h:outputText value="Ações" />
+								</f:facet>
+								<div align="center">
+									<a4j:commandButton image="#{imagemUtil.getURLIcone('EDITAR')}" title="Editar" action="#{manterFatorAction.irEditarFator(fatorDataTable)}" reRender="incluirEditarFatorModal" oncomplete="#{rich:component('incluirEditarFatorModal')}.show();" style="padding-right: 2px;" rendered="#{!manterTipoAvaliacaoAction.isVisualizando}"/>
+									<a4j:commandButton image="#{imagemUtil.getURLIcone('DETALHAR')}" title="Visualizar" action="#{manterFatorAction.irVisualizarFator(fatorDataTable)}"  reRender="incluirEditarFatorModal" oncomplete="#{rich:component('incluirEditarFatorModal')}.show();"/>
+									<a4j:commandButton image="#{imagemUtil.getURLIcone('EXCLUIR')}" title="Excluir" action="#{manterFatorAction.prepararExclusao(fatorDataTable)}" oncomplete="#{rich:component('modalExcluirFator')}.show();"  rendered="#{!manterTipoAvaliacaoAction.isVisualizando}" immediate="true"/>	
+								</div>
+							</rich:column>
+						</rich:dataTable>
+					</a4j:outputPanel>
+					
+					
+					<div align="right">
+						<a4j:commandButton action="#{manterFatorAction.irIncluirFator(manterFatorAction.tipoAvaliacao)}" value="Inserir Novo" immediate="true" reRender="incluirEditarFatorModal" oncomplete="#{rich:component('incluirEditarFatorModal')}.show();" rendered="#{!manterTipoAvaliacaoAction.isVisualizando}" />
+					</div>   		
+					
+					
+				</fieldset>
+			</rich:panel>
+			<div align="right">
+				<h:commandButton action="#{manterTipoAvaliacaoAction.salvar()}" value="Salvar" rendered="#{!manterTipoAvaliacaoAction.isVisualizando}" /> 
+				<s:button action="tipoAvaliacao" value="Voltar" />
+				<br class="Clear" />
+			</div>
+			<br />
+		</h:form>
+		
+		
+		<rich:modalPanel id="modalExcluirFator" width="350" height="170">
+	        <f:facet name="header">
+	            <h:panelGroup>
+	                <h:outputText value="Excluir Tipo de Avaliação"></h:outputText>
+	            </h:panelGroup>
+	        </f:facet>
+	        <f:facet name="controls">
+	            <h:panelGroup>
+	                <rich:componentControl for="modalExcluirFator" attachTo="hidelink" operation="hide" event="onclick"/>
+	            </h:panelGroup>
+	        </f:facet>
+		    <center>
+		    	<h3>
+		    		<h:outputText value="ATENÇÃO!"/><br/><br/>
+		       		<h:outputText value="O item selecionado será excluido."/><br/>
+		       		<h:outputText value="Tem certeza que deseja realizar esta exclusão?"/>
+		       	</h3>
+		    </center><br/>
+	        <h:form id="exclusaoModal">
+		        <div align="center">
+			        <a4j:commandButton value="Sim" action="#{manterFatorAction.excluir()}" oncomplete="#{rich:component('modalExcluirFator')}.hide();" reRender="listaFatoresPanel, message" immediate="true"/>
+			        <h:commandButton value="Não" action="#{manterFatorAction.cancelarExclusao()}" oncomplete="#{rich:component('modalExcluirFator')}.hide();"  immediate="true"/>
+		        </div>
+	        </h:form>
+	        
+	        
+	        
+	        <ui:include src="/pages/administracao/tipoAvaliacao/modalIncluirEditarFator.xhtml" />
+	        
+	        
+	        
+	        
+		  </rich:modalPanel>
+		
+		
+		
+		
+		
+	</ui:define>
+	</html>
+</ui:composition>

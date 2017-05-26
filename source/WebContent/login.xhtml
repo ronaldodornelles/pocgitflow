@@ -1,0 +1,50 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="/layout/template.xhtml">
+
+<ui:define name="conteudo">
+    <h:form id="loginForm">
+		<s:div styleClass="Error" id="formularioMessages"
+		rendered="#{!reRenderModal}">
+			<rich:panel styleClass="message" style="padding:0"
+				rendered="#{! empty facesContext.maximumSeverity}">
+				<rich:effect event="onclick" type="DropOut" params="duration:0.8" />
+				<h:messages globalOnly="true" layout="vertical" errorClass="errormsg"
+					errorStyle="padding-left:70px;" fatalClass="errormsg"
+					fatalStyle="padding-left:70px" infoClass="warnmsg"
+					infoStyle="padding-left:70px" warnClass="warnmsg"
+					warnStyle="padding-left:70px" />
+			</rich:panel>
+		</s:div>
+        <rich:panel style="width:400px; position:static; margin-left: auto; margin-right: auto;" 
+        	rendered="#{!identity.loggedIn}" >
+            <f:facet name="header">Login</f:facet>
+          
+            <s:div styleClass="dialog">
+                <h:panelGrid columns="2" rowClasses="prop" columnClasses="name,value">
+                    <h:outputLabel for="username">Usuário :</h:outputLabel>
+                    <h:inputText id="username" value="#{credentials.username}" size="30" >
+                    <f:converter converterId="emptyStringToNullConverterSisgep"/>
+                    </h:inputText>
+                    <h:outputLabel for="password">Senha :</h:outputLabel>
+                    <h:inputSecret id="password" value="#{credentials.password}" size="30" >
+                    <f:converter converterId="emptyStringToNullConverterSisgep"/>
+                    </h:inputSecret>
+                    <h:outputLabel for="rememberMe">Lembrar-me?</h:outputLabel>
+                    <h:selectBooleanCheckbox id="rememberMe" value="#{rememberMe.enabled}"/>
+                </h:panelGrid>
+            </s:div>
+            <div align="right">
+            	<h:commandButton id="submit" value="Login" action="#{identity.login}"/>
+        	</div>
+        </rich:panel>
+        <br/>
+    </h:form>
+ </ui:define>
+</ui:composition>

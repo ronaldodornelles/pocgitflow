@@ -1,0 +1,96 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	template="/layout/template.xhtml">
+	
+	<ui:define name="conteudo">
+		<h:form name="formulario">
+			<ui:include src="/layout/modalAjaxStatus.xhtml" />
+			<ui:include src="/layout/mensagens.xhtml" />
+			<h4>Tipo de Avaliação</h4>
+			<rich:separator styleClass="separatorTitulo" /><br/>
+			<rich:panel>
+				<f:facet name="header">Filtro de pesquisa</f:facet>
+				<h:panelGrid columns="1">
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Titulo:</ui:define>
+						<h:inputText id="palavraChave" value="#{manterTipoAvaliacaoAction.palavraChave}" maxlength="250" size="57"/>
+					</s:decorate>
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Categoria:</ui:define>
+						<h:selectOneMenu value="#{manterTipoAvaliacaoAction.categoriaTipoBusca}" id="categoriaBusca" style="width: 200px;">
+							<s:selectItems value="#{manterTipoAvaliacaoAction.listCategoria}" var="categoria" label="#{categoria.titulo}" noSelectionLabel="Selecione"/>
+							<s:convertEntity/>
+							<a4j:support event="onchange" reRender="subCategoria" ajaxSingle="true" focus="categoriaBusca"/>
+						</h:selectOneMenu>
+						<h:selectOneMenu value="#{manterTipoAvaliacaoAction.subcategoriaBusca}" id="subCategoria" style="margin-left: 20px; width: 150px;">
+							<s:selectItems value="#{manterTipoAvaliacaoAction.categoriaTipoBusca.subcategorias}" var="subcateg" label="#{subcateg.descricao}" noSelectionLabel="Selecione"/>
+							<s:convertEntity/>
+						</h:selectOneMenu>
+					</s:decorate>
+				</h:panelGrid>
+			</rich:panel>
+			<div align="right">
+				<h:commandButton action="#{manterTipoAvaliacaoAction.procurar()}" value="Consultar"/>
+				<h:commandButton action="#{manterTipoAvaliacaoAction.irIncluir()}" value="Novo"/>
+				<br class="Clear" />
+			</div><br />
+
+			<rich:dataTable width="483" id="tipoAvaliacaoDataTable" rows="10" value="#{listTipoAvaliacao}" var="tipoAvaliacao" rendered="#{not empty listTipoAvaliacao}">
+				<rich:column sortBy="#{tipoAvaliacao.titulo}">
+					<f:facet name="header">
+						<h:outputText value="Título do Modelo" />
+					</f:facet>
+					<h:outputText value="#{tipoAvaliacao.titulo}" />
+				</rich:column>
+				
+				<rich:column style="width:80px">
+					<f:facet name="header">
+						<h:outputText value="Ações" />
+					</f:facet>
+					<div align="center">
+						<h:commandButton image="#{imagemUtil.getURLIcone('EDITAR')}" title="Editar" action="#{manterTipoAvaliacaoAction.irEditar(tipoAvaliacao)}" style="padding-right: 2px;"/>
+						<h:commandButton image="#{imagemUtil.getURLIcone('DETALHAR')}" title="Visualizar" action="#{manterTipoAvaliacaoAction.irVisualizar(tipoAvaliacao)}" />
+						<a4j:commandButton image="#{imagemUtil.getURLIcone('EXCLUIR')}" title="Excluir" action="#{manterTipoAvaliacaoAction.preparExclusao(tipoAvaliacao)}" oncomplete="#{rich:component('modalExcluirTipoAvaliacao')}.show();"  />	
+					</div>
+				</rich:column>
+			</rich:dataTable>
+			
+			<br />
+			<h:outputText id="totalOutput" style="font-weight:bold;" value="Total: #{listTipoAvaliacao.size()}" rendered="#{not empty listTipoAvaliacao}"/><br />
+			<rich:datascroller align="center" for="tipoAvaliacaoDataTable" renderIfSinglePage="false" />
+		</h:form>
+		
+		<rich:modalPanel id="modalExcluirTipoAvaliacao" width="350" height="170">
+	        <f:facet name="header">
+	            <h:panelGroup>
+	                <h:outputText value="Excluir Tipo de Avaliação"></h:outputText>
+	            </h:panelGroup>
+	        </f:facet>
+	        <f:facet name="controls">
+	            <h:panelGroup>
+	                <rich:componentControl for="modalExcluirTipoAvaliacao" attachTo="hidelink" operation="hide" event="onclick"/>
+	            </h:panelGroup>
+	        </f:facet>
+		    <center>
+		    	<h3>
+		    		<h:outputText value="ATENÇÃO!"/><br/><br/>
+		       		<h:outputText value="O item selecionado será excluido."/><br/>
+		       		<h:outputText value="Tem certeza que deseja realizar esta exclusão?"/>
+		       	</h3>
+		    </center><br/>
+	        <h:form id="exclusaoModal">
+		        <div align="center">
+			        <a4j:commandButton value="Sim" action="#{manterTipoAvaliacaoAction.excluir()}" oncomplete="#{rich:component('modalExcluirTipoAvaliacao')}.hide();" reRender="formulario, tipoAvaliacaoDataTable, message"/>
+			        <h:commandButton value="Não" action="#{manterTipoAvaliacaoAction.cancelarExclusao()}" oncomplete="#{rich:component('modalExcluirTipoAvaliacao')}.hide();" />
+		        </div>
+	        </h:form>
+		  </rich:modalPanel>
+	</ui:define>
+</ui:composition>

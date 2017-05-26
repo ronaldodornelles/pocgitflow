@@ -1,0 +1,596 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pages login-view-id="/login.xhtml" no-conversation-view-id="/home.xhtml"
+	xmlns="http://jboss.com/products/seam/pages" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.1.xsd">
+	<page view-id="*">
+		<navigation>
+			<rule if-outcome="login">
+				<end-conversation before-redirect="true" />
+				<redirect view-id="/login.xhtml" />
+			</rule>
+			<rule if-outcome="logout">
+				<end-conversation before-redirect="true" />
+				<redirect view-id="/login.xhtml" />
+			</rule>
+			<rule if-outcome="home">
+				<end-conversation before-redirect="true" />
+				<redirect view-id="/home.xhtml" />
+			</rule>
+			<rule if-outcome="pessoa">
+				<end-conversation before-redirect="true" />
+				<redirect view-id="/pages/administracao/pessoa/consultarPessoa.xhtml" />
+			</rule>
+			<rule if-outcome="areaAtuacao">
+				<end-conversation before-redirect="true" />
+				<redirect
+					view-id="/pages/administracao/areaAtuacao/consultarAreaAtuacao.xhtml" />
+			</rule>
+			<rule if-outcome="instituicaoEnsino">
+				<end-conversation before-redirect="true" />
+				<redirect
+					view-id="/pages/administracao/instituicaoEnsino/consultarInstituicaoEnsino.xhtml" />
+			</rule>
+			<rule if-outcome="servidor">
+				<end-conversation before-redirect="true" />
+				<redirect view-id="/pages/administracao/servidor/consultarServidor.xhtml" />
+			</rule>
+			<rule if-outcome="tipoAvaliacao">
+				<end-conversation before-redirect="true" />
+				<redirect
+					view-id="/pages/administracao/tipoAvaliacao/consultarTipoAvaliacao.xhtml" />
+			</rule>
+			<rule if-outcome="subfator">
+				<end-conversation before-redirect="true" />
+				<redirect
+					view-id="/pages/administracao/avaliacao/consultarSubfatorAvaliacao.xhtml" />
+			</rule>
+			<rule if-outcome="unidadeAdministrativa">
+				<end-conversation before-redirect="true" />
+				<redirect
+					view-id="/pages/administracao/unidadeAdministrativa/consultarUnidadeAdmin.xhtml" />
+			</rule>
+			<!-- Sincronização -->
+			<rule if-outcome="sincronizacao">
+				<end-conversation before-redirect="true" />
+				<redirect
+					view-id="/pages/administracao/sincronizacao/mensagemSincronizacao.xhtml" />
+			</rule>
+
+			<rule if-outcome="email">
+				<end-conversation before-redirect="true" />
+				<redirect view-id="/pages/email/sincronizacaoConcluida.xhtml" />
+			</rule>
+			<rule if-outcome="uploadSincronizacao">
+				<end-conversation before-redirect="true" />
+				<redirect
+					view-id="/pages/administracao/sincronizacao/uploadSincronizacao.xhtml" />
+			</rule>
+			<rule if-outcome="historicoSincronizacao">
+				<end-conversation before-redirect="true" />
+				<redirect
+					view-id="/pages/administracao/sincronizacao/historicoSincronizacao.xhtml" />
+			</rule>
+			<rule if-outcome="detalhesSincronizacao">
+				<end-conversation before-redirect="true" />
+				<redirect
+					view-id="/pages/administracao/sincronizacao/detalhesSincronizacao.xhtml" />
+			</rule>
+			<rule if-outcome="detalhesSincronizacaoPorCpf">
+				<end-conversation before-redirect="true" />
+				<redirect
+					view-id="/pages/administracao/sincronizacao/detalhesPorCpfSincronizacao.xhtml" />
+			</rule>
+			<!-- Avaliações -->
+			<rule if-outcome="subfatorAvaliacao">
+				<end-conversation before-redirect="true" />
+				<redirect
+					view-id="/pages/administracao/avaliacao/consultarSubfatorAvaliacao.xhtml" />
+			</rule>
+			<rule if-outcome="categoriaAvaliacao">
+				<end-conversation before-redirect="true" />
+				<redirect
+					view-id="/pages/administracao/avaliacao/consultarCategoriaAvaliacao.xhtml" />
+			</rule>
+			<rule if-outcome="gerenciadorAvaliacoes">
+				<end-conversation before-redirect="true" />
+				<redirect
+					view-id="/pages/administracao/avaliacao/consultarGerenciadorAvaliacao.xhtml" />
+			</rule>
+			<rule if-outcome="equipeAvaliacao">
+				<end-conversation before-redirect="true" />
+				<redirect
+					view-id="/pages/administracao/avaliacao/consultarEquipeAvaliacao.xhtml" />
+			</rule>
+		</navigation>
+	</page>
+	<page action="#{emailAction.enviarEmailSincronizacao()}"
+		login-required="true" view-id="/pages/email/sincronizacaoConcluida.xhtml" />
+
+	<page action="#{sincronizacaoAction.mensagemSincronizacao()}"
+		login-required="true"
+		view-id="/pages/administracao/sincronizacao/mensagemSincronizacao.xhtml">
+		<param name="email" value="#{sincronizacaoAction.emailUsuario}" />
+		<param name="statusSincronizacao" value="#{sincronizacaoAction.sincronizacaoIniciada}" />
+	</page>
+
+	<!-- Navegação Home -->
+	<page login-required="false" view-id="/home.xhtml" />
+	<!-- Navegação Pessoa -->
+	<page action="#{controllerHelper.setRedirect('?Page=Pesquisar_Pessoa')}"
+		login-required="true" view-id="/pages/administracao/pessoa/consultarPessoa.xhtml">
+		<begin-conversation flush-mode="manual" join="true" />
+		<navigation>
+			<rule if-outcome="ir_incluir">
+				<redirect view-id="/pages/administracao/pessoa/incluirEditarPessoa.xhtml" />
+			</rule>
+			<rule if-outcome="ir_visualizar">
+				<redirect view-id="/pages/administracao/pessoa/incluirEditarPessoa.xhtml" />
+			</rule>
+			<rule if-outcome="ir_editar">
+				<redirect view-id="/pages/administracao/pessoa/incluirEditarPessoa.xhtml" />
+			</rule>
+		</navigation>
+	</page>
+	<page login-required="true"
+		view-id="/pages/administracao/pessoa/incluirEditarPessoa.xhtml">
+		<begin-conversation flush-mode="manual" join="true" />
+		<navigation>
+			<rule if-outcome="sucesso_salvar">
+				<end-conversation />
+				<redirect view-id="/pages/administracao/pessoa/consultarPessoa.xhtml" />
+			</rule>
+			<rule if-outcome="cancelar">
+				<end-conversation before-redirect="true" />
+				<redirect view-id="/pages/administracao/pessoa/consultarPessoa.xhtml" />
+			</rule>
+		</navigation>
+	</page>
+	<!-- Fim Navegação Pessoa Navegação Área de Atuação -->
+	<page
+		action="#{controllerHelper.setRedirect('?Page=Pesquisar_Area_de_Atua_ao')}"
+		login-required="true"
+		view-id="/pages/administracao/areaAtuacao/consultarAreaAtuacao.xhtml">
+		<begin-conversation flush-mode="manual" join="true" />
+		<navigation>
+			<rule if-outcome="ir_incluir">
+				<redirect
+					view-id="/pages/administracao/areaAtuacao/incluirEditarAreaAtuacao.xhtml" />
+			</rule>
+			<rule if-outcome="ir_visualizar">
+				<redirect
+					view-id="/pages/administracao/areaAtuacao/incluirEditarAreaAtuacao.xhtml" />
+			</rule>
+			<rule if-outcome="ir_editar">
+				<redirect
+					view-id="/pages/administracao/areaAtuacao/incluirEditarAreaAtuacao.xhtml" />
+			</rule>
+		</navigation>
+	</page>
+	<page login-required="true"
+		view-id="/pages/administracao/areaAtuacao/incluirEditarAreaAtuacao.xhtml">
+		<begin-conversation flush-mode="manual" join="true" />
+		<navigation>
+			<rule if-outcome="salvo_sucesso">
+				<end-conversation />
+				<redirect
+					view-id="/pages/administracao/areaAtuacao/consultarAreaAtuacao.xhtml" />
+			</rule>
+			<rule if-outcome="cancelar">
+				<end-conversation />
+				<redirect
+					view-id="/pages/administracao/areaAtuacao/consultarAreaAtuacao.xhtml" />
+			</rule>
+		</navigation>
+	</page>
+	<!-- Fim Navegação Área de Atuação Navegação Instituição de Ensino -->
+	<page
+		action="#{controllerHelper.setRedirect('?Page=Pesquisar_Institui_ao_de_Ensino')}"
+		login-required="true"
+		view-id="/pages/administracao/instituicaoEnsino/consultarInstituicaoEnsino.xhtml">
+		<begin-conversation flush-mode="manual" join="true" />
+		<navigation>
+			<rule if-outcome="ir_incluir">
+				<redirect
+					view-id="/pages/administracao/instituicaoEnsino/incluirEditarInstituicaoEnsino.xhtml" />
+			</rule>
+			<rule if-outcome="ir_visualizar">
+				<redirect
+					view-id="/pages/administracao/instituicaoEnsino/incluirEditarInstituicaoEnsino.xhtml" />
+			</rule>
+			<rule if-outcome="ir_editar">
+				<redirect
+					view-id="/pages/administracao/instituicaoEnsino/incluirEditarInstituicaoEnsino.xhtml" />
+			</rule>
+		</navigation>
+	</page>
+	<page login-required="true"
+		view-id="/pages/administracao/instituicaoEnsino/incluirEditarInstituicaoEnsino.xhtml">
+		<begin-conversation flush-mode="manual" join="true" />
+		<navigation>
+			<rule if-outcome="salvo_sucesso">
+				<end-conversation />
+				<redirect
+					view-id="/pages/administracao/instituicaoEnsino/consultarInstituicaoEnsino.xhtml" />
+			</rule>
+			<rule if-outcome="cancelar">
+				<end-conversation before-redirect="true" />
+				<redirect
+					view-id="/pages/administracao/instituicaoEnsino/consultarInstituicaoEnsino.xhtml" />
+			</rule>
+		</navigation>
+	</page>
+	<!-- Fim Navegação Instituição de Ensino Navegação Subfator Avaliaçao -->
+	<page action="#{manterSubfatorAction.init()}" login-required="true"
+		view-id="/pages/administracao/avaliacao/consultarSubfatorAvaliacao.xhtml">
+		<begin-conversation flush-mode="manual" join="true" />
+	</page>
+	<page action="#{controllerHelper.setRedirect('?Page=Incluir_Subfator')}"
+		login-required="true"
+		view-id="/pages/administracao/avaliacao/consultarSubfatorAvaliacao.xhtml">
+		<begin-conversation flush-mode="manual" join="true" />
+		<navigation>
+			<rule if-outcome="ir_incluir">
+				<redirect
+					view-id="/pages/administracao/avaliacao/incluirEditarSubfatorAvaliacao.xhtml" />
+			</rule>
+			<rule if-outcome="ir_visualizar">
+				<redirect
+					view-id="/pages/administracao/avaliacao/incluirEditarSubfatorAvaliacao.xhtml" />
+			</rule>
+			<rule if-outcome="ir_editar">
+				<redirect
+					view-id="/pages/administracao/avaliacao/incluirEditarSubfatorAvaliacao.xhtml" />
+			</rule>
+		</navigation>
+	</page>
+	<page login-required="true"
+		view-id="/pages/administracao/avaliacao/incluirEditarSubfatorAvaliacao.xhtml">
+		<begin-conversation flush-mode="manual" join="true" />
+		<navigation>
+			<rule if-outcome="salvo_sucesso">
+				<end-conversation />
+				<redirect
+					view-id="/pages/administracao/avaliacao/consultarSubfatorAvaliacao.xhtml" />
+			</rule>
+			<rule if-outcome="salvo_sucesso_inserir_novo">
+				<end-conversation />
+				<redirect
+					view-id="/pages/administracao/avaliacao/incluirEditarSubfatorAvaliacao.xhtml" />
+			</rule>
+			<rule if-outcome="cancelar">
+				<end-conversation before-redirect="true" />
+				<redirect
+					view-id="/pages/administracao/avaliacao/consultarSubfatorAvaliacao.xhtml" />
+			</rule>
+		</navigation>
+	</page>
+	<!-- Fim Navegação Subfator Avaliação Navegação Categoria Avaliaçao -->
+	<page action="#{manterCategoriaAction.init()}" login-required="true"
+		view-id="/pages/administracao/avaliacao/consultarCategoriaAvaliacao.xhtml">
+		<begin-conversation flush-mode="manual" join="true" />
+	</page>
+	<page action="#{controllerHelper.setRedirect('?Page=Incluir_Categoria')}"
+		login-required="true"
+		view-id="/pages/administracao/avaliacao/consultarCategoriaAvaliacao.xhtml">
+		<begin-conversation flush-mode="manual" join="true" />
+		<navigation>
+			<rule if-outcome="ir_incluir">
+				<redirect
+					view-id="/pages/administracao/avaliacao/incluirEditarCategoriaAvaliacao.xhtml" />
+			</rule>
+			<rule if-outcome="ir_visualizar">
+				<redirect
+					view-id="/pages/administracao/avaliacao/incluirEditarCategoriaAvaliacao.xhtml" />
+			</rule>
+			<rule if-outcome="ir_editar">
+				<redirect
+					view-id="/pages/administracao/avaliacao/incluirEditarCategoriaAvaliacao.xhtml" />
+			</rule>
+		</navigation>
+	</page>
+	<page login-required="true"
+		view-id="/pages/administracao/avaliacao/incluirEditarCategoriaAvaliacao.xhtml">
+		<begin-conversation flush-mode="manual" join="true" />
+		<navigation>
+			<rule if-outcome="salvo_sucesso">
+				<end-conversation />
+				<redirect
+					view-id="/pages/administracao/avaliacao/consultarCategoriaAvaliacao.xhtml" />
+			</rule>
+			<rule if-outcome="salvo_sucesso_inserir_novo">
+				<end-conversation />
+				<redirect
+					view-id="/pages/administracao/avaliacao/incluirEditarCategoriaAvaliacao.xhtml" />
+			</rule>
+			<rule if-outcome="cancelar">
+				<end-conversation before-redirect="true" />
+				<redirect
+					view-id="/pages/administracao/avaliacao/consultarCategoriaAvaliacao.xhtml" />
+			</rule>
+		</navigation>
+	</page>
+	<!-- Fim Navegação Categoria Avaliação Navegação Equipe Avaliaçao -->
+	<page action="#{manterEquipeAction.init()}" login-required="true"
+		view-id="/pages/administracao/avaliacao/consultarEquipeAvaliacao.xhtml">
+		<begin-conversation flush-mode="manual" join="true" />
+	</page>
+	<page action="#{controllerHelper.setRedirect('?Page=Incluir_Equipe')}"
+		login-required="true"
+		view-id="/pages/administracao/avaliacao/consultarEquipeAvaliacao.xhtml">
+		<begin-conversation flush-mode="manual" join="true" />
+		<navigation>
+			<rule if-outcome="ir_incluir">
+				<redirect
+					view-id="/pages/administracao/avaliacao/incluirEditarEquipeAvaliacao.xhtml" />
+			</rule>
+			<rule if-outcome="ir_visualizar">
+				<redirect
+					view-id="/pages/administracao/avaliacao/incluirEditarEquipeAvaliacao.xhtml" />
+			</rule>
+			<rule if-outcome="ir_editar">
+				<redirect
+					view-id="/pages/administracao/avaliacao/incluirEditarEquipeAvaliacao.xhtml" />
+			</rule>
+		</navigation>
+	</page>
+	<page login-required="true"
+		view-id="/pages/administracao/avaliacao/incluirEditarEquipeAvaliacao.xhtml">
+		<begin-conversation flush-mode="manual" join="true" />
+		<navigation>
+			<rule if-outcome="salvo_sucesso">
+				<end-conversation />
+				<redirect
+					view-id="/pages/administracao/avaliacao/consultarEquipeAvaliacao.xhtml" />
+			</rule>
+			<rule if-outcome="salvo_sucesso_inserir_novo">
+				<end-conversation />
+				<redirect
+					view-id="/pages/administracao/avaliacao/incluirEditarEquipeAvaliacao.xhtml" />
+			</rule>
+			<rule if-outcome="cancelar">
+				<end-conversation before-redirect="true" />
+				<redirect
+					view-id="/pages/administracao/avaliacao/consultarEquipeAvaliacao.xhtml" />
+			</rule>
+		</navigation>
+	</page>
+	<!-- Fim Navegação Equipe Avaliação Navegação HistoricoSincronizacao -->
+	<page action="#{historicoSincronizacaoAction.init()}"
+		login-required="true"
+		view-id="/pages/administracao/sincronizacao/historicoSincronizacao.xhtml">
+		<begin-conversation flush-mode="manual" join="true" />
+	</page>
+	<page
+		action="#{controllerHelper.setRedirect('?Page=Consultar_Sincronizacao')}"
+		login-required="true"
+		view-id="/pages/administracao/sincronizacao/historicoSincronizacao.xhtml">
+		<begin-conversation flush-mode="manual" join="true" />
+		<navigation>
+			<rule if-outcome="detalhesSincronizacao">
+				<redirect
+					view-id="/pages/administracao/sincronizacao/detalhesSincronizacao.xhtml" />
+			</rule>
+		</navigation>
+	</page>
+	<page
+		action="#{controllerHelper.setRedirect('?Page=Historico_Sincronizacao')}"
+		login-required="true"
+		view-id="/pages/administracao/sincronizacao/detalhesSincronizacao.xhtml">
+		<begin-conversation flush-mode="manual" join="true" />
+		<navigation>
+			<rule if-outcome="detalhesSincronizacaoPorCpf">
+				<redirect
+					view-id="/pages/administracao/sincronizacao/detalhesPorCpfSincronizacao.xhtml" />
+			</rule>
+		</navigation>
+	</page>
+	<page action="#{controllerHelper.setRedirect('?Page=Detalhes_Sincronizacao')}"
+		login-required="true"
+		view-id="/pages/administracao/sincronizacao/detalhesPorCpfSincronizacao.xhtml">
+		<begin-conversation flush-mode="manual" join="true" />
+		<navigation>
+			<rule if-outcome="voltar_detalhesSincronizacao">
+				<redirect
+					view-id="/pages/administracao/sincronizacao/detalhesSincronizacao.xhtml" />
+			</rule>
+		</navigation>
+	</page>
+	<!-- Fim Navegação HistoricoSincronizacao Navegação Gerenciador Avaliaçao -->
+	<page action="#{manterGerenciadorAvaliacaoAction.init()}"
+		login-required="true"
+		view-id="/pages/administracao/avaliacao/consultarGerenciadorAvaliacao.xhtml">
+		<begin-conversation flush-mode="manual" join="true" />
+	</page>
+	<page action="#{controllerHelper.setRedirect('?Page=Incluir_Avaliacao')}"
+		login-required="true"
+		view-id="/pages/administracao/avaliacao/consultarGerenciadorAvaliacao.xhtml">
+		<begin-conversation flush-mode="manual" join="true" />
+		<navigation>
+			<rule if-outcome="ir_incluir">
+				<redirect
+					view-id="/pages/administracao/avaliacao/incluirEditarGerenciadorAvaliacao.xhtml" />
+			</rule>
+			<rule if-outcome="ir_visualizar">
+				<redirect
+					view-id="/pages/administracao/avaliacao/incluirEditarGerenciadorAvaliacao.xhtml" />
+			</rule>
+			<rule if-outcome="ir_editar">
+				<redirect
+					view-id="/pages/administracao/avaliacao/incluirEditarGerenciadorAvaliacao.xhtml" />
+			</rule>
+		</navigation>
+	</page>
+	<page login-required="true"
+		view-id="/pages/administracao/avaliacao/incluirEditarGerenciadorAvaliacao.xhtml">
+		<begin-conversation flush-mode="manual" join="true" />
+		<navigation>
+			<rule if-outcome="salvo_sucesso">
+				<end-conversation />
+				<redirect
+					view-id="/pages/administracao/avaliacao/consultarGerenciadorAvaliacao.xhtml" />
+			</rule>
+			<rule if-outcome="cancelar">
+				<end-conversation before-redirect="true" />
+				<redirect
+					view-id="/pages/administracao/avaliacao/consultarGerenciadorAvaliacao.xhtml" />
+			</rule>
+		</navigation>
+	</page>
+	<!-- Fim Navegação Gerenciador Avaliação Navegação Servidor -->
+	<page action="#{manterServidorAction.init()}" login-required="true"
+		view-id="/pages/administracao/servidor/listarCargofuncao.xhtml">
+		<begin-conversation flush-mode="manual" join="true" />
+		<navigation>
+			<rule if-outcome="sucesso_salvar">
+				<end-conversation before-redirect="true" />
+				<redirect view-id="/pages/administracao/servidor/consultarServidor.xhtml" />
+			</rule>
+			<rule if-outcome="voltar">
+				<redirect view-id="/pages/administracao/servidor/consultarServidor.xhtml" />
+			</rule>
+			<rule if-outcome="cancelar">
+				<redirect view-id="/pages/administracao/servidor/consultarServidor.xhtml" />
+			</rule>
+		</navigation>
+	</page>
+	<page action="#{manterCargoFuncaoAction.init()}" login-required="true"
+		view-id="/pages/administracao/servidor/modal/modalIncluirEditarCargoFuncao.xhtml">
+		<begin-conversation flush-mode="manual" join="true" />
+	</page>
+	<page action="#{manterFatorAction.init()}" login-required="true"
+		view-id="/pages/administracao/tipoAvaliacao/modalIncluirEditarFator.xhtml">
+		<begin-conversation flush-mode="manual" join="true" />
+	</page>
+	<page action="#{controllerHelper.setRedirect('?Page=Pesquisar_Servidor')}"
+		login-required="true" view-id="/pages/administracao/servidor/consultarServidor.xhtml">
+		<begin-conversation flush-mode="manual" join="true" />
+		<navigation>
+			<rule if-outcome="ir_incluir">
+				<redirect
+					view-id="/pages/administracao/servidor/incluirEditarServidor.xhtml" />
+			</rule>
+			<rule if-outcome="ir_visualizar">
+				<redirect
+					view-id="/pages/administracao/servidor/incluirEditarServidor.xhtml" />
+			</rule>
+			<rule if-outcome="ir_editar">
+				<redirect
+					view-id="/pages/administracao/servidor/incluirEditarServidor.xhtml" />
+			</rule>
+		</navigation>
+	</page>
+	<page
+		action="#{controllerHelper.setRedirect('?Page=Pesquisar_TipoAvaliacao')}"
+		login-required="true"
+		view-id="/pages/administracao/tipoAvaliacao/consultarTipoAvaliacao.xhtml">
+		<begin-conversation flush-mode="manual" join="true" />
+		<navigation>
+			<rule if-outcome="salvo_sucesso_tipo">
+				<end-conversation />
+				<redirect
+					view-id="/pages/administracao/tipoAvaliacao/consultarTipoAvaliacao.xhtml" />
+			</rule>
+			<rule if-outcome="ir_incluir">
+				<redirect
+					view-id="/pages/administracao/tipoAvaliacao/incluirEditarTipoAvaliacao.xhtml" />
+			</rule>
+			<rule if-outcome="ir_visualizar">
+				<redirect
+					view-id="/pages/administracao/tipoAvaliacao/incluirEditarTipoAvaliacao.xhtml" />
+			</rule>
+			<rule if-outcome="ir_editar">
+				<redirect
+					view-id="/pages/administracao/tipoAvaliacao/incluirEditarTipoAvaliacao.xhtml" />
+			</rule>
+		</navigation>
+	</page>
+	<!-- Fim Navegação Servidor Navegação Unidade Administrativa -->
+	<page login-required="true"
+		view-id="/pages/administracao/unidadeAdministrativa/incluirEditarUnidadeAdmin.xhtml">
+		<begin-conversation flush-mode="manual" join="true" />
+		<navigation>
+			<rule if-outcome="sucesso_salvar">
+				<end-conversation before-redirect="true" />
+				<redirect
+					view-id="/pages/administracao/unidadeAdministrativa/consultarUnidadeAdmin.xhtml" />
+			</rule>
+			<rule if-outcome="voltar">
+				<redirect
+					view-id="/pages/administracao/unidadeAdministrativa/consultarUnidadeAdmin.xhtml" />
+			</rule>
+			<rule if-outcome="cancelar">
+				<redirect
+					view-id="/pages/administracao/unidadeAdministrativa/consultarUnidadeAdmin.xhtml" />
+			</rule>
+		</navigation>
+	</page>
+	<page action="#{manterUnidadeAdministrativaAction.init()}"
+		login-required="true"
+		view-id="/pages/administracao/unidadeAdministrativa/consultarUnidadeAdmin.xhtml">
+		<begin-conversation flush-mode="manual" join="true" />
+		<navigation>
+			<rule if-outcome="ir_incluir">
+				<redirect
+					view-id="/pages/administracao/unidadeAdministrativa/incluirEditarUnidadeAdmin.xhtml" />
+			</rule>
+			<rule if-outcome="ir_visualizar">
+				<redirect
+					view-id="/pages/administracao/unidadeAdministrativa/incluirEditarUnidadeAdmin.xhtml" />
+			</rule>
+			<rule if-outcome="ir_editar">
+				<redirect
+					view-id="/pages/administracao/unidadeAdministrativa/incluirEditarUnidadeAdmin.xhtml" />
+			</rule>
+		</navigation>
+	</page>
+	<!-- Fim Navegação Unidade Administrativa Exceptions -->
+	
+	<exception class="org.jboss.seam.security.NotLoggedInException"
+		log="false">
+		<redirect view-id="/login.xhtml">
+			<message severity="warn">#{messages['org.jboss.seam.NotLoggedIn']}</message>
+		</redirect>
+	</exception>
+	<exception class="org.jboss.seam.framework.EntityNotFoundException"
+		log="false">
+		<redirect view-id="/error.xhtml">
+			<message severity="warn">#{messages['error.record.notFound']}</message>
+		</redirect>
+	</exception>
+	<exception class="javax.persistence.EntityNotFoundException"
+		log="false">
+		<redirect view-id="/error.xhtml">
+			<message severity="warn">#{messages['error.record.notFound']}</message>
+		</redirect>
+	</exception>
+	<exception class="javax.persistence.EntityExistsException"
+		log="false">
+		<redirect view-id="/error.xhtml">
+			<message severity="warn">#{messages['error.record.duplicated']}</message>
+		</redirect>
+	</exception>
+	<exception class="javax.persistence.OptimisticLockException"
+		log="false">
+		<end-conversation />
+		<redirect view-id="/error.xhtml">
+			<message severity="warn">#{messages['error.record.changed']}</message>
+		</redirect>
+	</exception>
+	<exception class="org.jboss.seam.security.AuthorizationException"
+		log="false">
+		<redirect view-id="/error.xhtml">
+			<message severity="error">#{messages['error.noPermission']}</message>
+		</redirect>
+	</exception>
+	<exception class="javax.faces.application.ViewExpiredException"
+		log="false">
+		<redirect view-id="/login.xhtml">
+			<message severity="warn">#{messages['error.session.timedOut']}</message>
+		</redirect>
+	</exception>
+	<exception>
+		<redirect view-id="/error.xhtml">
+			<message severity="error">#{org.jboss.seam.handledException.message}</message>
+		</redirect>
+	</exception>
+</pages>

@@ -1,0 +1,78 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	template="/layout/template.xhtml">
+	
+	<ui:define name="conteudo">
+		<h:form name="formularioUnidadeadm">
+			<ui:include src="/layout/modalAjaxStatus.xhtml" />
+			<ui:include src="/layout/mensagens.xhtml" />
+			<h4>Consulta de Unidade Organizacional</h4>
+			<rich:separator styleClass="separatorTitulo" />
+			<br/>
+			<rich:panel>
+				<f:facet name="header">Filtro de pesquisa</f:facet>
+				<h:panelGrid columns="1">
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Unidade:</ui:define>
+						<h:inputText id="nomeUnidade" value="#{unidadeAdministrativa.nomUnidadeAdministrativa}" maxlength="150" size="60" onkeypress="this.value=trataTxt(this.value);" onblur="this.value=trataTxt(this.value);"  />
+					</s:decorate>
+						<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Unidade Pai:</ui:define>
+						<h:inputText id="nomeUnidadePai" value="#{unidadeAdministrativa.unidadeAdministrativa.nomUnidadeAdministrativa}" maxlength="150" size="60" onkeypress="this.value=trataTxt(this.value);" onblur="this.value=trataTxt(this.value);"  />
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Sigla:</ui:define>
+						<h:inputText id="siglaUnidade" value="#{unidadeAdministrativa.siglaUnidade}" maxlength="20" size="30" onkeypress="this.value=trataTxt(this.value);" onblur="this.value=trataTxt(this.value);"  />
+					</s:decorate>
+					
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">UF:</ui:define>
+						<h:selectOneMenu value="#{unidadeAdministrativa.codUf}" id="uf">
+							<s:selectItems  value="#{combosAuxiliarAction.getUfs()}" var="_uf" 
+								label="#{_uf.desSigla}" noSelectionLabel="Selecione"/>
+							<s:convertEntity/>
+						</h:selectOneMenu>
+					</s:decorate>
+					
+				</h:panelGrid>
+			</rich:panel>
+			
+			<div align="right">
+				<h:commandButton action="#{manterUnidadeAdministrativaAction.procurar()}" value="Consultar"/>
+				<br class="Clear" />
+			</div>
+			<br />
+			
+			<rich:tree id="treeTestTree" switchType="ajax" ajaxSingle="true"   >   
+                <rich:recursiveTreeNodesAdaptor id="treeTestRecursiveTreeNodesAdaptor"   
+                    roots="#{listNodes}" var="node"   
+                    nodes="#{node.unidadeAdministrativas}">   
+                    <rich:treeNode data="#{node.id}" icon="#{imagemUtil.getURLIcone('HOME1')}" iconLeaf="#{imagemUtil.getURLIcone('HOME2')}" >   
+                        <h:outputText value="#{node.nomUnidadeAdministrativa}" />
+                        <h:commandButton image="#{imagemUtil.getURLIcone('EDITAR')}"
+							title="Editar"
+							action="#{manterUnidadeAdministrativaAction.irEditar(node)}" style="padding-left: 8px; padding-right: 5px;"/>
+						<h:commandButton image="#{imagemUtil.getURLIcone('DETALHAR')}"
+							title="Visualizar"
+							action="#{manterUnidadeAdministrativaAction.irVisualizar(node)}" />
+                    </rich:treeNode>   
+                </rich:recursiveTreeNodesAdaptor>   
+            </rich:tree>  
+			
+				<h:outputText id="totalOutputUni" style="font-weight:bold;"
+					value="Total: #{listUnidadeAdministrativa.size()}" 
+					rendered="#{not empty listUnidadeAdministrativa}"/>
+		
+		</h:form>
+	</ui:define>
+</ui:composition>

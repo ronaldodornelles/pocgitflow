@@ -1,0 +1,105 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:stella="http://stella.caelum.com.br/faces">
+
+			<rich:panel id="panelAfastamento">
+				<f:facet name="header">Servidor</f:facet>
+				<h3><h:outputText value="Afastamento/Ocorrênica"/></h3>
+				<rich:separator styleClass="separatorTitulo" />
+				
+				<h:panelGrid columns="1">
+					
+				<rich:dataTable width="483" id="afastamentoDataTable" rows="5"
+					value="#{manterAfastamentoAction.getAfastamentos()}" var="_afastamento" rendered="#{not empty manterAfastamentoAction.getAfastamentos()}">
+				
+				<rich:column sortBy="#{_afastamento.registroAfastamento.txtDescricao}">
+					<f:facet name="header">
+						<h:outputText value="Registro de Ocorrência" />
+					</f:facet>
+					<h:outputText value="#{_afastamento.registroAfastamento.txtDescricao}" />
+				</rich:column>
+				
+				<rich:column>
+					<f:facet name="header">
+						<h:outputText value="Dt. Ínicio" />
+					</f:facet>
+					<h:outputText value="#{_afastamento.datInicioAfastmento !=null ? manterServidorAction.formataData(_afastamento.datInicioAfastmento, 'dd/MM/yyyy') : '-'}" />
+				</rich:column>
+				
+				<rich:column>
+					<f:facet name="header">
+						<h:outputText value="Dt. Fim" />
+					</f:facet>
+					<h:outputText value="#{_afastamento.datFimAfastamento !=null ? manterServidorAction.formataData(_afastamento.datFimAfastamento, 'dd/MM/yyyy') : '-'}" />
+				</rich:column>
+				
+				<rich:column style="width:80px">
+					<f:facet name="header">
+						<h:outputText value="Ações" />
+					</f:facet>
+					<div align="center">
+						<a4j:commandButton image="#{imagemUtil.getURLIcone('EDITAR')}" ajaxSingle="true" immediate="true" rendered="#{!isVisualizar}"
+							title="Editar" oncomplete="#{rich:component('incluirEditarAfastamentoModal')}.show();" reRender="incluirEditarAfastamentoModal"
+							action="#{manterAfastamentoAction.irEditarAfastamento(_afastamento)}" style="padding-right: 2px;"/>
+						<a4j:commandButton image="#{imagemUtil.getURLIcone('DETALHAR')}" ajaxSingle="true" immediate="true" reRender="incluirEditarAfastamentoModal"
+							title="Visualizar" oncomplete="#{rich:component('incluirEditarAfastamentoModal')}.show();"
+							action="#{manterAfastamentoAction.irVisualizarAfastamento(_afastamento)}" />
+							
+						<a4j:commandButton image="#{imagemUtil.getURLIcone('EXCLUIR')}"
+							title="Excluir" rendered="#{!isVisualizar}" ajaxSingle="true"
+							action="#{manterAfastamentoAction.prepararExclusao(_afastamento)}"
+							oncomplete="#{rich:component('modalExcluirAfastamento')}.show();"
+							reRender="modalExcluirAfastamento" />
+					</div>
+				</rich:column>
+			</rich:dataTable>
+			
+			<br />
+			<h:outputText id="totalOutputAfas" style="font-weight:bold;"
+					value="Total: #{manterAfastamentoAction.getAfastamentos().size()}" 
+					rendered="#{not empty manterAfastamentoAction.getAfastamentos()}"/>
+			<br />
+			<rich:datascroller align="center" for="afastamentoDataTable"
+				renderIfSinglePage="false" />
+					
+				</h:panelGrid>
+				
+			<div align="right">
+				<a4j:commandButton action="#{manterAfastamentoAction.incluirAfastamento()}" value="Adicionar" immediate="true" rendered="#{!isVisualizar}"
+					reRender="modalIncluirEditarAfastamento, incluirEditarAfastamentoModal"
+					oncomplete="#{rich:component('incluirEditarAfastamentoModal')}.show();"/>
+			</div>
+			
+			</rich:panel>
+			
+			<rich:modalPanel id="modalExcluirAfastamento" width="400" height="160">
+		        <f:facet name="header">
+		            <h:panelGroup>
+		                <h:outputText value="Excluir Afastamento/Ocorrênica"></h:outputText>
+		            </h:panelGroup>
+		        </f:facet>
+		        <f:facet name="controls">
+		            <h:panelGroup>
+		                <rich:componentControl for="modalExcluirAfastamento" attachTo="hidelink" operation="hide" event="onclick"/>
+		            </h:panelGroup>
+		        </f:facet>
+		       	<h3><h:outputText value="Deseja realmente excluir o Afastamento/Ocorrênica?"/></h3>
+		        <br/>
+		        <div align="center">
+			        <a4j:commandButton value="Sim" action="#{manterAfastamentoAction.excluirAfastamento()}" 
+			        	oncomplete="#{rich:component('modalExcluirAfastamento')}.hide();" ajaxSingle="true" reRender="panelAfastamento"/>
+			        <a4j:commandButton value="Não" action="#{manterAfastamentoAction.cancelarModal()}" ajaxSingle="true"
+			        	oncomplete="#{rich:component('modalExcluirAfastamento')}.hide();" />
+		        </div>
+		    </rich:modalPanel>
+		    
+</ui:composition>

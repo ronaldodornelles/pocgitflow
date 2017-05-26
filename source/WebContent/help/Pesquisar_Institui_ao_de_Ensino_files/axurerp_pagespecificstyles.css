@@ -1,0 +1,412 @@
+﻿body {
+    margin: 0px;
+}
+
+div {
+    background-repeat: no-repeat;
+}
+
+.raw_image {
+    width: 100%;
+    height: 100%;
+}
+
+.preload {
+    display: none;
+}
+#main_container {
+}
+
+.form_sketch {
+    border-color: transparent;
+    background-color: transparent;
+}
+
+.u0_normal {
+    background-image: url('../Pesquisar_Institui_ao_de_Ensino_files/u0_normal.png');
+}
+
+.u0_container {
+    position:absolute;
+    left:3px;
+    top:287px;
+    width:825px;
+    height:275px;
+}
+
+#u0_img {
+    position:absolute;
+    left:0px;
+    top:0px;
+    width:825px;
+    height:275px;
+}
+
+.u1 {
+    position:absolute;
+    left:2px;
+    top:130px;
+    width:821px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u2_normal {
+    background-image: url('../Pesquisar_Institui_ao_de_Ensino_files/u2_normal.png');
+}
+
+.u2_container {
+    position:absolute;
+    left:2px;
+    top:2px;
+    width:826px;
+    height:285px;
+}
+
+#u2_img {
+    position:absolute;
+    left:0px;
+    top:0px;
+    width:826px;
+    height:285px;
+}
+
+.u3 {
+    position:absolute;
+    left:2px;
+    top:134px;
+    width:822px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u4 {
+    position:absolute;
+    left:3px;
+    top:616px;
+    width:850px;
+    height:280px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u5_normal {
+    background-image: url('../Pesquisar_Institui_ao_de_Ensino_files/u5_normal.png');
+}
+
+.u5_container {
+    position:absolute;
+    left:107px;
+    top:137px;
+    width:15px;
+    height:15px;
+}
+
+#u5_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:21px;
+    height:21px;
+}
+
+.u6 {
+    position:absolute;
+    left:2px;
+    top:0px;
+    width:11px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u7_normal {
+    background-image: url('../Pesquisar_Institui_ao_de_Ensino_files/u5_normal.png');
+}
+
+.u7_container {
+    position:absolute;
+    left:284px;
+    top:243px;
+    width:15px;
+    height:15px;
+}
+
+#u7_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:21px;
+    height:21px;
+}
+
+.u8 {
+    position:absolute;
+    left:2px;
+    top:0px;
+    width:11px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u9_normal {
+    background-image: url('../Pesquisar_Institui_ao_de_Ensino_files/u5_normal.png');
+}
+
+.u9_container {
+    position:absolute;
+    left:192px;
+    top:399px;
+    width:15px;
+    height:15px;
+}
+
+#u9_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:21px;
+    height:21px;
+}
+
+.u10 {
+    position:absolute;
+    left:2px;
+    top:0px;
+    width:11px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u11_normal {
+    background-image: url('../Pesquisar_Institui_ao_de_Ensino_files/u5_normal.png');
+}
+
+.u11_container {
+    position:absolute;
+    left:717px;
+    top:506px;
+    width:15px;
+    height:15px;
+}
+
+#u11_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:21px;
+    height:21px;
+}
+
+.u12 {
+    position:absolute;
+    left:2px;
+    top:0px;
+    width:11px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u13_normal {
+    background-image: url('../Pesquisar_Institui_ao_de_Ensino_files/u5_normal.png');
+}
+
+.u13_container {
+    position:absolute;
+    left:192px;
+    top:438px;
+    width:15px;
+    height:15px;
+}
+
+#u13_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:21px;
+    height:21px;
+}
+
+.u14 {
+    position:absolute;
+    left:2px;
+    top:0px;
+    width:11px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u15_normal {
+    background-image: url('../Pesquisar_Institui_ao_de_Ensino_files/u5_normal.png');
+}
+
+.u15_container {
+    position:absolute;
+    left:771px;
+    top:506px;
+    width:15px;
+    height:15px;
+}
+
+#u15_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:21px;
+    height:21px;
+}
+
+.u16 {
+    position:absolute;
+    left:2px;
+    top:0px;
+    width:11px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u17_normal {
+    background-image: url('../Versao_Sistema_files/u11_normal.png');
+}
+
+.u17_container {
+    position:absolute;
+    left:1px;
+    top:571px;
+    width:828px;
+    height:26px;
+}
+
+#u17_img {
+    position:absolute;
+    left:0px;
+    top:0px;
+    width:828px;
+    height:26px;
+}
+
+.u18 {
+    position:absolute;
+    left:2px;
+    top:5px;
+    width:824px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u20_normal {
+    background-image: url('../resources/images/transparent.gif');
+}
+
+.u20_container {
+    position:absolute;
+    left:727px;
+    top:788px;
+    width:170px;
+    height:60px;
+}
+
+#u20_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:176px;
+    height:66px;
+}
+
+.u21 {
+    position:absolute;
+    left:2px;
+    top:22px;
+    width:166px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u22_normal {
+    background-image: url('../resources/images/transparent.gif');
+}
+
+.u22_container {
+    position:absolute;
+    left:696px;
+    top:732px;
+    width:166px;
+    height:60px;
+}
+
+#u22_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:172px;
+    height:66px;
+}
+
+.u23 {
+    position:absolute;
+    left:2px;
+    top:22px;
+    width:162px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+

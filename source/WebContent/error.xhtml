@@ -1,0 +1,36 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/layout/template.xhtml">
+
+	<ui:param name="showGlobalMessages" value="false" />
+	<ui:define name="conteudo">
+
+		<p align="center">
+			<h:graphicImage value="/img/tela_erro.png" />
+		</p>
+
+		<textarea rows="10" id="errorText" style="width: 100%;">
+		</textarea>
+
+		<script language="javascript" type="text/javascript">
+		var errorMessage = "";
+		errorMessage+= "<h:outputText value="Class = #{org.jboss.seam.handledException.class}" />";
+		errorMessage+= "\r\n\r\n";
+		errorMessage+= "<h:outputText value="Exception = #{org.jboss.seam.handledException}" />";
+		errorMessage+= "\r\n\r\n";
+		<ui:repeat var="ex"	value="#{org.jboss.seam.handledException.stackTrace}">
+			errorMessage+= "<h:outputText value="#{ex.className}:#{ex.lineNumber} #{ex.methodName}" />";
+			errorMessage+= "\r\n";
+		</ui:repeat>
+		errorMessage+= "\r\n\r\n";
+
+		document.getElementById("errorText").innerText = errorMessage;
+		</script>
+		
+	</ui:define>
+</ui:composition>

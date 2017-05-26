@@ -1,0 +1,75 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:stella="http://stella.caelum.com.br/faces">
+
+	<rich:modalPanel id="consultarEquipeAvaliacao" moveable="false"
+		resizeable="false" onresize="false" width="670" height="500" style="background-color: white; overflow: auto">
+		
+		<f:facet name="header">
+            <h:panelGroup>
+                <h:outputText value="Equipe de Avaliação"></h:outputText>
+            </h:panelGroup>
+        </f:facet>		
+		<h:form name="formConsultarEquipeAvaliacao" id="formConsultarEquipeAvaliacao">
+			<ui:include src="/layout/mensagens.xhtml" />
+			<h4>Cadastro Equipe</h4>
+			<rich:separator styleClass="separatorTitulo" />
+			<br/>
+			<rich:panel>
+				<f:facet name="header">Filtro de pesquisa</f:facet>
+				<h:panelGrid columns="1">
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Palavra Chave:</ui:define>
+						<h:inputText id="palavraChave" value="#{manterGerenciadorAvaliacaoAction.palavraChave}" size="40"/>
+					</s:decorate>			
+				</h:panelGrid>
+			</rich:panel>
+			<div align="right">
+				<a4j:commandButton action="#{manterGerenciadorAvaliacaoAction.procurarEquipe(manterGerenciadorAvaliacaoAction.unidadeAdministrativa)}" 
+					oncomplete="#{rich:component('consultarEquipeAvaliacao')}.show();"
+					value="Consultar" reRender="consultarEquipeAvaliacao"/>
+				<a4j:commandButton  value="Cancelar" action="#{manterGerenciadorAvaliacaoAction.cancelarModalEquipeAvaliacao()}"
+					oncomplete="#{reRenderModal ? false : rich:component('consultarEquipeAvaliacao')}.hide()" reRender="consultarEquipeAvaliacao"/>
+				<br class="Clear" />
+			</div>
+			<br />
+			<rich:dataTable width="483" id="equipeDataTable" rows="10"
+				value="#{listEquipe}" var="_equipe" rendered="#{not empty listEquipe}">
+				
+				<rich:column>
+					<f:facet name="header">
+						<h:outputText value="Equipe de Avaliação" />
+					</f:facet>
+					<h:outputText value="#{_equipe.nomesServidores}" />
+				</rich:column>
+				
+				<rich:column style="width:80px">
+					<f:facet name="header">
+						<h:outputText value="Ações" />
+					</f:facet>
+					<div align="center">
+						<a4j:commandButton image="#{imagemUtil.getURLIcone('ADD')}" style="margin-bottom:-4px; padding-right: 2px;"
+							title="Vincular" oncomplete="#{reRenderModal ? false : rich:component('consultarEquipeAvaliacao')}.hide()"
+							action="#{manterGerenciadorAvaliacaoAction.vincularEquipe(_equipe)}" reRender="equipePanel"/>
+					</div>
+				</rich:column>
+			</rich:dataTable>
+			<br />
+			<h:outputText id="totalOutput" style="font-weight:bold;"
+					value="Total: #{listEquipe.size()}" 
+					rendered="#{not empty listEquipe}"/>
+			<br />
+			<rich:datascroller align="center" for="equipeDataTable"
+				renderIfSinglePage="false" />
+		</h:form>
+		
+	</rich:modalPanel>
+</ui:composition>

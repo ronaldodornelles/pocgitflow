@@ -1,0 +1,175 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j" template="/layout/template.xhtml"
+	xmlns:stella="http://stella.caelum.com.br/faces">
+	<html>
+<head>
+<script
+	src="#{facesContext.externalContext.requestContextPath}/js/jquery.maskedinput-1.3.min.js"
+	language="javascript" type="text/javascript" />
+<script
+	src="#{facesContext.externalContext.requestContextPath}/js/jquery.meio.mask.js"
+	language="javascript" type="text/javascript" />
+<script
+	src="#{facesContext.externalContext.requestContextPath}/js/jjquery.maskedinput-1.3.js"
+	language="javascript" type="text/javascript" />
+<script
+	src="#{facesContext.externalContext.requestContextPath}/js/util.js"
+	language="javascript" type="text/javascript" />
+</head>
+
+<ui:define name="conteudo">
+	<h:form name="formulario" id="formulario">
+
+		<ui:include src="/layout/modalAjaxStatus.xhtml" />
+		<ui:include src="/layout/mensagens.xhtml" />
+
+		<h4>
+			<h:outputText rendered="#{manterEquipeAction.isIncluindo}"
+				value="Inclusão de Equipe de Avaliação" />
+			<h:outputText rendered="#{manterEquipeAction.isEditando}"
+				value="Edição de Equipe de Avaliação" />
+			<h:outputText rendered="#{manterEquipeAction.isVisualizando}"
+				value="Visualização de Equipe de Avaliação" />
+		</h4>
+		<rich:separator styleClass="separatorTitulo" />
+		<br />
+		<rich:panel id="panel">
+			<f:facet name="header">Equipe de Avaliação</f:facet>
+			<h3>Equipe de Avaliação</h3>
+			<rich:separator styleClass="separatorTitulo" />
+
+			<h:panelGrid columns="1">
+				<s:decorate template="/layout/edit.xhtml">
+					<ui:define name="label">Unidade Organizacional:</ui:define>
+					<h:inputText
+						value="#{manterEquipeAction.equipe.unidadeAdministrativa.nomUnidadeAdministrativa}"
+						id="nomUnidadeAdministrativa" readonly="true"
+						required="true" size="70"  requiredMessage="Selecione uma Unidadde Organizacional">
+						<f:validateLength minimum="1" />
+					</h:inputText>
+					<a4j:commandButton image="#{imagemUtil.getURLIcone('DETALHAR')}"
+						ajaxSingle="true"
+						action="#{manterEquipeAction.prepararModalUnidade()}"
+						title="Buscar"
+						reRender="consultarUnidadeAdmModal, formConsultarUnidadeAdm"
+						rendered="#{!isVisualizar}" immediate="true"
+						oncomplete="#{rich:component('consultarUnidadeAdmModal')}.show();"
+						style="padding-right: 2px;" />
+				</s:decorate>
+
+				<s:decorate template="/layout/edit.xhtml">
+					<ui:define name="label">Servidores para Equipe de Avaliação:</ui:define>
+					<a4j:commandButton 
+						ajaxSingle="true"
+						action="#{manterEquipeAction.prepararModalServidor()}"
+						title="Inserir Novo"
+						value="Inserir Novo"
+						reRender="consultarServidorModal, formConsultarServidor, formulario"
+						rendered="#{!isVisualizar}" immediate="true"
+						oncomplete="#{rich:component('consultarServidorModal')}.show();" />
+				</s:decorate>
+
+			</h:panelGrid>
+
+			<a4j:outputPanel id="panelServidores" >
+				<h:outputText value="Servidores cadastrados nesta equipe" rendered="#{not empty equipe.servidores}" style="font-size: 12px; font-weight: bold;"/>
+				<rich:dataTable width="483" id="servidoresDataTable" rows="10"
+					value="#{equipe.servidores}" var="servidor" rendered="#{not empty equipe.servidores}">
+
+					<rich:column sortBy="#{servidor.pessoaFisica.nomPessoaFisica}">
+						<f:facet name="header">
+							<h:outputText value="Nome" />
+						</f:facet>
+						<h:outputText value="#{servidor.pessoaFisica.nomPessoaFisica}" />
+					</rich:column>
+
+					<rich:column
+						sortBy="#{servidor.unidadeAdministrativaExce.nomUnidadeAdministrativa}">
+						<f:facet name="header">
+							<h:outputText value="Unidade Exercício" />
+						</f:facet>
+						<h:outputText
+							value="#{servidor.unidadeAdministrativaExce.nomUnidadeAdministrativa}" />
+					</rich:column>
+
+					<rich:column style="width:80px" rendered="#{!isVisualizar}">
+						<f:facet name="header">
+							<h:outputText value="Ações" />
+						</f:facet>
+						<div align="center">
+							<a4j:commandButton image="#{imagemUtil.getURLIcone('EXCLUIR')}"
+								title="Excluir"
+								action="#{manterEquipeAction.prepararExclusaoServidor(servidor)}"
+								oncomplete="#{rich:component('modalExcluirServidor')}.show();"
+								reRender="modalExcluirServidor" />
+
+						</div>
+					</rich:column>
+				</rich:dataTable>
+			</a4j:outputPanel>
+
+		</rich:panel>
+
+		<div align="right">
+			<h:commandButton action="#{manterEquipeAction.salvarEVoltar()}"
+				value="Salvar" rendered="#{!isVisualizar}" reRender="formulario" />
+			<s:button action="#{manterEquipeAction.cancelar()}" value="Voltar"
+				rendered="#{isVisualizar}" />
+			<s:button action="#{manterEquipeAction.cancelar()}" value="Voltar"
+				rendered="#{!isVisualizar}" />
+			<br class="Clear" />
+		</div>
+		<br />
+	</h:form>
+
+	<rich:modalPanel id="modalExcluirServidor" width="350" height="170">
+		<f:facet name="header">
+			<h:panelGroup>
+				<h:outputText value="Excluir Servidor"></h:outputText>
+			</h:panelGroup>
+		</f:facet>
+		<f:facet name="controls">
+			<h:panelGroup>
+				<rich:componentControl for="modalExcluirServidor"
+					attachTo="hidelink" operation="hide" event="onclick" />
+			</h:panelGroup>
+		</f:facet>
+		<center>
+			<h3>
+				<h:outputText value="ATENÇÃO!" />
+				<br /> <br />
+				<h:outputText value="O item selecionado será excluido." />
+				<br />
+				<h:outputText value="Tem certeza que deseja realizar esta exclusão?" />
+			</h3>
+		</center>
+		<br />
+		<h:form id="exclusaoModal">
+			<div align="center">
+				<a4j:commandButton value="Sim"
+					action="#{manterEquipeAction.excluirServidor()}"
+					oncomplete="#{rich:component('modalExcluirServidor')}.hide();"
+					reRender="panelServidores" />
+				
+				<a4j:commandButton value="Não" oncomplete="#{rich:component('modalExcluirServidor')}.hide();" immediate="true"/>
+			</div>
+		</h:form>
+	</rich:modalPanel>
+
+	<ui:include
+		src="/pages/administracao/avaliacao/modal/modalConsultaUnidadeAdm.xhtml" />
+	<ui:include
+		src="/pages/administracao/avaliacao/modal/modalConsultaServidor.xhtml" />
+
+</ui:define>
+	</html>
+</ui:composition>

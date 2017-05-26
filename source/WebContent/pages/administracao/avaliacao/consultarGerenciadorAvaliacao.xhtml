@@ -1,0 +1,191 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	template="/layout/template.xhtml">
+	
+	<ui:define name="conteudo">
+		<h:form name="formulario">
+			<ui:include src="/layout/modalAjaxStatus.xhtml" />
+			<a4j:outputPanel id="mensagemPanel">
+			<ui:include src="/layout/mensagens.xhtml" />
+			</a4j:outputPanel>
+			<h4>Gerenciador de Avaliações</h4>
+			<rich:separator styleClass="separatorTitulo" />
+			<br/>
+			<rich:panel>
+				<a4j:outputPanel id="filtrosPanel">
+				<f:facet name="header">Filtro de pesquisa</f:facet>
+				<h:panelGrid columns="1">
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Tipo de Avaliação:</ui:define>
+						<h:selectOneMenu value="#{avaliacao.tipoAvaliacao}" id="tipoAvaliacao">
+							<s:selectItems  value="#{combosAuxiliarAction.getTipoAvaliacoes()}" var="tipoAvaliacoes" 
+								label="#{tipoAvaliacoes.titulo}" noSelectionLabel="Selecione"/>
+							<s:convertEntity/>
+						</h:selectOneMenu>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Status:</ui:define>
+						<h:selectOneMenu value="#{avaliacao.statusAvaliacao}" id="statuss">
+							<s:selectItems  value="#{combosAuxiliarAction.getStatusAvaliacoes()}" var="statusAvaliacao" 
+								label="#{statusAvaliacao.descricao}" noSelectionLabel="Selecione"/>
+							<s:convertEntity/>
+						</h:selectOneMenu>
+					</s:decorate>				
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Período de Avaliação:</ui:define>
+						<rich:jQuery selector="#periodoInicio" query="setMask()" timing="onload"/>
+						<h:inputText value="#{avaliacao.periodoInicio}" id="periodoInicio" maxlength = "10" size="12" alt="date"  validator="dateValidator">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:inputText>
+						<h:outputText value=" a " />
+						<rich:jQuery selector="#periodoFim" query="setMask()" timing="onload"/>
+						<h:inputText value="#{avaliacao.periodoFim}" id="periodoFim" maxlength = "10" size="12" alt="date"  validator="dateValidator">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:inputText>
+					</s:decorate>
+					
+					<h:panelGrid columns="1" id="formaDeIngresso" style="margin-left: -4px;">
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Unidade Organizacional:</ui:define>
+				
+						<h:selectOneMenu value="#{manterGerenciadorAvaliacaoAction.uf}" id="uf">
+							<s:selectItems  value="#{manterGerenciadorAvaliacaoAction.carregarUfs()}" var="_uf" 
+								label="#{_uf.desSigla}" noSelectionLabel="Selecione"/>
+							<s:convertEntity/>
+							<a4j:support event="onchange" reRender="nomUnidadeAdministrativa" ajaxSingle="true" focus="nomUnidadeAdministrativa" 
+										action="#{manterGerenciadorAvaliacaoAction.carregarUnidadeAdmPorUF()}"/>
+						</h:selectOneMenu>
+						
+						<h:selectOneMenu value="#{avaliacao.unidadeOrganizacional}" id="nomUnidadeAdministrativa" 
+										disabled="#{isVisualizar}"  style="width: 370px;"  >
+							<s:selectItems  value="#{listUnidadeAdministrativa}" var="_nomUnidadeAdministrativa" 
+								label="#{_nomUnidadeAdministrativa.nomUnidadeAdministrativa}" noSelectionLabel="Selecione"/>
+							<s:convertEntity/>
+						</h:selectOneMenu>
+						
+					</s:decorate>
+					
+				</h:panelGrid>
+					
+				</h:panelGrid>
+				</a4j:outputPanel>
+			</rich:panel>
+			<div align="right">
+				<a4j:commandButton action="#{manterGerenciadorAvaliacaoAction.procurar()}" value="Consultar" reRender="avaliacaoDataTablePanel, mensagemPanel"/>
+				<h:commandButton action="#{manterGerenciadorAvaliacaoAction.irIncluir()}" value="Novo"/>
+				<br class="Clear" />
+			</div>
+			<br />
+			<a4j:outputPanel id="avaliacaoDataTablePanel">
+			<rich:dataTable width="483" id="avaliacaoDataTable" rows="10"
+				value="#{listAvaliacao}" var="avaliacao" rendered="#{not empty listAvaliacao}">
+				
+				<rich:column sortBy="#{avaliacao.tipoAvaliacao.titulo}">
+					<f:facet name="header">
+						<h:outputText value="Tipo Avaliação" />
+					</f:facet>
+					<h:outputText value="#{avaliacao.tipoAvaliacao.titulo}" />
+				</rich:column>
+				
+				<rich:column sortBy="#{avaliacao.statusAvaliacao.descricao}">
+					<f:facet name="header">
+						<h:outputText value="Status" />
+					</f:facet>
+					<h:outputText value="#{avaliacao.statusAvaliacao.descricao}" />
+				</rich:column>
+				
+				<rich:column sortBy="#{avaliacao.periodoInicio}">
+					<f:facet name="header">
+						<h:outputText value="Período de Avaliação" />
+					</f:facet>
+					<h:outputText value="#{avaliacao.dataInicioConcatDataFim}" />
+				</rich:column>
+				
+				<rich:column sortBy="#{avaliacao.unidadeOrganizacional.nomUnidadeAdministrativa}">
+					<f:facet name="header">
+						<h:outputText value="Unidade Organizacional" />
+					</f:facet>
+					<h:outputText value="#{avaliacao.unidadeOrganizacional.nomUnidadeAdministrativa}" />
+				</rich:column>
+				
+				<rich:column style="width:80px">
+					<f:facet name="header">
+						<h:outputText value="Ações" />
+					</f:facet>
+					<div align="center">
+						<a4j:commandButton image="#{imagemUtil.getURLIcone('PUBLICAR')}" 
+							title="Publicar Avaliação" 
+							action="#{manterGerenciadorAvaliacaoAction.publicar(avaliacao)}"
+							rendered="#{avaliacao.tipoAvaliacao.titulo ne 'TIPO 5'}"/>
+						<a4j:commandButton image="#{imagemUtil.getURLIcone('NAO_PUBLICAR')}" 
+							title="Cancelar Publicação" 
+							action="#manterGerenciadorAvaliacaoAction.naoPublicar(avaliacao)}" 
+							rendered="#{avaliacao.tipoAvaliacao.titulo eq 'TIPO 5'}"/>
+						
+						
+						<a4j:commandButton image="#{imagemUtil.getURLIcone('EDITAR')}"
+							title="Editar" action="#{manterGerenciadorAvaliacaoAction.irEditar(avaliacao)}" 
+							style="padding-right: 2px;" reRender="formulario"/>
+						
+						<a4j:commandButton image="#{imagemUtil.getURLIcone('DETALHAR')}"
+							title="Visualizar" action="#{manterGerenciadorAvaliacaoAction.irVisualizar(avaliacao)}" reRender="formulario"/>
+						
+						<a4j:commandButton image="#{imagemUtil.getURLIcone('EXCLUIR')}" title="Excluir" 
+							action="#{manterGerenciadorAvaliacaoAction.preparExclusao(avaliacao)}" 
+							oncomplete="#{rich:component('modalExcluirAvaliacao')}.show();" reRender="modalExcluirAvaliacao" />
+					</div>
+				</rich:column>
+			</rich:dataTable>
+			<br />
+			<h:outputText id="totalOutputPesqu" style="font-weight:bold;"
+					value="Total: #{listAvaliacao.size()}" 
+					rendered="#{not empty listAvaliacao}"/>
+			<br />
+			<rich:datascroller align="center" for="avaliacaoDataTable"
+				renderIfSinglePage="false" />
+			</a4j:outputPanel>		
+		</h:form>
+		
+		<rich:modalPanel id="modalExcluirAvaliacao" width="350" height="170">
+		        <f:facet name="header">
+		            <h:panelGroup>
+		                <h:outputText value="Excluir Categoria"></h:outputText>
+		            </h:panelGroup>
+		        </f:facet>
+		        <f:facet name="controls">
+		            <h:panelGroup>
+		                <rich:componentControl for="modalExcluirAvaliacao" attachTo="hidelink" operation="hide" event="onclick"/>
+		            </h:panelGroup>
+		        </f:facet>
+		       	<center>
+		       	<h3><h:outputText value="ATENÇÃO!"/>
+		       	<br/>
+		       	<br/>
+		       	<h:outputText value="O item selecionado será excluido."/>
+		       	<br/>
+		       	<h:outputText value="Tem certeza que deseja realizar esta exclusão?"/>
+		       	</h3>
+		       	</center>
+		        <br/>
+		        <h:form id="exclusaoModal">
+			        <div align="center">
+				        <a4j:commandButton value="Sim" action="#{manterGerenciadorAvaliacaoAction.excluir()}" oncomplete="#{rich:component('modalExcluirAvaliacao')}.hide();" reRender="avaliacaoDataTablePanel, filtrosPanel"/>
+				        <h:commandButton value="Não" action="#{manterGerenciadorAvaliacaoAction.cancelarExclusao()}" oncomplete="#{rich:component('modalExcluirAvaliacao')}.hide();" />
+			        </div>
+		        </h:form>
+		  </rich:modalPanel>
+		
+	</ui:define>
+</ui:composition>

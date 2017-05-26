@@ -1,0 +1,110 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:stella="http://stella.caelum.com.br/faces">
+
+	<rich:modalPanel id="consultarPessoaModal" moveable="false"
+		resizeable="false" onresize="false" width="670" height="500" style="background-color: white;">
+		
+		<f:facet name="header">
+            <h:panelGroup>
+                <h:outputText value="Pessoa"></h:outputText>
+            </h:panelGroup>
+        </f:facet>
+		
+		<h:form name="formConsultarPessoa" id="formConsultarPessoa">
+			<s:div styleClass="Error" id="formularioMessages"
+				rendered="#{reRenderModal}">
+				<rich:panel styleClass="message" style="padding:0"
+					rendered="#{! empty facesContext.maximumSeverity}">
+					<rich:effect event="onclick" type="DropOut" params="duration:0.8" />
+					<h:messages globalOnly="true" layout="vertical" errorClass="errormsg"
+						errorStyle="padding-left:70px;" fatalClass="errormsg"
+						fatalStyle="padding-left:70px" infoClass="infomsg"
+						infoStyle="padding-left:70px" warnClass="warnmsg"
+						warnStyle="padding-left:70px" />
+				</rich:panel>
+			</s:div>
+			<h4>
+				<h:outputText value="Consultar Pessoa" />
+			</h4>
+			<rich:separator styleClass="separatorTitulo" />
+			<br/>
+			
+			<rich:panel>
+				<f:facet name="header">Filtro de pesquisa</f:facet>
+				<h:panelGrid columns="1">
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Nome:</ui:define>
+						<h:inputText id="nomePessoaFisica" value="#{pessoaFisica.nomPessoaFisica}" maxlength="130" size="50"
+							onkeypress="this.value=trataTxt(this.value);" onblur="this.value=trataTxt(this.value);"  />
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">CPF:</ui:define>
+						<rich:jQuery selector="#numCpf" query="setMask()" timing="onload"/>
+						<h:inputText value="#{pessoaFisica.numCpf}" id="numCpf" maxlength="14" alt="cpf">
+						</h:inputText>
+					</s:decorate>
+					
+				</h:panelGrid>
+			</rich:panel>
+			
+			<div align="right">
+				<a4j:commandButton action="#{manterServidorAction.procurarPessoa()}" 
+					oncomplete="#{rich:component('consultarPessoaModal')}.show();"
+					value="Consultar" reRender="consultarPessoaModal"/>
+				<s:button action="#{manterServidorAction.cancelarModal()}" value="Cancelar"
+					oncomplete="#{reRenderModal ? false : rich:component('consultarPessoaModal')}.hide()"/>
+				<br class="Clear" />
+			</div>
+			<br />
+			<rich:dataTable width="483" id="pessoaFisicaDataTable" rows="5"
+				value="#{listPessoaFisicaModal}" var="_pessoaFisica" rendered="#{not empty listPessoaFisicaModal}">
+				<rich:column sortBy="#{_pessoaFisica.nomPessoaFisica}">
+					<f:facet name="header">
+						<h:outputText value="Nome" />
+					</f:facet>
+					<h:outputText value="#{_pessoaFisica.nomPessoaFisica}" />
+				</rich:column>
+				<rich:column sortBy="#{_pessoaFisica.numCpf}">
+					<f:facet name="header">
+						<h:outputText value="CPF" />
+					</f:facet>
+					<h:outputText value="#{util.formatCPF(_pessoaFisica.numCpf)}" />
+				</rich:column>
+				<rich:column>
+					<f:facet name="header">
+						<h:outputText value="Dt. Nacimento" />
+					</f:facet>
+					<h:outputText value="#{_pessoaFisica.datNascimento !=null ? manterPessoaFisicaAction.formataData(_pessoaFisica.datNascimento, 'dd/MM/yyyy') : '-'}" />
+				</rich:column>
+				<rich:column style="width:80px">
+					<f:facet name="header">
+						<h:outputText value="Ações" />
+					</f:facet>
+					<div align="center">
+						<h:commandButton image="#{imagemUtil.getURLIcone('ADD')}" style="margin-bottom:-4px; padding-right: 2px;"
+							title="Vincular" oncomplete="#{reRenderModal ? false : rich:component('consultarPessoaModal')}.hide()"
+							action="#{manterServidorAction.vincularPessoa(_pessoaFisica)}"/>
+					</div>
+				</rich:column>
+			</rich:dataTable>
+			<br />
+			<h:outputText id="totalOutput" style="font-weight:bold;"
+					value="Total: #{listPessoaFisicaModal.size()}" 
+					rendered="#{not empty listPessoaFisicaModal}"/>
+			<br />
+			<rich:datascroller align="center" for="pessoaFisicaDataTable"
+				renderIfSinglePage="false" />
+			
+		</h:form>
+	</rich:modalPanel>
+</ui:composition>

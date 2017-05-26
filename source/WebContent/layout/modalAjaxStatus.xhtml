@@ -1,0 +1,23 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:c="http://java.sun.com/jstl/core">
+
+	<a4j:status id="statusGeral" name="statusGeral"
+		onstart="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:450, top:200})"
+		onstop="Richfaces.hideModalPanel('ajaxLoadingModalBox')" />
+	<rich:modalPanel id="ajaxLoadingModalBox" minHeight="100"
+		minWidth="100" height="100" width="100" zindex="2000">
+		<f:facet name="header">
+			<h:outputText value="Requisição em processamento..." />
+		</f:facet>
+		<h:outputText
+			value="Sua requisição está sendo processada, por favor aguarde." />
+	</rich:modalPanel>
+</ui:composition>

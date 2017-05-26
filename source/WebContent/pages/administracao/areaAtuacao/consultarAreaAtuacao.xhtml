@@ -1,0 +1,107 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	template="/layout/template.xhtml">
+	
+	<ui:define name="conteudo">
+		<h:form name="formulario">
+			<ui:include src="/layout/modalAjaxStatus.xhtml" />
+			<ui:include src="/layout/mensagens.xhtml" />
+			<h4>Consulta de Área Atuação</h4>
+			<rich:separator styleClass="separatorTitulo" />
+			<br/>
+			<rich:panel>
+				<f:facet name="header">Filtro de pesquisa</f:facet>
+				<h:panelGrid columns="1">
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Nome:</ui:define>
+						<h:inputText id="nomeAreaAtuacao" value="#{areaAtuacao.nomAreaAtuacao}" maxlength="130" size="50" onkeypress="this.value=trataTxt(this.value);" onblur="this.value=trataTxt(this.value);"  />
+					</s:decorate>
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Situação:</ui:define>
+						<h:selectOneMenu value="#{areaAtuacao.ativo}" id="situacao">
+							<f:selectItem itemLabel="--"/>
+							<f:selectItem itemValue="1" itemLabel="Ativo"/>
+							<f:selectItem itemValue="0" itemLabel="Inativo"/>
+						</h:selectOneMenu>
+					</s:decorate>
+				</h:panelGrid>
+			</rich:panel>
+			
+			<div align="right">
+				<h:commandButton action="#{manterAreaAtuacaoAction.procurar()}" value="Consultar"/>
+				<h:commandButton action="#{manterAreaAtuacaoAction.irIncluir()}" value="Novo"/>
+				<br class="Clear" />
+			</div>
+			<br />
+			<rich:dataTable width="483" id="areaAtuacaoDataTable" rows="10"
+				value="#{listAreaAtuacao}" var="_areaAtuacao" rendered="#{not empty listAreaAtuacao}">
+				
+				<rich:column sortBy="#{_areaAtuacao.nomAreaAtuacao}">
+					<f:facet name="header">
+						<h:outputText value="Nome" />
+					</f:facet>
+					<h:outputText value="#{_areaAtuacao.nomAreaAtuacao}" />
+				</rich:column>
+				
+				<rich:column style="width:80px">
+					<f:facet name="header">
+						<h:outputText value="Ações" />
+					</f:facet>
+					<div align="center">
+						<h:commandButton image="#{imagemUtil.getURLIcone('EDITAR')}"
+							title="Editar"
+							action="#{manterAreaAtuacaoAction.irEditar(_areaAtuacao)}" style="padding-right: 2px;"/>
+							
+						<h:commandButton image="#{imagemUtil.getURLIcone('DETALHAR')}"
+							title="Visualizar"
+							action="#{manterAreaAtuacaoAction.irVisualizar(_areaAtuacao)}" />
+							
+						<a4j:commandButton image="#{imagemUtil.getURLIcone('EXCLUIR')}"
+							title="Excluir"
+							action="#{manterAreaAtuacaoAction.preparExclusao(_areaAtuacao)}"
+							oncomplete="#{rich:component('modalExcluirAreaAtuacoa')}.show();"
+							reRender="modalExcluirAreaAtuacoa" />
+					</div>
+				</rich:column>
+			</rich:dataTable>
+			<br />
+			<h:outputText id="totalOutput" style="font-weight:bold;"
+					value="Total: #{listAreaAtuacao.size()}" 
+					rendered="#{not empty listAreaAtuacao}"/>
+			<br />
+			<rich:datascroller align="center" for="areaAtuacaoDataTable"
+				renderIfSinglePage="false" />
+		</h:form>
+		  
+		  <rich:modalPanel id="modalExcluirAreaAtuacoa" width="350" height="140">
+		        <f:facet name="header">
+		            <h:panelGroup>
+		                <h:outputText value="Inativar Área de Atuação"></h:outputText>
+		            </h:panelGroup>
+		        </f:facet>
+		        <f:facet name="controls">
+		            <h:panelGroup>
+		                <rich:componentControl for="modalExcluirAreaAtuacoa" attachTo="hidelink" operation="hide" event="onclick"/>
+		            </h:panelGroup>
+		        </f:facet>
+		       	<h3><h:outputText value="Deseja realmente excluir a Área de Atuação?"/></h3>
+		        <br/>
+		        <h:form id="exclusaoModal">
+			        <div align="center">
+				        <h:commandButton value="Sim" action="#{manterAreaAtuacaoAction.excluir()}" 
+				        	oncomplete="#{rich:component('modalExcluirAreaAtuacoa')}.hide();"/>
+				        <h:commandButton value="Não" action="#{manterAreaAtuacaoAction.cancelarExclusao()}"
+				        	oncomplete="#{rich:component('modalExcluirAreaAtuacoa')}.hide();" />
+			        </div>
+		        </h:form>
+		  </rich:modalPanel>
+	</ui:define>
+</ui:composition>

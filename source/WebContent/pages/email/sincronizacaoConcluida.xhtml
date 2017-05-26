@@ -1,0 +1,16 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:rich="http://richfaces.org/rich" >
+	
+	<m:message xmlns="http://www.w3.org/1999/xhtml" xmlns:m="http://jboss.com/products/seam/mail" xmlns:h="http://java.sun.com/jsf/html">
+	    <m:from name="SISGEP" address="sisgep@iphan.com" />
+	    <m:to name="#{manterServidorAction.pessoa.nomPessoaFisica}">#{manterServidorAction.pessoa.pessoaContatoEmail.txtContato}</m:to>
+	    <m:subject>Sincronização SISGEP</m:subject>
+	    <m:body>
+	    	<br></br>
+	        <p><h:outputText value="Olá #{manterServidorAction.pessoa.nomPessoaFisica}" /></p>
+	        <p>A sincronização iniciada foi concluída com sucesso.</p>
+	        <p>Para maiores detalhes, acesse os dados de histórico no sistema SISGEP.</p> 
+	    </m:body>
+	</m:message>
+
+</ui:composition>

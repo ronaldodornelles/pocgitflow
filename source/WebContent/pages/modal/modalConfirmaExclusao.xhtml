@@ -1,0 +1,25 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f ="http://java.sun.com/jsf/core"
+                xmlns:h ="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:c="http://java.sun.com/jstl/core"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:a4j="http://richfaces.org/a4j">            
+		<center>
+			<h1>
+				<h:outputText id="nomeAtividade" value="#{listaAtividadeSelect.nome}" />
+			</h1>
+			<br />
+			<h:form name="panel">
+				<a4j:commandButton value="Excluir"
+					action="#{manterAtividadeAction.excluir()}"
+					reRender="atividadeDataTable"
+					oncomplete="#{rich:component('confirma_exclusao_modal')}.hide()"/>
+				<a4j:commandButton value="Cancelar" action="#" ajaxSingle="true"
+					onclick="#{rich:component('confirma_exclusao_modal')}.hide()"/>
+			</h:form>
+		</center>
+</ui:composition>

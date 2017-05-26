@@ -1,0 +1,99 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:stella="http://stella.caelum.com.br/faces">
+	
+		<rich:panel id="panelFormaAcademica">
+			<f:facet name="header">Servidor</f:facet>
+			<h3><h:outputText value="Formação Acadêmica"/></h3>
+			<rich:separator styleClass="separatorTitulo" />
+			
+			<h:panelGrid columns="1">
+			<rich:dataTable width="483" id="dataTableFormacaoAcademica" rows="5"
+				value="#{servidor.formacaoAcademicas.toArray()}" var="_formacaoAcademica" rendered="#{not empty servidor.formacaoAcademicas}">
+			
+			<rich:column sortBy="#{_formacaoAcademica.instituicaoEnsino.nomInstituicaoEnsino}">
+				<f:facet name="header">
+					<h:outputText value="Nome da Instituição" />
+				</f:facet>
+				<h:outputText value="#{_formacaoAcademica.instituicaoEnsino.nomInstituicaoEnsino}" />
+			</rich:column>
+			
+			<rich:column sortBy="#{_formacaoAcademica.datConclusaoCurso}">
+				<f:facet name="header">
+					<h:outputText value="Dt Conclusão" />
+				</f:facet>
+				<h:outputText value="#{_formacaoAcademica.datConclusaoCurso !=null ? manterServidorAction.formataData(_formacaoAcademica.datConclusaoCurso, 'dd/MM/yyyy') : '-'}" />
+			</rich:column>
+			 <rich:column sortBy="#{_formacaoAcademica.codMunicipio.codUf.desSigla}" style="text-align:center;">
+				<f:facet name="header">
+					<h:outputText value="UF" />
+				</f:facet>
+				<h:outputText value="#{_formacaoAcademica.codMunicipio.codUf.desSigla}" />
+			</rich:column>
+			<rich:column style="width:80px">
+				<f:facet name="header">
+					<h:outputText value="Ações" />
+				</f:facet>
+				<div align="center">
+					<a4j:commandButton  image="#{imagemUtil.getURLIcone('EDITAR')}" ajaxSingle="true" immediate="true"
+						title="Editar" oncomplete="#{rich:component('incluirEditarFormacaoAcademicaModal')}.show();"
+						action="#{manterFormacaoAcademicaAction.irEditarFormacaoAcademica(_formacaoAcademica)}" style="padding-right: 2px;" rendered="#{!isVisualizar}"/>
+					<a4j:commandButton  image="#{imagemUtil.getURLIcone('DETALHAR')}" ajaxSingle="true" immediate="true" 
+						title="Visualizar" oncomplete="#{rich:component('incluirEditarFormacaoAcademicaModal')}.show();"
+						action="#{manterFormacaoAcademicaAction.irVisualizarFormacaoAcademica(_formacaoAcademica)}" />
+					<a4j:commandButton image="#{imagemUtil.getURLIcone('EXCLUIR')}"
+						title="Excluir" rendered="#{!isVisualizar}" ajaxSingle="true"
+						action="#{manterFormacaoAcademicaAction.prepararExclusaoFormacaoAcademica(_formacaoAcademica)}"
+						oncomplete="#{rich:component('modalExcluirFormacao')}.show();"
+						reRender="modalExcluirFormacao" />
+				</div>
+			</rich:column>
+		</rich:dataTable>
+		
+		<br />
+		<h:outputText id="totalOutputFormAcademica" style="font-weight:bold;"
+				value="Total: #{servidor.formacaoAcademicas.size()}" 
+				rendered="#{not empty servidor.formacaoAcademicas}"/>
+		<br />
+		<rich:datascroller align="center" for="dataTableFormacaoAcademica"
+			renderIfSinglePage="false" />
+				
+			</h:panelGrid>
+			
+		<div align="right">
+			<a4j:commandButton action="#{manterFormacaoAcademicaAction.irIncluirFormacaoAcademica()}" value="Adicionar" immediate="true" rendered="#{!isVisualizar}"
+				reRender="modalIncluirEditarFormacaoAcademica"
+				oncomplete="#{rich:component('incluirEditarFormacaoAcademicaModal')}.show();"/>
+		</div>
+		
+		</rich:panel>
+		<rich:modalPanel id="modalExcluirFormacao" width="450" height="160">
+	        <f:facet name="header">
+	            <h:panelGroup>
+	                <h:outputText value="Excluir Formação Acadêmica"></h:outputText>
+	            </h:panelGroup>
+	        </f:facet>
+	        <f:facet name="controls">
+	            <h:panelGroup>
+	                <rich:componentControl for="modalExcluirFormacao" attachTo="hidelink2" operation="hide" event="onclick"/>
+	            </h:panelGroup>
+	        </f:facet>
+	       	<h3><h:outputText value="Deseja realmente excluir a Formação Acadêmica?"/></h3>
+	        <br/>
+	        <div align="center">
+		        <a4j:commandButton value="Sim" action="#{manterFormacaoAcademicaAction.excluirFormacaoAcademica()}" 
+		        	oncomplete="#{rich:component('modalExcluirFormacao')}.hide();" ajaxSingle="true" reRender="dataTableFormacaoAcademica, totalOutputFormAcademica, panelFormaAcademica"/>
+		        <a4j:commandButton value="Não" action="#{manterFormacaoAcademicaAction.voltarModal()}" ajaxSingle="true"
+		        	oncomplete="#{rich:component('modalExcluirFormacao')}.hide();" />
+	        </div>
+	    </rich:modalPanel>
+</ui:composition>

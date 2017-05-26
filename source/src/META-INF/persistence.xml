@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Persistence deployment descriptor for dev profile -->
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
+	version="1.0">
+
+	<persistence-unit name="sisgep" transaction-type="JTA">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<jta-data-source>java:/sisgepDatasource</jta-data-source>
+		
+		<class>br.gov.iphan.sisgep.entity.corp.CorRaca</class>
+		<class>br.gov.iphan.sisgep.entity.corp.EscolaridadePessoa</class>
+		<class>br.gov.iphan.sisgep.entity.corp.EstadoCivil</class>
+		<class>br.gov.iphan.sisgep.entity.corp.GrupoSanguineo</class>
+		<class>br.gov.iphan.sisgep.entity.corp.Municipio</class>
+		<class>br.gov.iphan.sisgep.entity.corp.PessoaContato</class>
+		<class>br.gov.iphan.sisgep.entity.corp.PessoaEndereco</class>
+		<class>br.gov.iphan.sisgep.entity.corp.PessoaFisica</class>
+		<class>br.gov.iphan.sisgep.entity.corp.Uf</class>
+		<class>br.gov.iphan.sisgep.entity.corp.UnidadeAdministrativa</class>
+		
+		<class>br.gov.iphan.sisgep.entity.Afastamento</class>
+		<class>br.gov.iphan.sisgep.entity.AreaAtuacao</class>
+		<class>br.gov.iphan.sisgep.entity.CargoComissionado</class>
+		<class>br.gov.iphan.sisgep.entity.CargoEfetivo</class>
+		<class>br.gov.iphan.sisgep.entity.CessaoRequisicao</class>
+		<class>br.gov.iphan.sisgep.entity.CondicaoDependente</class>
+		<class>br.gov.iphan.sisgep.entity.Dependente</class>
+		<class>br.gov.iphan.sisgep.entity.Escala</class>
+		<class>br.gov.iphan.sisgep.entity.FimDependente</class>
+		<class>br.gov.iphan.sisgep.entity.FormacaoAcademica</class>
+		<class>br.gov.iphan.sisgep.entity.FormaIngressoAposentacao</class>
+		<class>br.gov.iphan.sisgep.entity.FormaPassagemServ</class>
+		<class>br.gov.iphan.sisgep.entity.FormaSaida</class>
+		<class>br.gov.iphan.sisgep.entity.InstituicaoEnsino</class>
+		<class>br.gov.iphan.sisgep.entity.Orgao</class>
+		<class>br.gov.iphan.sisgep.entity.Servidor</class>
+		<class>br.gov.iphan.sisgep.entity.Fator</class>
+		<class>br.gov.iphan.sisgep.entity.Subfator</class>
+		<class>br.gov.iphan.sisgep.entity.FatorSubfator</class>
+		<class>br.gov.iphan.sisgep.entity.TipoCargoComissinado</class>
+		<class>br.gov.iphan.sisgep.entity.CargoFuncionario</class>
+		<class>br.gov.iphan.sisgep.entity.ClasseFuncionario</class>
+		<class>br.gov.iphan.sisgep.entity.GrupoFuncionario</class>
+		<class>br.gov.iphan.sisgep.entity.NivelCargoFuncionario</class>
+		<class>br.gov.iphan.sisgep.entity.Ocupacao</class>
+		<class>br.gov.iphan.sisgep.entity.PadraoCargo</class>
+		<class>br.gov.iphan.sisgep.entity.RegistroAfastamento</class>
+		<class>br.gov.iphan.sisgep.entity.SituacaoFuncional</class>
+		<class>br.gov.iphan.sisgep.entity.Sincronizacao</class>
+		<class>br.gov.iphan.sisgep.entity.HistoricoSincronizacao</class>
+		<class>br.gov.iphan.sisgep.entity.TipoAvaliacao</class>
+		<class>br.gov.iphan.sisgep.entity.Config</class>
+		<class>br.gov.iphan.sisgep.entity.Categoria</class>
+		<class>br.gov.iphan.sisgep.entity.Subcategoria</class>
+		<class>br.gov.iphan.sisgep.entity.Avaliacao</class>
+		<class>br.gov.iphan.sisgep.entity.EquipeAvaliacao</class>
+		<class>br.gov.iphan.sisgep.entity.ServidorAvaliacao</class>
+		<class>br.gov.iphan.sisgep.entity.StatusAvaliacao</class>
+	
+		<properties>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.SQLServerDialect" />
+			<property name="hibernate.hbm2ddl.auto" value="none" />
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.format_sql" value="true" />
+			<property name="hibernate.default_schema" value="sisgep" />
+			<!-- Only relevant if Seam is loading the persistence unit (Java SE bootstrap) -->
+			<property name="hibernate.transaction.manager_lookup_class"
+				value="org.hibernate.transaction.JBossTransactionManagerLookup" />
+		</properties>	
+	</persistence-unit>
+	
+</persistence>

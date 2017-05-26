@@ -1,0 +1,86 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:stella="http://stella.caelum.com.br/faces">
+
+	<rich:modalPanel id="incluirInstituicaoEnsinoModal" moveable="false"
+		resizeable="false" onresize="false" width="720" height="500" style="background-color: white;">
+		<f:facet name="header">
+            <h:panelGroup>
+                <h:outputText value="Instituição de Ensino"></h:outputText>
+            </h:panelGroup>
+        </f:facet>
+		
+		<a4j:form name="modalIncluirInstituicaoEnsino" id="modalIncluirInstituicaoEnsino" ajaxSingle="true">
+			<h4>
+				<h:outputText  value="Inclução de Instituição de Ensino" />
+		
+			</h4>
+			<rich:separator styleClass="separatorTitulo" />
+			<br/>
+			<rich:panel>
+				<f:facet name="header">Instituição de Ensino</f:facet>
+				<h3>Instituição de Ensino</h3>
+				<rich:separator styleClass="separatorTitulo" />
+				
+				<h:panelGrid columns="1">
+				
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Nome:</ui:define>
+						<h:inputText id="nomeInstituicaoEnsino" value="#{manterFormacaoAcademicaAction.instituicaoEnsino.nomInstituicaoEnsino}" maxlength="130" size="30" onkeypress="this.value=trataTxt(this.value);" onblur="this.value=trataTxt(this.value);" 
+							required="#{!isVisualizar}" readonly="#{isVisualizar}" onchange="this.value = this.value.trim()"/>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Sigla:</ui:define>
+						<h:inputText id="siglaInstituicaoEnsino" value="#{manterFormacaoAcademicaAction.instituicaoEnsino.sigInstituicaoEnsino}" maxlength="5" size="6" onkeypress="this.value=trataTxt(this.value);" onblur="this.value=trataTxt(this.value);" 
+							required="#{!isVisualizar}" readonly="#{isVisualizar}" onchange="this.value = this.value.trim()"/>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Descrição:</ui:define>
+						<h:inputTextarea id="descInstituicaoEnsino" value="#{manterFormacaoAcademicaAction.instituicaoEnsino.desInstituicaoEnsino}" rows="5" cols="50" maxlength="250"
+							onkeypress="this.value=trataTxt(this.value);" onblur="this.value=trataTxt(this.value);"
+							readonly="#{isVisualizar}" disabled="#{isVisualizar}" onchange="this.value = this.value.trim()">
+						<f:validateLength maximum="250"/>
+						</h:inputTextarea>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">E-mail de Contato:</ui:define>
+						<h:inputText id="emailContato" value="#{manterFormacaoAcademicaAction.instituicaoEnsino.txtEmailContato}" maxlength="150" size="30" 
+							readonly="#{isVisualizar}" onchange="this.value = this.value.trim()">
+						<f:validator validatorId="validadorEmail"/>
+						</h:inputText>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Telefone de Contato:</ui:define>
+						<rich:jQuery selector="#telefoneContato" query="setMask()" timing="onload"/>
+						<h:inputText id="telefoneContato" value="#{manterFormacaoAcademicaAction.instituicaoEnsino.txtTelefoneContato}" alt="telefone" readonly="#{isVisualizar}"/>
+					</s:decorate>
+										
+				</h:panelGrid>
+				
+			</rich:panel>
+			
+			<div align="right">
+				<a4j:commandButton action="#{manterFormacaoAcademicaAction.salvarInstituicaoEnsino()}" value="Salvar" 
+					oncomplete="#{rich:component('incluirInstituicaoEnsinoModal')}.hide();" ajaxSingle="true"
+					reRender="formacaoAcademicaPanel, incluirInstituicaoEnsinoModal"/>
+				<s:button value="Cancelar" action="#{manterFormacaoAcademicaAction.cancelarSalvarInstituicaoEnsino()}" ajaxSingle="true"
+					oncomplete="#{rich:component('incluirInstituicaoEnsinoModal')}.hide();"/>
+				<br class="Clear" />
+			</div>
+			<br />
+
+		</a4j:form>
+	</rich:modalPanel>
+</ui:composition>

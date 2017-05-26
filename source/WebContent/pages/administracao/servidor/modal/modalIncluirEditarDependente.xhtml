@@ -1,0 +1,241 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:stella="http://stella.caelum.com.br/faces"
+	xmlns:a4j="http://richfaces.org/a4j">
+
+	<rich:modalPanel id="incluirEditarDependenteModal" moveable="false" 
+		resizeable="false" onresize="false" width="670" height="500" style="background-color: white; max-width:670; overflow: scroll;">
+		
+		<f:facet name="header">
+            <h:panelGroup>
+                <h:outputText value="Dependente"></h:outputText>
+            </h:panelGroup>
+        </f:facet>
+		
+		<h:form name="modalIncluirEditarDependente" id="modalIncluirEditarDependente">
+			<s:div styleClass="Error" id="formularioMessages"
+				rendered="#{reRenderModal}">
+				<rich:panel styleClass="message" style="padding:0"
+					rendered="#{! empty facesContext.maximumSeverity}">
+					<rich:effect event="onclick" type="DropOut" params="duration:0.8" />
+					<h:messages globalOnly="true" layout="vertical" errorClass="errormsg"
+						errorStyle="padding-left:70px;" fatalClass="errormsg"
+						fatalStyle="padding-left:70px" infoClass="infomsg"
+						infoStyle="padding-left:70px" warnClass="warnmsg"
+						warnStyle="padding-left:70px" />
+				</rich:panel>
+			</s:div>
+			<h4>
+				<h:outputText rendered="#{isIncluirDependente}" value="Inclusão de Dependente" />
+				<h:outputText rendered="#{isEditarDependente}" value="Edição de Dependente" />
+				<h:outputText rendered="#{isVisualizarDependente}" value="Visualização de Dependente" />
+			</h4>
+			<rich:separator styleClass="separatorTitulo" />
+			<br/>
+			<rich:panel>
+				<f:facet name="header">Dependente</f:facet>
+				<h:panelGrid columns="1">
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Nome:</ui:define>
+						<h:inputText id="nomeDependente" value="#{manterDependenteAction.dependente.nomDependente}" maxlength="150" size="70" readonly="#{isVisualizarDependente}" required="#{!isVisualizarDependente}" onkeypress="this.value=trataTxt(this.value);" onblur="this.value=trataTxt(this.value);"  validator="campoVazioValidator"/>
+					</s:decorate>
+				</h:panelGrid>
+				
+				<h:panelGrid columns="1">
+				
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Dt. Nascimento:</ui:define>
+						<rich:jQuery selector="#datNascimentoDependente" query="setMask()" timing="onload"/>
+						<h:inputText value="#{manterDependenteAction.dependente.datNascimento}" id="datNascimentoDependente" readonly="#{isVisualizarDependente}" required="#{!isVisualizarDependente}" maxlength = "10" size="12" alt="date"  validator="dateValidator" >
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:inputText>
+					</s:decorate>
+
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Sexo:</ui:define>
+						<h:selectOneMenu value="#{manterDependenteAction.dependente.indSexo}" id="indSexoDependente" disabled="#{isVisualizarDependente}" required="#{!isVisualizarDependente}">
+							<f:selectItem itemLabel="Selecione"/>
+							<f:selectItem itemValue="M" itemLabel="Masculino"/>
+							<f:selectItem itemValue="F" itemLabel="Feminino"/>
+						</h:selectOneMenu>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Mãe:</ui:define>
+						<h:inputText value="#{manterDependenteAction.dependente.nomMae}" id="nomMaeDpendente" readonly="#{isVisualizarDependente}" maxlength="150" size="70" onkeypress="this.value=trataTxt(this.value);" onblur="this.value=trataTxt(this.value);"  />
+					</s:decorate>
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Dependentes para fins:</ui:define>
+						
+						<rich:listShuttle sourceValue="#{manterDependenteAction.listFimDependente}" switchByDblClick="#{!isVisualizarDependente}"
+							fastOrderControlsVisible="false" downControlLabel="Baixo" upControlLabel="Acima"
+							moveControlsVisible="#{!isVisualizarDependente}" fastMoveControlsVisible="#{!isVisualizarDependente}" 
+				            targetValue="#{manterDependenteAction.dependente.fimDependentes}" var="items" listsHeight="150"
+				            sourceListWidth="130" targetListWidth="130" id="fimDependentes"
+				           	copyAllControlLabel="Copiar Todos" copyControlLabel="Copiar" immediate="true"
+				            removeAllControlLabel="Remover Todos" removeControlLabel="Remover"> 
+				            <s:convertEntity></s:convertEntity>
+							 <rich:column>
+				                <h:outputText value="#{items.desFimDependente}"></h:outputText>
+					         </rich:column>
+							 <a4j:support event="onlistchanged" reRender="toolBar" />				
+						</rich:listShuttle >
+					</s:decorate>
+				</h:panelGrid>
+				
+				<h:panelGrid columns="2">
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Grau de Parentesco:</ui:define>
+						<h:selectOneMenu value="#{manterDependenteAction.dependente.tipGrauParentesco}" id="grauParentesco" disabled="#{isVisualizarDependente}" required="#{!isVisualizarDependente}">
+							<f:selectItem itemLabel="--"/>
+							<f:selectItem itemValue="A" itemLabel="AVOS"/>
+							<f:selectItem itemValue="B" itemLabel="BISAVOS"/>
+							<f:selectItem itemValue="T" itemLabel="BISNETO(A)"/>
+							<f:selectItem itemValue="C" itemLabel="COMPANHEIRO(A)"/>
+							<f:selectItem itemValue="J" itemLabel="CONJUGE"/>
+							<f:selectItem itemValue="E" itemLabel="ENTEADO(A)"/>
+							<f:selectItem itemValue="X" itemLabel="EX-ESPOSA(O)"/>
+							<f:selectItem itemValue="F" itemLabel="FILHO(A)"/>
+							<f:selectItem itemValue="I" itemLabel="IRMAO(A)"/>
+							<f:selectItem itemValue="N" itemLabel="NETO(A)"/>
+							<f:selectItem itemValue="S" itemLabel="SOBRINHO(A)"/>
+						</h:selectOneMenu>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">CPF:</ui:define>
+						<rich:jQuery selector="#numCpfDepe" query="setMask()" timing="onload"/>
+						<h:inputText value="#{manterDependenteAction.dependente.numCpf}" id="numCpfDepe" maxlength="14" readonly="#{isVisualizarDependente}" 
+							required="#{!isVisualizarDependente}" alt="cpf">
+							<stella:validateCPF formatted="true"/>
+						</h:inputText>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Condição:</ui:define>
+						<h:selectOneMenu value="#{manterDependenteAction.dependente.condicaoDependente}" id="codCondicao" disabled="#{isVisualizarDependente}" >
+							<s:selectItems  value="#{combosAuxiliarAction.getCondicaoDependentes()}" var="_condicao" 
+								label="#{_condicao.codSiapeCondDependente}" noSelectionLabel="--"/>
+							<s:convertEntity/>
+							<a4j:support event="onchange" reRender="condicao" ajaxSingle="true" focus="codCondicao"/>
+						</h:selectOneMenu>
+						<h:selectOneMenu value="#{manterDependenteAction.dependente.condicaoDependente}" id="condicao" disabled="#{isVisualizarDependente}" style="width: 120px;" >
+							<s:selectItems  value="#{combosAuxiliarAction.getCondicaoDependentes()}" var="_condicao" 
+								label="#{_condicao.desCondicaoDependente}" noSelectionLabel="Selecione"/>
+							<s:convertEntity/>
+							<a4j:support event="onchange" reRender="codCondicao" ajaxSingle="true" focus="condicao"/>
+						</h:selectOneMenu>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">RG:</ui:define>
+						<h:inputText value="#{manterDependenteAction.dependente.numRg}" id="numRgDependnete" maxlength="10" readonly="#{isVisualizarDependente}"
+						onkeypress="return somenteNumeros(event);" />
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Data Emissão:</ui:define>
+						<rich:jQuery selector="#datEmissaoRgDependente" query="setMask()" timing="onload"/>
+						<h:inputText value="#{manterDependenteAction.dependente.datEmissaoRg}" id="datEmissaoRgDependente" readonly="#{isVisualizarDependente}" maxlength = "10" size="12" alt="date"  validator="dateValidator" >
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:inputText>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Órgão Expedidor:</ui:define>
+						<h:inputText value="#{manterDependenteAction.dependente.nomOrgaoExpeditor}" id="orgaoExpDepe" readonly="#{isVisualizarDependente}"
+							maxlength="50" onkeypress="this.value=trataTxt(this.value);" onblur="this.value=trataTxt(this.value);" />
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">UF:</ui:define>
+						<h:selectOneMenu value="#{manterDependenteAction.dependente.codUf}" id="ufDependente" disabled="#{isVisualizarDependente}" >
+							<s:selectItems  value="#{combosAuxiliarAction.getUfs()}" var="_uf" 
+								label="#{_uf.desSigla}" noSelectionLabel="Selecione"/>
+							<s:convertEntity/>
+						</h:selectOneMenu>
+					</s:decorate>
+					
+				</h:panelGrid>
+			
+			
+			<h4>
+				<h:outputText value="Certidão" />
+			</h4>
+			<rich:separator styleClass="separatorTitulo" />
+			
+			<h:panelGrid columns="2">
+			
+				<s:decorate template="/layout/edit.xhtml">
+					<ui:define name="label">Tipo:</ui:define>
+					<h:selectOneMenu value="#{manterDependenteAction.dependente.indTipoCertidaoNasc}" id="tipoCertidao" disabled="#{isVisualizarDependente}">
+						<f:selectItem itemLabel="--"/>
+						<f:selectItem itemValue="A" itemLabel="Antiga"/>
+						<f:selectItem itemValue="N" itemLabel="Nova"/>
+						<a4j:support event="onchange" ajaxSingle="true" action="#{manterDependenteAction.verificarTipoCertidao()}" reRender="numFolhaCertidao, numLivroCertidao"/>
+					</h:selectOneMenu>
+				</s:decorate>
+			
+				<s:decorate template="/layout/edit.xhtml">
+				</s:decorate>
+				
+				<s:decorate template="/layout/edit.xhtml">
+					<ui:define name="label">Número da Certidão:</ui:define>
+					<h:inputText value="#{manterDependenteAction.dependente.numCertidaoNasc}" id="numCertidao" maxlength="15" readonly="#{isVisualizarDependente}"
+					onkeypress="return somenteNumeros(event);"/>
+				</s:decorate>
+				
+				<s:decorate template="/layout/edit.xhtml">
+					<ui:define name="label">Livro:</ui:define>
+					<h:inputText value="#{manterDependenteAction.dependente.desLivroCertidao}"  id="numLivroCertidao" maxlength="12" readonly="#{isVisualizarDependente or manterDependenteAction.novaCertidao}" 
+						 onkeypress="this.value=trataTxt(this.value);" onblur="this.value=trataTxt(this.value);"/>
+				</s:decorate>
+				
+				<s:decorate template="/layout/edit.xhtml" id="folha">
+					<ui:define name="label">Folha:</ui:define>
+					<h:inputText value="#{manterDependenteAction.dependente.numFolhaLivroCertidao}" id="numFolhaCertidao" maxlength="6" readonly="#{isVisualizarDependente or manterDependenteAction.novaCertidao}" 
+						onkeypress="return somenteNumeros(event);"/>
+				</s:decorate>
+				
+				<s:decorate template="/layout/edit.xhtml">
+					<ui:define name="label">UF:</ui:define>
+					<h:selectOneMenu value="#{manterDependenteAction.dependente.codUfCertidao}" id="ufCertidao" disabled="#{isVisualizarDependente}">
+						<s:selectItems  value="#{combosAuxiliarAction.getUfs()}" var="_uf" 
+							label="#{_uf.desSigla}" noSelectionLabel="Selecione"/>
+						<s:convertEntity/>
+					</h:selectOneMenu>
+				</s:decorate>
+				
+				<s:decorate template="/layout/edit.xhtml">
+					<ui:define name="label">Nome do Cartório:</ui:define>
+					<h:inputText value="#{manterDependenteAction.dependente.nomCartorioCertidao}" id="nomCartorioCertidao" maxlength="150" readonly="#{isVisualizarDependente}" 
+						 onkeypress="this.value=trataTxt(this.value);" onblur="this.value=trataTxt(this.value);"/>
+				</s:decorate>
+				
+			</h:panelGrid>
+		</rich:panel>
+			<div align="right">
+				<a4j:commandButton action="#{manterDependenteAction.salvarDependente()}" rendered="#{!isVisualizarDependente}" 
+					oncomplete="#{reRenderModal ? false : rich:component('incluirEditarDependenteModal')}.hide()" value="Salvar" 
+						reRender="modalIncluirEditarDependente, panelIncluirDependente"/>
+				<a4j:commandButton action="#{manterDependenteAction.voltarModal()}" value="Voltar" rendered="#{isVisualizarDependente}" ajaxSingle="true"
+					oncomplete="#{rich:component('incluirEditarDependenteModal')}.hide()"/>
+				<a4j:commandButton action="#{manterDependenteAction.voltarModal()}" value="Cancelar" rendered="#{!isVisualizarDependente}" ajaxSingle="true"
+					oncomplete="#{rich:component('incluirEditarDependenteModal')}.hide()"/>
+				<br class="Clear" />
+			</div>
+
+		</h:form>
+	</rich:modalPanel>
+</ui:composition>

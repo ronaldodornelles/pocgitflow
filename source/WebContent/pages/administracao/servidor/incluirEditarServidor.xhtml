@@ -1,0 +1,241 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:stella="http://stella.caelum.com.br/faces"
+	template="/layout/template.xhtml">
+	<html>
+		<head>
+			<script
+				src="#{facesContext.externalContext.requestContextPath}/js/jquery.maskedinput-1.3.min.js"
+				language="javascript" type="text/javascript" />
+			<script
+				src="#{facesContext.externalContext.requestContextPath}/js/jquery.meio.mask.js"
+				language="javascript" type="text/javascript" />
+			<script
+				src="#{facesContext.externalContext.requestContextPath}/js/jjquery.maskedinput-1.3.js"
+				language="javascript" type="text/javascript" />
+			<script
+				src="#{facesContext.externalContext.requestContextPath}/js/util.js"
+				language="javascript" type="text/javascript" />
+				
+			<script type="text/javascript">
+				function verifica() {
+					selecionado = document.getElementById("painel1").checked;
+					if (selecionado) {
+						$("#painelCargoEfetivo").css("display", "block");
+
+						document.getElementById(painel1).style.display = (painelCargoEfetivo ? 'block' : 'none');
+					}
+					else {
+						$("#painelCargoComissaoFuncao").css("display", "block");
+						return false;
+						}
+					}
+			</script>
+				
+		</head>
+		
+	<ui:define name="conteudo">
+		<h:form name="formularioServidor" id="formularioServidor">
+			<ui:include src="/layout/modalAjaxStatus.xhtml" />
+			
+				<b style="color: red;">
+						<ul><rich:message for="nomPessoaFisica"  errorClass="errormsg" fatalClass="errorClass" styleClass="errorClass"/></ul>
+						<ul><rich:message for="identificadorUnico"  errorClass="errormsg" fatalClass="errorClass" styleClass="errorClass"/></ul>
+						<ul><rich:message for="codSitucaoFuncional"  errorClass="errormsg" fatalClass="errorClass" styleClass="errorClass"/></ul>
+						<ul><rich:message for="jornadaTrabalho"  errorClass="errormsg" fatalClass="errorClass" styleClass="errorClass"/></ul>
+						<ul><rich:message for="codFormaIngresso"  errorClass="errormsg" fatalClass="errorClass" styleClass="errorClass"/></ul>
+						<ul><rich:message for="dataIngresso" errorClass="errormsg" fatalClass="errorClass" styleClass="errorClass"/></ul>
+						<ul><rich:message for="indDocLegal" errorClass="errormsg" fatalClass="errorClass" styleClass="errorClass"/></ul>
+						<ul><rich:message for="numDocumentoLegalIngresso"  errorClass="errormsg" fatalClass="errorClass" styleClass="errorClass"/></ul>
+						<ul><rich:message for="datPublicacaoDocIphan"  errorClass="errormsg" fatalClass="errorClass" styleClass="errorClass"/></ul>
+						<ul><rich:message for="nomUnidadeAdministrativaLot"  errorClass="errormsg" fatalClass="errorClass" styleClass="errorClass"/></ul>
+						<ul><rich:message for="nomUnidadeAdministrativaExce"  errorClass="errormsg" fatalClass="errorClass" styleClass="errorClass"/></ul>
+		  			<ul><rich:message for="documentoLegalIngresso" errorClass="errormsg" fatalClass="errorClass" styleClass="errorClass"/></ul>
+		  		</b>
+
+	
+			<a4j:outputPanel id="mensagensPanel">
+			 <ui:include src="/layout/mensagens.xhtml" />
+			</a4j:outputPanel>
+			<h4>
+				<h:outputText rendered="#{servidor.id == null}" value="Incluir Servidor" />
+				<h:outputText rendered="#{servidor.id != null}" value="Editar Servidor" />
+				<h:outputText rendered="#{false}" value="Visualizar Servidor" />
+			</h4>
+				<rich:separator styleClass="separatorTitulo" />
+			<br/>
+			<h:panelGrid columns="1">
+				<s:decorate template="/layout/edit.xhtml">
+					<ui:define name="label">Nome da Pessoa:</ui:define>
+					<h:inputText value="#{servidor.pessoaFisica.nomPessoaFisica}" requiredMessage="Por favor, informe o nome da pessoa." id="nomPessoaFisica" size="90"  
+						maxlength="150" readonly="true" required="#{servidor.id ==null}"
+						onkeypress="this.value=trataTxt(this.value);" onblur="this.value=trataTxt(this.value);" />
+					
+					<a4j:commandButton image="#{imagemUtil.getURLIcone('DETALHAR')}" ajaxSingle="true"
+							title="Vincular" reRender="consultarPessoaModal, formConsultarPessoa" rendered="#{servidor.id == null}"
+							immediate="true" oncomplete="#{rich:component('consultarPessoaModal')}.show();"
+							style="padding-right: 2px;"/>
+				</s:decorate>
+			</h:panelGrid>
+			
+			<h:panelGrid columns="2">
+				<s:decorate template="/layout/edit.xhtml">
+					<ui:define name="label">Matrícula:</ui:define>
+
+					<h:inputText value="#{servidor.numMatricula}" id="nomPessoaFisica" size="7" maxlength="7" readonly="#{servidor.id !=null}" required="#{servidor.id ==null}" onkeypress="return somenteNumeros(event);" rendered="#{manterServidorAction.getNumeroMatriculas() le 0 or manterServidorAction.isIncluindo}">
+						<f:convertNumber pattern="#0000000" />
+					</h:inputText>
+					
+					<h:selectOneMenu value="#{servidor}" id="matriculas" disabled="#{isVisualizar}" rendered="#{manterServidorAction.getNumeroMatriculas() gt 0 and !manterServidorAction.isIncluindo}" >
+						<s:selectItems  value="#{manterServidorAction.getMatriculas()}" var="_servidor" label="#{_servidor.numMatricula}" noSelectionLabel="--"/>
+						<s:convertEntity/>
+						<a4j:support event="onchange" reRender="abaInformacoesServidor" ajaxSingle="true" focus="matriculas"/>
+					</h:selectOneMenu>
+
+					<a4j:commandButton action="#{manterServidorAction.adicionarServidor(servidor.pessoaFisica)}" image="#{imagemUtil.getURLIcone('ADD')}" style="margin-bottom:-4px;" title="Novo" immediate="true" reRender="formularioServidor, formaDeIngresso" 
+					rendered="#{!manterServidorAction.isVisualizando}"/>
+
+				</s:decorate>
+				
+				<s:decorate template="/layout/edit.xhtml">
+					<ui:define name="label" >Identificação Única:</ui:define>
+					<h:inputText value="#{servidor.numIdUnicoMatricula}" id="identificadorUnico" requiredMessage="Por favor, informe a identificação única." size="9" maxlength="9" required="#{servidor.id == null}" 
+						onkeypress="return somenteNumeros(event);">
+						<f:convertNumber pattern="#000000000" />
+					</h:inputText>
+				</s:decorate>
+			</h:panelGrid>
+			<h:panelGrid columns="1">	
+				<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">E-mail Institucional:</ui:define>
+						<h:inputText value="#{servidor.pessoaFisica.pessoaContatoEmailCorp.txtContato}" id="emailInstitucional" readonly="#{isVisualizar}"
+							maxlength="50" size="50" onkeypress="this.value=trataTxt(this.value);" onblur="this.value=trataTxt(this.value);"  />
+				</s:decorate>
+			</h:panelGrid>
+			
+			<rich:tabPanel switchType="client" selectedTab="#{manterServidorAction.aba}" id="abaInformacoesServidor">
+		        <rich:tab label="Dados Pessoais" id="aba1" eventsQueue="abaClick">
+		           <a4j:support action="#{manterServidorAction.setAba('aba1')}" event="onlabelclick" immediate="true" eventsQueue="abaClick" />
+		           <ui:include src="/pages/administracao/servidor/abas/dadosPessoais.xhtml" />
+		        </rich:tab>
+		        <rich:tab label="Dados Funcionais" id="aba2" eventsQueue="abaClick">
+		       		<a4j:support action="#{manterServidorAction.setAba('aba2')}" event="onlabelclick" immediate="true" eventsQueue="abaClick" />
+		            <ui:include src="/pages/administracao/servidor/abas/dadosFuncionais.xhtml" />
+		        </rich:tab>
+		      	<rich:tab label="Cargo" id="aba3" eventsQueue="abaClick">
+		      		<a4j:support action="#{manterServidorAction.setAba('aba3')}" actionListener="#{manterCargoFuncaoAction.verificacoesAbaCargo()}" 
+		      		reRender="BtnAdicionarPanel, mensagensPanel" event="onlabelclick" immediate="true" eventsQueue="abaClick"/>
+		      		
+		      		
+		      		<rich:panel id="cargoFuncaoDataTable">
+		      			<f:facet name="header">
+							<h:panelGroup>
+								<h:outputText value="Servidor"></h:outputText>
+							</h:panelGroup>
+						</f:facet>
+						<h3><h:outputText value="Cargo"/></h3>
+						<rich:separator styleClass="separatorTitulo" />
+		      			<br/>
+			      		<rich:dataTable width="483" id="servidorCargoFuncaoDataTable" rows="10" value="#{servidor.cargoFuncao.toArray()}" var="cargoFuncao" rendered="#{not empty servidor.cargoFuncao}">
+			      			
+			      			<rich:column >
+								<f:facet name="header">
+									<h:outputText value="Cargo" />
+								</f:facet>
+								<h:outputText value="#{cargoFuncao.cargoEfetivo.cargoFuncionario.txtDescricao}" rendered="#{cargoFuncao.tipoEfetivo}"/>
+								<h:outputText value="#{cargoFuncao.cargoComissionado.tipoCargoComissinado.txtDescricao}" rendered="#{!cargoFuncao.tipoEfetivo}"/>
+							</rich:column>
+							
+			      			<rich:column >
+								<f:facet name="header">
+									<h:outputText value="Data de Posse" />
+								</f:facet>
+								<h:outputText value="#{cargoFuncao.cargoEfetivo.datPosse}" rendered="#{cargoFuncao.tipoEfetivo}">
+									<f:convertDateTime pattern="dd/MM/yyyy"	 />
+								</h:outputText>
+								<h:outputText value="#{cargoFuncao.cargoComissionado.datPosse}" rendered="#{!cargoFuncao.tipoEfetivo}">
+									<f:convertDateTime pattern="dd/MM/yyyy"	 />
+								</h:outputText>
+							</rich:column>						
+							
+			      			<rich:column >
+								<f:facet name="header">
+									<h:outputText value="Tipo" />
+								</f:facet>
+								<h:outputText value="Cargo Efetivo" rendered="#{cargoFuncao.tipoEfetivo}"/>
+								<h:outputText value="Cargo em Comissão/Funcao" rendered="#{!cargoFuncao.tipoEfetivo}"/>
+							</rich:column>					
+							
+							<rich:column style="width:80px">
+								<f:facet name="header">
+									<h:outputText value="Ações" />
+								</f:facet>
+								<div align="center">
+									<a4j:commandButton image="#{imagemUtil.getURLIcone('EDITAR')}" immediate="true" title="Editar" action="#{manterCargoFuncaoAction.irEditarCargoFuncao(cargoFuncao)}" oncomplete="#{rich:component('incluirEditarCargoFuncaoModal')}.show();" reRender="modalIncluirEditarCargoFuncao"  style="padding-right: 2px;"/>
+									<a4j:commandButton image="#{imagemUtil.getURLIcone('DETALHAR')}" immediate="true" title="Visualizar" action="#{manterCargoFuncaoAction.irVisualizar(cargoFuncao)}" oncomplete="#{rich:component('incluirEditarCargoFuncaoModal')}.show();" reRender="modalIncluirEditarCargoFuncao"  />
+								</div>
+							</rich:column>
+			      		</rich:dataTable>
+		      		
+						<div align="right">
+						<a4j:outputPanel id="BtnAdicionarPanel" rendered="#{!manterServidorAction.verificaSituacaoFuncinalPreenchida()}">
+							<a4j:commandButton action="#{manterCargoFuncaoAction.irIncluirCargoFuncao()}" reRender="incluirEditarCargoFuncaoModal" value="Adicionar" immediate="true" rendered="#{!isVisualizar}" oncomplete="#{rich:component('incluirEditarCargoFuncaoModal')}.show();" 
+							disabled="#{(manterCargoFuncaoAction.cargoComissionadoSize ge 1 and manterCargoFuncaoAction.cargoEfetivoSize ge 1) or manterCargoFuncaoAction.regra6 eq true or manterCargoFuncaoAction.desabilitaBotaoAdicionar eq true}" />
+						</a4j:outputPanel>
+						
+						<a4j:outputPanel id="BtnAdicionarPanel1" rendered="#{manterServidorAction.verificaSituacaoFuncinalPreenchida()}">
+							<a4j:commandButton actionListener="#{manterServidorAction.mostraMensagemSituacaoFuncionalVazia()}" value="Adicionar" immediate="true" reRender="mensagensPanel"/>
+						</a4j:outputPanel>
+						</div>	      		
+		      		</rich:panel>
+		      	
+		      		
+		        </rich:tab> 
+		        <rich:tab label="Afastamento/Ocorrência" id="aba4" eventsQueue="abaClick" rendered="#{servidor.id !=null}">
+		        	<a4j:support action="#{manterServidorAction.setAba('aba4')}" event="onlabelclick" immediate="true" eventsQueue="abaClick" />
+		           <ui:include src="/pages/administracao/servidor/abas/dadosAfastamento.xhtml" />
+		        </rich:tab>
+		        <rich:tab label="Cessão/Requisição" id="aba5" eventsQueue="abaClick" rendered="#{servidor.id !=null}">
+		       	   <a4j:support action="#{manterServidorAction.setAba('aba5')}" event="onlabelclick" immediate="true" eventsQueue="abaClick" />
+		           <ui:include src="/pages/administracao/servidor/abas/dadosCessaoRequisicao.xhtml" />
+		        </rich:tab>
+		        <rich:tab label="Formação Acadêmica" id="aba6" eventsQueue="abaClick"  rendered="#{servidor.id !=null}">
+		        	<a4j:support action="#{manterServidorAction.setAba('aba6')}" event="onlabelclick" immediate="true" eventsQueue="abaClick" />
+		            <ui:include src="/pages/administracao/servidor/abas/dadosFormacaoAcademica.xhtml" />
+		        </rich:tab> 
+		        <rich:tab label="Dependentes" id="aba7" eventsQueue="abaClick" rendered="#{servidor.id !=null}">
+		           <a4j:support action="#{manterServidorAction.setAba('aba7')}" event="onlabelclick" immediate="true" eventsQueue="abaClick" />
+		           <ui:include src="/pages/administracao/servidor/abas/dadosDependentes.xhtml" />
+		        </rich:tab>
+		       
+		    </rich:tabPanel>
+			
+			<div align="right">
+				<a4j:commandButton id="btnSalvarServidor" action="#{manterServidorAction.salvarServidor()}" value="Salvar" rendered="#{!isVisualizar}" reRender="mensagensPanel"/>
+				<s:button action="#{manterServidorAction.voltar}" value="Voltar"/>
+				<br class="Clear" />
+			</div>
+			
+		</h:form>
+		
+
+		<ui:include src="/pages/administracao/servidor/modal/modalIncluirEditarAfastamento.xhtml" />
+		<ui:include src="/pages/administracao/servidor/modal/modalIncluirEditarCessaoRequisicao.xhtml" />
+		<ui:include src="/pages/administracao/servidor/modal/modalIncluirEditarDependente.xhtml" />
+		<ui:include src="/pages/administracao/servidor/modal/modalConsultaPessoa.xhtml" />
+		<ui:include src="/pages/administracao/servidor/modal/modalConsultaUnidadeAdm.xhtml" />
+		<ui:include src="/pages/administracao/servidor/modal/modalIncluirEditarFormacaoAcademica.xhtml" />
+		<ui:include src="/pages/administracao/servidor/modal/modalIncluirEditarCargoFuncao.xhtml" />
+		<ui:include src="/pages/administracao/servidor/modal/incluirCessaoRequisicao.xhtml" />
+		
+	</ui:define>
+	</html>
+</ui:composition>

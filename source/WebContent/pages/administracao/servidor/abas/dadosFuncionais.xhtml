@@ -1,0 +1,424 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j">
+
+			<rich:panel id="panelDadosFuncionais">
+				<f:facet name="header">Servidor</f:facet>
+				
+				<h3><h:outputText value="Dados de Ingresso no IPHAN"/></h3>
+				<rich:separator styleClass="separatorTitulo" />
+				
+				<h:panelGrid columns="2">
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Situação Funcional:</ui:define>
+<!-- Início ERRO -->						
+						<h:selectOneMenu value="#{manterServidorAction.servidor.situacaoFuncional}"  id="codSitucaoFuncional" disabled="#{isVisualizar}" required="#{!isVisualizar}" requiredMessage="Por favor, informe a situação funcional.">
+							<f:selectItem itemValue="" itemLabel="" />
+							<s:selectItems  value="#{combosAuxiliarAction.getSituacaoFuncionals()}" var="_situacaoFuncional" label="#{_situacaoFuncional.codSiapeSituacaoFunc}" noSelectionLabel="--"/>
+							<s:convertEntity/>
+							<a4j:support event="onchange" reRender="situcaoFuncional, cargoFuncaoAba, panelUnidades, BtnAdicionarPanel, mensagensPanel" ajaxSingle="true" focus="codSitucaoFuncional" action="#{manterServidorAction.validarRegraSituacao()}"  
+				 			actionListener="#{manterCargoFuncaoAction.validaRegrasSituacaoFuncional()}"
+				 			oncomplete="#{manterServidorAction.regraModalCessaoReq ? false : rich:component('incluirCessaoRequisicaoModal')}.show();"/>
+						</h:selectOneMenu>
+						<h:selectOneMenu value="#{manterServidorAction.servidor.situacaoFuncional}" id="situcaoFuncional" disabled="#{isVisualizar}" style="width:300px;">
+							<f:selectItem itemValue="" itemLabel="" />
+							<s:selectItems  value="#{combosAuxiliarAction.getSituacaoFuncionals()}" var="_situacaoFuncional" label="#{_situacaoFuncional.txtDescricao}" noSelectionLabel="Selecione"/>
+							<s:convertEntity/>
+							<a4j:support event="onchange" reRender="codSitucaoFuncional, cargoFuncaoAba, panelUnidades, BtnAdicionarPanel, mensagensPanel" ajaxSingle="true" focus="situcaoFuncional" 
+							action="#{manterCargoFuncaoAction.validarRegraSituacao()}"  actionListener="#{manterCargoFuncaoAction.validaRegrasSituacaoFuncional()}"
+							oncomplete="#{manterServidorAction.regraModalCessaoReq ? false : rich:component('incluirCessaoRequisicaoModal')}.show();"/>
+						</h:selectOneMenu>
+<!-- Fim ERRO -->						
+
+					</s:decorate>
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Jornada de Trabalho:</ui:define>
+						<h:inputText value="#{manterServidorAction.servidor.numJornadaTrabalho}" id="jornadaTrabalho" requiredMessage="Por favor, informe a jornada de trabalho." maxlength="2" size="2"
+							readonly="#{isVisualizar}" required="#{!isVisualizar}" onkeypress="return somenteNumeros(event);"/>
+					</s:decorate>
+				</h:panelGrid>
+				
+				<h:panelGrid columns="1" id="formaDeIngresso">
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Forma de Ingresso:</ui:define>
+						<h:selectOneMenu value="#{manterServidorAction.servidor.formaIngressoAposentacao1.formaPassagemServ}" id="codFormaIngresso" requiredMessage="Por favor, informe a forma de ingresso." disabled="#{isVisualizar}" required="#{!isVisualizar}" >
+							<s:selectItems  value="#{combosAuxiliarAction.getFormaPassagemServs()}" var="_formaIngressoAposentacao" 
+								label="#{util.formatCodigoCombo('01',_formaIngressoAposentacao.codSiapeFormPassServ)}" noSelectionLabel="--"/>
+							<s:convertEntity/>
+							<a4j:support event="onchange" reRender="formaIngresso" ajaxSingle="true" focus="codFormaIngresso"/>
+						</h:selectOneMenu>
+						<h:selectOneMenu value="#{manterServidorAction.servidor.formaIngressoAposentacao1.formaPassagemServ}" id="formaIngresso" disabled="#{isVisualizar}"  style="width: 450px;"  >
+							<s:selectItems  value="#{combosAuxiliarAction.getFormaPassagemServs()}" var="_formaIngressoAposentacao" 
+								label="#{_formaIngressoAposentacao.desFormaPassServ}" noSelectionLabel="Selecione"/>
+							<s:convertEntity/>
+							<a4j:support event="onchange" reRender="codFormaIngresso" ajaxSingle="true" focus="formaIngresso"/>
+						</h:selectOneMenu>
+					</s:decorate>
+				</h:panelGrid>
+				
+				<h:panelGrid columns="2">
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Data de Ingresso:</ui:define>
+						<rich:jQuery selector="#dataIngresso" query="setMask()" timing="onload"/>
+						<h:inputText value="#{manterServidorAction.servidor.formaIngressoAposentacao1.datIngressoApos}" id="dataIngresso" required="#{!isVisualizar}" requiredMessage="Por favor, informe a data de ingresso." readonly="#{isVisualizar}" maxlength = "10" size="12" alt="date"  validator="dateValidator" >
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:inputText>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Documento Legal:</ui:define>
+						<h:selectOneMenu value="#{manterServidorAction.servidor.formaIngressoAposentacao1.indDocLegal}" requiredMessage="Por favor, informe o documento legal." required="#{!isVisualizar}" style="width: 200px;"
+							id="documentoLegalIngresso" disabled="#{isVisualizar}" >
+							<f:selectItem itemLabel="Selecione"/>
+							<f:selectItem itemLabel="LEI" itemValue="1"/>                
+							<f:selectItem itemLabel="PORTARIA" itemValue="2"/>            
+							<f:selectItem itemLabel="DECRETO" itemValue="3"/>
+							<f:selectItem itemLabel="INSTRUCAO NORMATIVA" itemValue="4"/>
+							<f:selectItem itemLabel="DECRETO LEI" itemValue="5"/>         
+							<f:selectItem itemLabel="EXPOSICAO MOTIVOS" itemValue="6"/>       
+							<f:selectItem itemLabel="EDITAL" itemValue="7"/>              
+							<f:selectItem itemLabel="MEMORANDO" itemValue="8"/>           
+							<f:selectItem itemLabel="OFICIO" itemValue="9"/>                
+							<f:selectItem itemLabel="MEDIDA PROVISORIA" itemValue="10"/>     
+							<f:selectItem itemLabel="CONSTITUICAO FEDERAL" itemValue="11"/>  
+							<f:selectItem itemLabel="LEI COMPLEMENTAR" itemValue="12"/>      
+							<f:selectItem itemLabel="ATO DE CONCESSAO" itemValue="13"/>      
+							<f:selectItem itemLabel="ORDEM DE SERVICO" itemValue="14"/>      
+							<f:selectItem itemLabel="ATA" itemValue="15"/>                   
+							<f:selectItem itemLabel="ACAO CIVIL" itemValue="16"/>           
+							<f:selectItem itemLabel="NOTA" itemValue="17"/>                  
+							<f:selectItem itemLabel="CERTIDAO" itemValue="18"/>              
+							<f:selectItem itemLabel="CONTRATO" itemValue="19"/>              
+							<f:selectItem itemLabel="DECISAO JUDICIAL" itemValue="20"/>      
+							<f:selectItem itemLabel="OFICIO CIRCULAR" itemValue="21"/>       
+							<f:selectItem itemLabel="RESOLUCAO" itemValue="22"/>             
+							<f:selectItem itemLabel="ATO DO CONGRESSO" itemValue="23"/>      
+							<f:selectItem itemLabel="NORMA OPERACIONAL" itemValue="24"/>     
+							<f:selectItem itemLabel="OUTROS" itemValue="25"/>                
+							<f:selectItem itemLabel="REQUERIMENTO" itemValue="26"/>          
+							<f:selectItem itemLabel="APOSTILA" itemValue="27"/>              
+							<f:selectItem itemLabel="PARECER" itemValue="28"/>               
+							<f:selectItem itemLabel="NORMA COMPLEMENTAR" itemValue="29"/>    
+							<f:selectItem itemLabel="ATO" itemValue="30"/>
+						</h:selectOneMenu>	
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Número:</ui:define>
+						<h:inputText value="#{manterServidorAction.servidor.formaIngressoAposentacao1.numDocLegal}" id="numDocumentoLegalIngresso" requiredMessage="Por favor, informe o número do documento legal de ingresso." maxlength="6" size="6" readonly="#{isVisualizar}" required="#{!isVisualizar}"  onkeypress="return somenteNumeros(event);"/>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Data Publicação:</ui:define>
+						<rich:jQuery selector="#datPublicacaoDocIphan" query="setMask()" timing="onload"/>
+						<h:inputText value="#{manterServidorAction.servidor.formaIngressoAposentacao1.datPublicacaoDoc}" id="datPublicacaoDocIphan" requiredMessage="Por favor, informe data de publicação do documento." readonly="#{isVisualizar}" required="#{!isVisualizar}" maxlength = "10" size="12" alt="date"  validator="dateValidator" >
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:inputText>
+					</s:decorate>
+					
+				</h:panelGrid>
+				<h:panelGrid columns="1">
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Forma de Saída:</ui:define>
+						<h:selectOneMenu value="#{manterServidorAction.servidor.formaSaida.formaPassagemServ}" id="codFormaSaida" disabled="#{isVisualizar}" >
+							<s:selectItems  value="#{combosAuxiliarAction.getFormaPassagemServsSaida()}" var="_formaSaida" 
+								label="#{util.formatCodigoCombo('02',_formaSaida.codSiapeFormPassServ)}" noSelectionLabel="--"/>
+							<s:convertEntity/>
+							<a4j:support event="onchange" reRender="formaSaidaDeno" ajaxSingle="true" focus="codFormaSaida"/>
+						</h:selectOneMenu>
+						<h:selectOneMenu value="#{manterServidorAction.servidor.formaSaida.formaPassagemServ}" id="formaSaidaDeno" disabled="#{isVisualizar}" style="width: 450px;" >
+							<s:selectItems  value="#{combosAuxiliarAction.getFormaPassagemServsSaida()}" var="_formaSaida" 
+								label="#{_formaSaida.desFormaPassServ}" noSelectionLabel="Selecione"/>
+							<s:convertEntity/>
+							<a4j:support event="onchange" reRender="codFormaSaida" ajaxSingle="true" focus="formaSaidaDeno"/>
+						</h:selectOneMenu>
+					</s:decorate>
+				</h:panelGrid>
+				<h:panelGrid columns="2">
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Data de Saída:</ui:define>
+						<rich:jQuery selector="#dataSaida" query="setMask()" timing="onload"/>
+						<h:inputText value="#{manterServidorAction.servidor.formaSaida.datSaida}" id="dataSaida" readonly="#{isVisualizar}"  maxlength = "10" size="12" alt="date"  validator="dateValidator" >
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:inputText>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Documento Legal:</ui:define>
+						<h:selectOneMenu value="#{manterServidorAction.servidor.formaSaida.indDocLegal}" style="width: 200px;"
+							id="documentoLegalSaida" disabled="#{isVisualizar}" >
+							<f:selectItem itemLabel="Selecione"/>
+							<f:selectItem itemLabel="LEI" itemValue="1"/>                
+							<f:selectItem itemLabel="PORTARIA" itemValue="2"/>            
+							<f:selectItem itemLabel="DECRETO" itemValue="3"/>
+							<f:selectItem itemLabel="INSTRUCAO NORMATIVA" itemValue="4"/>
+							<f:selectItem itemLabel="DECRETO LEI" itemValue="5"/>         
+							<f:selectItem itemLabel="EXPOSICAO MOTIVOS" itemValue="6"/>       
+							<f:selectItem itemLabel="EDITAL" itemValue="7"/>              
+							<f:selectItem itemLabel="MEMORANDO" itemValue="8"/>           
+							<f:selectItem itemLabel="OFICIO" itemValue="9"/>                
+							<f:selectItem itemLabel="MEDIDA PROVISORIA" itemValue="10"/>     
+							<f:selectItem itemLabel="CONSTITUICAO FEDERAL" itemValue="11"/>  
+							<f:selectItem itemLabel="LEI COMPLEMENTAR" itemValue="12"/>      
+							<f:selectItem itemLabel="ATO DE CONCESSAO" itemValue="13"/>      
+							<f:selectItem itemLabel="ORDEM DE SERVICO" itemValue="14"/>      
+							<f:selectItem itemLabel="ATA" itemValue="15"/>                   
+							<f:selectItem itemLabel="ACAO CIVIL" itemValue="16"/>           
+							<f:selectItem itemLabel="NOTA" itemValue="17"/>                  
+							<f:selectItem itemLabel="CERTIDAO" itemValue="18"/>              
+							<f:selectItem itemLabel="CONTRATO" itemValue="19"/>              
+							<f:selectItem itemLabel="DECISAO JUDICIAL" itemValue="20"/>      
+							<f:selectItem itemLabel="OFICIO CIRCULAR" itemValue="21"/>       
+							<f:selectItem itemLabel="RESOLUCAO" itemValue="22"/>             
+							<f:selectItem itemLabel="ATO DO CONGRESSO" itemValue="23"/>      
+							<f:selectItem itemLabel="NORMA OPERACIONAL" itemValue="24"/>     
+							<f:selectItem itemLabel="OUTROS" itemValue="25"/>                
+							<f:selectItem itemLabel="REQUERIMENTO" itemValue="26"/>          
+							<f:selectItem itemLabel="APOSTILA" itemValue="27"/>              
+							<f:selectItem itemLabel="PARECER" itemValue="28"/>               
+							<f:selectItem itemLabel="NORMA COMPLEMENTAR" itemValue="29"/>    
+							<f:selectItem itemLabel="ATO" itemValue="30"/>
+						</h:selectOneMenu>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Número:</ui:define>
+						<h:inputText value="#{manterServidorAction.servidor.formaSaida.numDocLegal}" id="numDocumentoLegalSaida" maxlength="6" size="6" readonly="#{isVisualizar}" onkeypress="return somenteNumeros(event);"/>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Data Publicação:</ui:define>
+						<rich:jQuery selector="#datPublicacaoDocSaidaIphan" query="setMask()" timing="onload"/>
+						<h:inputText value="#{manterServidorAction.servidor.formaSaida.datPublicacaoDoc}" id="datPublicacaoDocSaidaIphan" readonly="#{isVisualizar}"  maxlength = "10" size="12" alt="date"  validator="dateValidator" >
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:inputText>
+					</s:decorate>
+					
+				</h:panelGrid>
+				
+				<h3><h:outputText value="Unidade Organizacional"/></h3>
+				<rich:separator styleClass="separatorTitulo" />
+				
+				<h:panelGrid columns="1" id="panelUnidades">
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Unidade de Lotação:</ui:define>
+						<h:inputText value="#{manterServidorAction.servidor.unidadeAdmLotacao.nomUnidadeAdministrativa}" id="nomUnidadeAdministrativaLot" requiredMessage="Por favor, informe a unidade de lotação." readonly="true" required="#{campoLotacao}" size="70" />
+						<a4j:commandButton image="#{imagemUtil.getURLIcone('DETALHAR')}" ajaxSingle="true" action="#{manterServidorAction.prepararModalUnidade('S')}" id="buscarLotacao"
+							title="Buscar" reRender="consultarUnidadeAdmModal, formConsultarUnidadeAdm" rendered="#{campoLotacao}"
+							immediate="true" oncomplete="#{rich:component('consultarUnidadeAdmModal')}.show();"
+							style="padding-right: 2px;"/>
+					</s:decorate>
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Unidade de Exercício:</ui:define>
+						<h:inputText value="#{manterServidorAction.servidor.unidadeAdministrativaExce.nomUnidadeAdministrativa}" id="nomUnidadeAdministrativaExce" readonly="true" requiredMessage="Por favor, informe a unidade de exercício." required="#{!isVisualizar}" size="70"/>
+						<a4j:commandButton image="#{imagemUtil.getURLIcone('DETALHAR')}" ajaxSingle="true" action="#{manterServidorAction.prepararModalUnidade('N')}"
+							title="Buscar" reRender="consultarUnidadeAdmModal, formConsultarUnidadeAdm" rendered="#{!isVisualizar}"
+							immediate="true" oncomplete="#{rich:component('consultarUnidadeAdmModal')}.show();"
+							style="padding-right: 2px;"/>
+					</s:decorate>
+				</h:panelGrid>
+				
+				<h3><h:outputText value="Dados de Ingresso no Serviço Público"/></h3>
+				<rich:separator styleClass="separatorTitulo" />
+				
+				<h:panelGrid columns="1">
+				
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Forma de Ingresso:</ui:define>
+						<h:selectOneMenu value="#{manterServidorAction.servidor.formaIngressoAposentacao2.formaPassagemServ}" id="codFormaIngressoServidor2" disabled="#{isVisualizar}">
+							<s:selectItems  value="#{combosAuxiliarAction.getFormaPassagemServs()}" var="_formaIngressoAposentacao" 
+								label="#{util.formatCodigoCombo('01',_formaIngressoAposentacao.codSiapeFormPassServ)}" noSelectionLabel="--"/>
+							<s:convertEntity/>
+							<a4j:support event="onchange" reRender="formaIngressoServidor2" ajaxSingle="true" focus="codFormaIngressoServidor2"/>
+						</h:selectOneMenu>
+						<h:selectOneMenu value="#{manterServidorAction.servidor.formaIngressoAposentacao2.formaPassagemServ}" id="formaIngressoServidor2" disabled="#{isVisualizar}" style="width: 450px;" >
+							<s:selectItems  value="#{combosAuxiliarAction.getFormaPassagemServs()}" var="_formaIngressoAposentacao" 
+								label="#{_formaIngressoAposentacao.desFormaPassServ}" noSelectionLabel="Selecione"/>
+							<s:convertEntity/>
+							<a4j:support event="onchange" reRender="codFormaIngressoServidor2" ajaxSingle="true" focus="formaIngressoServidor2"/>
+						</h:selectOneMenu>
+					</s:decorate>
+					</h:panelGrid>
+					<h:panelGrid columns="2">
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Data de Ingresso:</ui:define>
+						<rich:jQuery selector="#dataIngressoServidor" query="setMask()" timing="onload"/>
+						<h:inputText value="#{manterServidorAction.servidor.formaIngressoAposentacao2.datIngressoApos}" id="dataIngressoServidor" readonly="#{isVisualizar}" maxlength = "10" size="12" alt="date"  validator="dateValidator" >
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:inputText>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Documento Legal:</ui:define>
+						<h:selectOneMenu value="#{manterServidorAction.servidor.formaIngressoAposentacao2.indDocLegal}" style="width: 200px;"
+							id="documentoLegalIngressoServidor" disabled="#{isVisualizar}" >
+							<f:selectItem itemLabel="Selecione"/>
+							<f:selectItem itemLabel="LEI" itemValue="1"/>                
+							<f:selectItem itemLabel="PORTARIA" itemValue="2"/>            
+							<f:selectItem itemLabel="DECRETO" itemValue="3"/>
+							<f:selectItem itemLabel="INSTRUCAO NORMATIVA" itemValue="4"/>
+							<f:selectItem itemLabel="DECRETO LEI" itemValue="5"/>         
+							<f:selectItem itemLabel="EXPOSICAO MOTIVOS" itemValue="6"/>       
+							<f:selectItem itemLabel="EDITAL" itemValue="7"/>              
+							<f:selectItem itemLabel="MEMORANDO" itemValue="8"/>           
+							<f:selectItem itemLabel="OFICIO" itemValue="9"/>                
+							<f:selectItem itemLabel="MEDIDA PROVISORIA" itemValue="10"/>     
+							<f:selectItem itemLabel="CONSTITUICAO FEDERAL" itemValue="11"/>  
+							<f:selectItem itemLabel="LEI COMPLEMENTAR" itemValue="12"/>      
+							<f:selectItem itemLabel="ATO DE CONCESSAO" itemValue="13"/>      
+							<f:selectItem itemLabel="ORDEM DE SERVICO" itemValue="14"/>      
+							<f:selectItem itemLabel="ATA" itemValue="15"/>                   
+							<f:selectItem itemLabel="ACAO CIVIL" itemValue="16"/>           
+							<f:selectItem itemLabel="NOTA" itemValue="17"/>                  
+							<f:selectItem itemLabel="CERTIDAO" itemValue="18"/>              
+							<f:selectItem itemLabel="CONTRATO" itemValue="19"/>              
+							<f:selectItem itemLabel="DECISAO JUDICIAL" itemValue="20"/>      
+							<f:selectItem itemLabel="OFICIO CIRCULAR" itemValue="21"/>       
+							<f:selectItem itemLabel="RESOLUCAO" itemValue="22"/>             
+							<f:selectItem itemLabel="ATO DO CONGRESSO" itemValue="23"/>      
+							<f:selectItem itemLabel="NORMA OPERACIONAL" itemValue="24"/>     
+							<f:selectItem itemLabel="OUTROS" itemValue="25"/>                
+							<f:selectItem itemLabel="REQUERIMENTO" itemValue="26"/>          
+							<f:selectItem itemLabel="APOSTILA" itemValue="27"/>              
+							<f:selectItem itemLabel="PARECER" itemValue="28"/>               
+							<f:selectItem itemLabel="NORMA COMPLEMENTAR" itemValue="29"/>    
+							<f:selectItem itemLabel="ATO" itemValue="30"/>
+						</h:selectOneMenu>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Número:</ui:define>
+						<h:inputText value="#{manterServidorAction.servidor.formaIngressoAposentacao2.numDocLegal}" id="numDocumentoLegalIngressoServidor" maxlength="6" size="6" readonly="#{isVisualizar}"  onkeypress="return somenteNumeros(event);"/>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Data Publicação:</ui:define>
+						<rich:jQuery selector="#datPublicacaoDocPubl" query="setMask()" timing="onload"/>
+						<h:inputText value="#{manterServidorAction.servidor.formaIngressoAposentacao2.datPublicacaoDoc}" id="datPublicacaoDocPubl" readonly="#{isVisualizar}"  maxlength = "10" size="12" alt="date"  validator="dateValidator" >
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:inputText>
+					</s:decorate>
+					
+				</h:panelGrid>
+				
+				<h:panelGrid columns="1">
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Observação:</ui:define>
+						<h:inputTextarea value="#{manterServidorAction.servidor.formaIngressoAposentacao2.obsFormaPassagemServ}" cols="60" rows="3"
+							 id="observacaoSaidaServidor" maxlength="250" readonly="#{isVisualizar}" 
+							 onkeypress="this.value=trataTxt(this.value);" onblur="this.value=trataTxt(this.value);">
+							<f:validateLength maximum="250"/>
+						</h:inputTextarea>
+					</s:decorate>
+				</h:panelGrid>
+				
+				<h3><h:outputText value="Aposentação"/></h3>
+				
+				<rich:separator styleClass="separatorTitulo" />
+				
+				<h:panelGrid columns="1">
+				
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Forma de Aposentação:</ui:define>
+						<h:selectOneMenu value="#{manterServidorAction.servidor.formaIngressoAposentacao3.formaPassagemServ}" id="codFormaAposentacao" disabled="#{isVisualizar}" >
+							<s:selectItems  value="#{combosAuxiliarAction.getFormaPassagemServsAposentacao()}" var="_aposentacao" 
+								label="#{util.formatCodigoCombo('05',_aposentacao.codSiapeFormPassServ)}" noSelectionLabel="--"/>
+							<s:convertEntity/>
+							<a4j:support event="onchange" reRender="formaAposentacao" ajaxSingle="true" focus="codFormaAposentacao"/>
+						</h:selectOneMenu>
+						<h:selectOneMenu value="#{manterServidorAction.servidor.formaIngressoAposentacao3.formaPassagemServ}" id="formaAposentacao" disabled="#{isVisualizar}"  style="width: 450px;"  >
+							<s:selectItems  value="#{combosAuxiliarAction.getFormaPassagemServsAposentacao()}" var="_aposentacao" 
+								label="#{_aposentacao.desFormaPassServ}" noSelectionLabel="Selecione"/>
+							<s:convertEntity/>
+							<a4j:support event="onchange" reRender="codFormaAposentacao" ajaxSingle="true" focus="formaAposentacao"/>
+						</h:selectOneMenu>
+					</s:decorate>
+				</h:panelGrid>
+				<h:panelGrid columns="2">	
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Data Aposentação:</ui:define>
+						<rich:jQuery selector="#dataAposentacao" query="setMask()" timing="onload"/>
+						<h:inputText value="#{manterServidorAction.servidor.formaIngressoAposentacao3.datIngressoApos}" id="dataAposentacao" readonly="#{isVisualizar}" maxlength = "10" size="12" alt="date"  validator="dateValidator" >
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:inputText>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Documento Legal:</ui:define>
+						<h:selectOneMenu value="#{manterServidorAction.servidor.formaIngressoAposentacao3.indDocLegal}" style="width: 200px;"
+							id="documentoLegal" disabled="#{isVisualizar}" >
+							<f:selectItem itemLabel="Selecione"/>
+							<f:selectItem itemLabel="LEI" itemValue="1"/>                
+							<f:selectItem itemLabel="PORTARIA" itemValue="2"/>            
+							<f:selectItem itemLabel="DECRETO" itemValue="3"/>
+							<f:selectItem itemLabel="INSTRUCAO NORMATIVA" itemValue="4"/>
+							<f:selectItem itemLabel="DECRETO LEI" itemValue="5"/>         
+							<f:selectItem itemLabel="EXPOSICAO MOTIVOS" itemValue="6"/>       
+							<f:selectItem itemLabel="EDITAL" itemValue="7"/>              
+							<f:selectItem itemLabel="MEMORANDO" itemValue="8"/>           
+							<f:selectItem itemLabel="OFICIO" itemValue="9"/>                
+							<f:selectItem itemLabel="MEDIDA PROVISORIA" itemValue="10"/>     
+							<f:selectItem itemLabel="CONSTITUICAO FEDERAL" itemValue="11"/>  
+							<f:selectItem itemLabel="LEI COMPLEMENTAR" itemValue="12"/>      
+							<f:selectItem itemLabel="ATO DE CONCESSAO" itemValue="13"/>      
+							<f:selectItem itemLabel="ORDEM DE SERVICO" itemValue="14"/>      
+							<f:selectItem itemLabel="ATA" itemValue="15"/>                   
+							<f:selectItem itemLabel="ACAO CIVIL" itemValue="16"/>           
+							<f:selectItem itemLabel="NOTA" itemValue="17"/>                  
+							<f:selectItem itemLabel="CERTIDAO" itemValue="18"/>              
+							<f:selectItem itemLabel="CONTRATO" itemValue="19"/>              
+							<f:selectItem itemLabel="DECISAO JUDICIAL" itemValue="20"/>      
+							<f:selectItem itemLabel="OFICIO CIRCULAR" itemValue="21"/>       
+							<f:selectItem itemLabel="RESOLUCAO" itemValue="22"/>             
+							<f:selectItem itemLabel="ATO DO CONGRESSO" itemValue="23"/>      
+							<f:selectItem itemLabel="NORMA OPERACIONAL" itemValue="24"/>     
+							<f:selectItem itemLabel="OUTROS" itemValue="25"/>                
+							<f:selectItem itemLabel="REQUERIMENTO" itemValue="26"/>          
+							<f:selectItem itemLabel="APOSTILA" itemValue="27"/>              
+							<f:selectItem itemLabel="PARECER" itemValue="28"/>               
+							<f:selectItem itemLabel="NORMA COMPLEMENTAR" itemValue="29"/>    
+							<f:selectItem itemLabel="ATO" itemValue="30"/>
+						</h:selectOneMenu>	
+					
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Número:</ui:define>
+						<h:inputText value="#{manterServidorAction.servidor.formaIngressoAposentacao3.numDocLegal}" id="numDocumentoLegal" maxlength="6" size="6" readonly="#{isVisualizar}" onkeypress="return somenteNumeros(event);"/>
+					</s:decorate>
+					
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Data Publicação:</ui:define>
+						<rich:jQuery selector="#datPublicacaoDocApos" query="setMask()" timing="onload"/>
+						<h:inputText value="#{manterServidorAction.servidor.formaIngressoAposentacao3.datPublicacaoDoc}" id="datPublicacaoDocApos" readonly="#{isVisualizar}" maxlength = "10" size="12" alt="date"  validator="dateValidator" >
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:inputText>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Data do Primeiro Emprego:</ui:define>
+						<rich:jQuery selector="#datPrimeiroEmprego" query="setMask()" timing="onload"/>
+						<h:inputText
+								value="#{manterServidorAction.servidor.datPrimeiroEmprego}" 
+								id="datPrimeiroEmprego" readonly="#{isVisualizar}"
+							    maxlength = "10" alt="date"  validator="dateValidator"  >
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:inputText>
+					</s:decorate>
+					
+				</h:panelGrid>
+				
+			</rich:panel>
+</ui:composition>

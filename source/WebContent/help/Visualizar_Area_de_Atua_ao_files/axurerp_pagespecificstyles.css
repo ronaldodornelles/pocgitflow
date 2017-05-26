@@ -1,0 +1,208 @@
+﻿body {
+    margin: 0px;
+}
+
+div {
+    background-repeat: no-repeat;
+}
+
+.raw_image {
+    width: 100%;
+    height: 100%;
+}
+
+.preload {
+    display: none;
+}
+#main_container {
+}
+
+.form_sketch {
+    border-color: transparent;
+    background-color: transparent;
+}
+
+.u0_normal {
+    background-image: url('../Visualizar_Area_de_Atua_ao_files/u0_normal.png');
+}
+
+.u0_container {
+    position:absolute;
+    left:2px;
+    top:182px;
+    width:825px;
+    height:419px;
+}
+
+#u0_img {
+    position:absolute;
+    left:0px;
+    top:0px;
+    width:825px;
+    height:419px;
+}
+
+.u1 {
+    position:absolute;
+    left:2px;
+    top:202px;
+    width:821px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u2 {
+    position:absolute;
+    left:4px;
+    top:644px;
+    width:850px;
+    height:98px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u3_normal {
+    background-image: url('../Visualizar_Area_de_Atua_ao_files/u3_normal.png');
+}
+
+.u3_container {
+    position:absolute;
+    left:770px;
+    top:570px;
+    width:15px;
+    height:15px;
+}
+
+#u3_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:21px;
+    height:21px;
+}
+
+.u4 {
+    position:absolute;
+    left:2px;
+    top:0px;
+    width:11px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u5_normal {
+    background-image: url('../resources/images/transparent.gif');
+}
+
+.u5_container {
+    position:absolute;
+    left:676px;
+    top:721px;
+    width:164px;
+    height:26px;
+}
+
+#u5_img {
+    position:absolute;
+    left:-3px;
+    top:-3px;
+    width:170px;
+    height:32px;
+}
+
+.u6 {
+    position:absolute;
+    left:2px;
+    top:6px;
+    width:160px;
+    height:15px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u7_normal {
+    background-image: url('../Logo_e_Menu___Usuario_Logado_files/u17_normal.png');
+}
+
+.u7_container {
+    position:absolute;
+    left:2px;
+    top:3px;
+    width:825px;
+    height:172px;
+}
+
+#u7_img {
+    position:absolute;
+    left:0px;
+    top:0px;
+    width:825px;
+    height:172px;
+}
+
+.u8 {
+    position:absolute;
+    left:2px;
+    top:78px;
+    width:821px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+
+.u10_normal {
+    background-image: url('../Versao_Sistema_files/u11_normal.png');
+}
+
+.u10_container {
+    position:absolute;
+    left:-1px;
+    top:598px;
+    width:828px;
+    height:26px;
+}
+
+#u10_img {
+    position:absolute;
+    left:0px;
+    top:0px;
+    width:828px;
+    height:26px;
+}
+
+.u11 {
+    position:absolute;
+    left:2px;
+    top:5px;
+    width:824px;
+    height:16px;
+    ;
+    ;
+    ;
+    font-family:Arial;
+    text-align:left;
+    word-wrap:break-word;
+}
+

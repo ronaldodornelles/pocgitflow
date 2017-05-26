@@ -1,0 +1,86 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:stella="http://stella.caelum.com.br/faces">
+
+	<rich:modalPanel id="incluirAreaAtuacaoModal" moveable="false"
+		resizeable="false" onresize="false" width="720" height="450"
+		style="background-color: white;">
+		<f:facet name="header">
+			<h:panelGroup>
+				<h:outputText value="Área de Atuação"></h:outputText>
+			</h:panelGroup>
+		</f:facet>
+
+		<h:form name="modalIncluirAreaAtuacao" id="modalIncluirAreaAtuacao">
+			<h4>
+				<h:outputText value="Área Atuação" />
+			</h4>
+			<rich:separator styleClass="separatorTitulo" />
+			<br />
+			<rich:panel>
+				<f:facet name="header">Área Atuação</f:facet>
+				<h3>Área Atuação</h3>
+				<rich:separator styleClass="separatorTitulo" />
+
+				<h:panelGrid columns="1">
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Nome:</ui:define>
+						<h:inputText id="nomeAreaAtuacao"
+							value="#{areaAtuacao.nomAreaAtuacao}" maxlength="130" size="60"
+							onkeypress="this.value=trataTxt(this.value);"
+							onblur="this.value=trataTxt(this.value);"
+							required="#{!isVisualizar}" readonly="#{isVisualizar}" />
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Situação:</ui:define>
+						<h:selectOneMenu value="#{areaAtuacao.ativo}" id="situacao"
+							required="#{!isVisualizar}" disabled="#{isVisualizar}">
+							<f:selectItem itemLabel="--" />
+							<f:selectItem itemValue="1" itemLabel="Ativo" />
+							<f:selectItem itemValue="0" itemLabel="Inativo" />
+						</h:selectOneMenu>
+					</s:decorate>
+
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Descrição:</ui:define>
+						<h:inputTextarea id="descAreaAtuacao"
+							value="#{areaAtuacao.desAreaAtuacao}" rows="5" cols="50"
+							maxlength="250" size="250"
+							onkeypress="this.value=trataTxt(this.value);"
+							onblur="this.value=trataTxt(this.value);"
+							readonly="#{isVisualizar}" disabled="#{isVisualizar}">
+							<f:validateLength maximum="250" />
+						</h:inputTextarea>
+					</s:decorate>
+
+				</h:panelGrid>
+			</rich:panel>
+
+			<div align="right">
+				<a4j:commandButton
+					action="#{manterCargoFuncaoAction.salvarAreaAtucao()}"
+					value="Salvar"
+					oncomplete="#{rich:component('incluirAreaAtuacaoModal')}.hide();"
+					rendered="#{!manterCargoFuncaoAction.isVisualizar}"
+					reRender="areaAtuacaoModel">
+				</a4j:commandButton>
+				<a4j:commandButton value="Cancelar"
+					action="#{manterCargoFuncaoAction.cancelarSalvarAreaAtucao()}"
+					ajaxSingle="true"
+					oncomplete="#{rich:component('incluirAreaAtuacaoModal')}.hide();" />
+				<br class="Clear" />
+			</div>
+			<br />
+
+		</h:form>
+	</rich:modalPanel>
+</ui:composition>

@@ -1,0 +1,68 @@
+package br.gov.iphan.sisgep.util;
+
+import org.jboss.seam.annotations.Name;
+
+/**
+ * Classe Utilitária que contem um Enum com as principais menssagem do sistema
+ * @author 	Thiago Nunes Vieira
+ **/
+@Name("mensagens")
+public enum Mensagens {
+	
+	/*Mensagens de SCU - INFO*/
+	MSGI000("Nenhum registro encontrado."),
+	MSGI001("Operação realizada com sucesso."),
+	
+	
+	/*Mensagens de Confirmação*/
+	MSGC001("Essa alteração irá afetar todos os servidores associados ao cargo. Deseja continuar?"),
+	MSGA002("Essa alteração afetará todos registros associados a ele. Deseja continuar?"),
+	MSGC003("Disponível."),
+	MSGC004("O registro 'MSGTAG' será excluído! Deseja continuar?"),
+	MSGC005("O registro 'MSGTAG' será Inativado! Deseja continuar?"),
+	/*Mensagens de WARN*/
+	MSGW000("Dado obrigatório não informado."),
+	MSGW001("Não é possível realizar essa operação! Existe(m) associação(ões) para esse registro."),
+	MSGW002("O registro 'MSGTAG' já existe."),
+	MSGW003("O registro 'MSGTAG' já existe, porém está inativo. Para ativá-lo faça uma busca pelos registro inativos e salve-o novamente."),
+	MSGW004("A 'MSGTAG' não pode ser maior que a data atual."),
+	MSGW005("'MSGTAG Início'  deve ser menor que 'MSGTAG Fim' ."),
+	MSGW006("Não é possível realizar essa operação! Existe(m) associação(ões) para esse registro."),
+	MSGW007("Não é possível realizar essa operação! Existe(m) benificiário(s) para Administradora 'MSGTAG'."),
+	MSGW008("Preencha o campo 'MSGTAG' corretamente."),
+	MSGW009("A MSGTAG não pode ser menor que a data de entrada."),
+	MSGW010("O servidor deve ter no máximo dois cargos efetivos."),
+	MSGW011("O servidor deve ter no máximo um cargo comissionado."),
+	MSGW012("Soma dos pontos de Escala deve ser igual ao Valor Máximo do Subfator."),
+<<<<<<< HEAD
+	MSGW013("É necessário inserir ao menos um fator.");
+=======
+	MSGW013("ver mensagem.");
+>>>>>>> c0b9f98229e6159cf0f262a3cc4a7ea360d35baf
+	
+	private String mensagem;
+	
+	
+	/**
+	 * Contrutor padrão da classe
+	 * @param   String mensagem
+	 * @author 	Thiago Nunes Vieira
+	 **/
+	Mensagens(String mensagem){
+		this.mensagem=mensagem;	
+	}
+	
+	/**
+	 * Medoto com a função de retornar a messagem com os parametros concatenados
+	 * @param   String parametro
+	 * @return  String
+	 * @author 	Thiago Nunes Vieira
+	 **/
+	public String retornaMensagem(String parametro) {
+		String mensagemRetorno=mensagem.replaceAll("MSGTAG", parametro);
+		return mensagemRetorno;
+	}
+	public String retornaMensagem() {
+		return this.mensagem;
+	}
+}

@@ -1,0 +1,174 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j">
+
+	<rich:modalPanel id="consultaServidorModal" moveable="false"
+		resizeable="false" onresize="false" width="750" height="550" style="background-color: white;  overflow: auto;">
+		
+		<f:facet name="header">
+            <h:panelGroup>
+                <h:outputText value="Servidor"></h:outputText>
+            </h:panelGroup>
+        </f:facet>
+		
+		<h:form name="formConsultaServidor">
+			<s:div styleClass="Error" id="formularioMessages1"
+				rendered="#{reRenderModal}">
+				<rich:panel styleClass="message" style="padding:0"
+					rendered="#{! empty facesContext.maximumSeverity}">
+					<rich:effect event="onclick" type="DropOut" params="duration:0.8" />
+					<h:messages globalOnly="true" layout="vertical" errorClass="errormsg"
+						errorStyle="padding-left:70px;" fatalClass="errormsg"
+						fatalStyle="padding-left:70px" infoClass="infomsg"
+						infoStyle="padding-left:70px" warnClass="warnmsg"
+						warnStyle="padding-left:70px" />
+				</rich:panel>
+			</s:div>
+			<h4>
+				<h:outputText value="Consultar Servidor" />
+			</h4>
+			<rich:separator styleClass="separatorTitulo" />
+			<br/>
+			
+			<rich:panel>
+				<f:facet name="header">Filtro de pesquisa</f:facet>
+				<h:panelGrid columns="2">
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Nome Funcionario:</ui:define>
+						<h:inputText id="nomePessoaFisica" value="#{servidor.pessoaFisica.nomPessoaFisica}" maxlength="130" size="30" onkeypress="this.value=trataTxt(this.value);" onblur="this.value=trataTxt(this.value);"  />
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Matricula:</ui:define>
+						<h:inputText id="numMatricula" value="#{servidor.numMatricula}" maxlength="9" size="9"/>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">CPF:</ui:define>
+						<rich:jQuery selector="#numCpf" query="setMask()" timing="onload"/>
+						<h:inputText value="#{servidor.pessoaFisica.numCpf}" id="numCpf" maxlength="14" alt="cpf">
+						</h:inputText>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+					</s:decorate>					
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Data entrada IPHAN: </ui:define>
+						<rich:jQuery selector="#datIngressoOrgaoInicio" query="setMask()" timing="onload"/>
+						<h:inputText value="#{servidor.datIngressoOrgaoInicio}" id="datIngressoOrgaoInicio" maxlength = "10" size="12" alt="date"  validator="dateValidator" >
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:inputText>
+						<h:outputText value=" a " />
+						<rich:jQuery selector="#datIngressoOrgaoFim" query="setMask()" timing="onload"/>
+						<h:inputText value="#{servidor.datIngressoOrgaoFim}" id="datIngressoOrgaoFim" maxlength = "10" size="12" alt="date"  validator="dateValidator" >
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:inputText>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+					</s:decorate>	
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Situacao Funcional: </ui:define>
+						<h:selectOneMenu value="#{servidor.situacaoFuncional}" id="codSitucaoFuncional">
+							<s:selectItems  value="#{combosAuxiliarAction.getSituacaoFuncionals()}" var="_situacaoFuncional" 
+								label="#{_situacaoFuncional.txtDescricao}" noSelectionLabel="Selecione"/>
+							<s:convertEntity/>
+						</h:selectOneMenu>
+					</s:decorate>
+					
+				</h:panelGrid>
+			</rich:panel>
+			
+			<div align="right">
+				<a4j:commandButton action="#{manterUnidadeAdministrativaAction.procurarModalServidor()}" 
+					oncomplete="#{rich:component('consultaServidorModal')}.show();"
+					value="Consultar" reRender="consultaServidorModal"/>
+				<s:button value="Cancelar"
+					oncomplete="#{reRenderModal ? false : rich:component('consultaServidorModal')}.hide()"/>	
+				<br class="Clear" />
+			</div>
+			<br />
+			<rich:dataTable width="483" id="servidorDataTable" rows="3"
+				value="#{listServidor}" var="_servidor" rendered="#{not empty listServidor}">
+				
+				<rich:column sortBy="#{_servidor.numMatricula}">
+					<f:facet name="header">
+						<h:outputText value="Matricula" />
+					</f:facet>
+					<h:outputText value="#{_servidor.numMatricula}" />
+				</rich:column>
+				
+				<rich:column sortBy="#{_servidor.pessoaFisica.nomPessoaFisica}">
+					<f:facet name="header">
+						<h:outputText value="Nome" />
+					</f:facet>
+					<h:outputText value="#{_servidor.pessoaFisica.nomPessoaFisica}" />
+				</rich:column>
+				
+				<rich:column sortBy="#{_servidor.pessoaFisica.numCpf}">
+					<f:facet name="header">
+						<h:outputText value="CPF" />
+					</f:facet>
+					<h:outputText value="#{_servidor.pessoaFisica.numCpf}" />
+				</rich:column>
+				
+				<rich:column>
+					<f:facet name="header">
+						<h:outputText value="Cargo" />
+					</f:facet>
+					<h:outputText value="#{_servidor.cargoEfetivo != null ? _servidor.cargoEfetivo.cargoFuncionario.txtDescricao : '-'}" />
+				</rich:column>
+				
+				<rich:column sortBy="#{_servidor.situacaoFuncional.txtDescricao}">
+					<f:facet name="header">
+						<h:outputText value="Situacao Funcional" />
+					</f:facet>
+					<h:outputText value="#{_servidor.situacaoFuncional.txtDescricao}" />
+				</rich:column>
+				
+				<rich:column style="text-align:center;">
+					<f:facet name="header">
+						<h:outputText value="Dt. Entrada IPHAN" />
+					</f:facet>
+					<h:outputText value="#{_servidor.formaIngressoAposentacao1.datIngressoApos !=null ? manterServidorAction.formataData(_servidor.formaIngressoAposentacao1.datIngressoApos, 'dd/MM/yyyy') : '-'}" />
+				</rich:column>
+				
+				<rich:column  style="text-align:center;">
+					<f:facet name="header">
+						<h:outputText value="Dt. Saida  IPHAN" />
+					</f:facet>
+					<h:outputText value="#{_servidor.formaSaida.datSaida !=null ? manterServidorAction.formataData(_servidor.formaSaida.datSaida, 'dd/MM/yyyy') : '-'}" />
+				</rich:column>
+				
+				<rich:column style="width:80px">
+					<f:facet name="header">
+						<h:outputText value="Ações" />
+					</f:facet>
+					<div align="center">
+				<a4j:commandButton reRender="formularioIncluirEditarUnidade" image="#{imagemUtil.getURLIcone('ADD')}" 
+							title="Vincular" immediate="true" style="margin-bottom:-4px; padding-right: 2px;"
+							oncomplete="#{reRenderModal ? false : rich:component('consultaServidorModal')}.hide()" 
+							action="#{manterUnidadeAdministrativaAction.vincularServidorUnidade(_servidor)}"/>
+					</div>
+				</rich:column>
+			</rich:dataTable>
+			<br />
+			<h:outputText id="totalOutputPesqu" style="font-weight:bold;"
+					value="Total: #{listServidor.size()}" 
+					rendered="#{not empty listServidor}"/>
+			<br />
+			<rich:datascroller align="center" for="servidorDataTable"
+				renderIfSinglePage="false" />
+			
+		</h:form>
+	</rich:modalPanel>
+</ui:composition>

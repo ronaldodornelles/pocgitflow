@@ -1,0 +1,95 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:stella="http://stella.caelum.com.br/faces">
+
+  	<rich:modalPanel id="modalSelecionarSubFator" moveable="false" resizeable="false" onresize="false" width="720" height="580" style="background-color: white;">
+		<rich:panel id="subfatorPanel">
+			<f:facet name="header">
+				<h:panelGroup>
+					<h:outputText value="Subfatores"></h:outputText>
+				</h:panelGroup>
+			</f:facet>
+			<a4j:form name="formSelecionarSubFator" id="formSelecionarSubFator">
+				<h:panelGrid  columns="1">
+					<ui:include src="/layout/mensagens.xhtml" />
+					<h4>
+						<h:outputText value="Subfatores" style="font-weight:bold; font-size:15px;"/>
+					</h4>
+				</h:panelGrid>
+				<br />
+				<rich:panel>
+					<f:facet name="header">Filtro de pesquisa</f:facet>
+					<h:panelGrid columns="1">
+						<s:decorate template="/layout/edit.xhtml">
+							<ui:define name="label">Palavra Chave:</ui:define>
+							<h:inputText id="palavraChave" value="#{manterSubfatorAction.palavraChave}"/>
+						</s:decorate>			
+					</h:panelGrid>
+				</rich:panel>
+				<div align="right">
+					<a4j:commandButton action="#{manterSubfatorAction.procurar()}" value="Consultar" reRender="tableSubfator, subfatorDataTable"/>
+					<br class="Clear" />
+				</div><br />
+				<a4j:outputPanel id="tableSubfator">
+					<rich:dataTable width="483" id="subfatorDataTable" rows="10" value="#{manterSubfatorAction.listSubfator}" var="subfator" rendered="#{not empty listSubfator}" rowKeyVar="idx">
+						<rich:column>
+							<f:facet name="header">
+								<h:selectBooleanCheckbox id="checkAll" >
+									<a4j:support event="onclick" ajaxSingle="true" action="#{manterSubfatorAction.selecionarTodos()}" reRender="tableSubfator" />
+								</h:selectBooleanCheckbox>
+							</f:facet>
+							<center>
+								<h:selectBooleanCheckbox id="checkEntry" value="#{manterSubfatorAction.subfatoresSelecionados[subfator]}" disabled="false"/>
+							</center>
+						</rich:column>
+					
+					
+						<rich:column sortBy="#{subfator.posicao}">
+							<f:facet name="header">
+								<h:outputText value="Subfator" />
+							</f:facet>
+							<h:outputText value="#{subfator.posicao}" />
+						</rich:column>
+						
+						<rich:column sortBy="#{subfator.descricao}">
+							<f:facet name="header">
+								<h:outputText value="Descrição" />
+							</f:facet>
+							<h:outputText value="#{subfator.descricao}" />
+						</rich:column>
+						
+						<rich:column sortBy="#{subfator.escalaMaxima}">
+							<f:facet name="header">
+								<h:outputText value="Pontos" />
+							</f:facet>
+							<h:outputText value="#{subfator.escalaMaxima}" />
+						</rich:column>
+					</rich:dataTable><br />
+				
+					<div align="right">
+						<a4j:commandButton value="Fechar" oncomplete="#{rich:component('modalSelecionarSubFator')}.hide();"/>
+						<a4j:commandButton action="#{manterSubfatorAction.salvarSelecionados()}" value="Salvar Selecionados" reRender="subFatoresPanel" oncomplete="#{rich:component('modalSelecionarSubFator')}.hide();"/>
+						<br class="Clear" />
+					</div>
+					
+					
+					<h:outputText id="totalOutput" style="font-weight:bold;" value="Total: #{manterSubfatorAction.listSubfator.size()}" rendered="#{not empty manterSubfatorAction.listSubfator}"/><br />
+					<rich:datascroller align="center" for="subfatorDataTable" renderIfSinglePage="false" />
+				
+				
+				
+				</a4j:outputPanel>
+				
+
+			</a4j:form>
+		</rich:panel>
+	</rich:modalPanel>
+</ui:composition>

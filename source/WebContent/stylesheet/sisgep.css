@@ -1,0 +1,281 @@
+#barra-brasil-v3 {
+	background: none repeat scroll 0 0 #00500F;
+	clear: both;
+	height: 28px;
+	min-width: 740px;
+	overflow: hidden;
+	position: relative;
+}
+
+#barra-brasil-v3 span {
+	background: url("../img/barra-brasil-v3-bgx.gif") repeat-x scroll 0
+		bottom transparent;
+	display: block;
+	height: 28px;
+	width: 50%;
+}
+
+#barra-brasil-v3 span .imagemGov {
+	background: url("../img/barra-brasil-v3-verde.gif") no-repeat scroll
+		right top transparent;
+	height: 24px;
+	left: 50%;
+	margin-left: -375px;
+	position: absolute;
+	top: 4px;
+	width: 740px;
+}
+
+#barra-brasil-v3 span .brasilgov {
+	border: 0 none !important;
+	display: block;
+	float: right;
+	height: 24px;
+	width: 100px;
+}
+
+#iphangov {
+	background: url("../img/header_siscau1.png") repeat-x scroll 0 bottom
+		transparent;
+	width: 209px;
+	height: 86px;
+	position: absolute;
+}
+
+#rodape {
+	background-color: #A02214;
+	padding: 5px 10px;
+	text-align: left;
+	position: absolute;
+}
+
+.div_geral {
+	width: 740px;
+}
+
+.content-rodape {
+	bottom: 0;
+	color: #CE4E38;
+	font: 12px arial, sans-serif;
+	position: relative;
+	text-align: center;
+}
+
+#footer {
+	background: url("../img/footer_28.gif") repeat-x scroll 0 0 transparent;
+	height: 1px;
+	width: 740px;
+	position: relative;
+}
+
+.big {
+	margin: 10px 0 15px -15px;
+	padding: 10px;
+	width: 600px;
+}
+
+legend {
+	color: #CE4E38;
+	font: bold 14px arial, sans-serif;
+	padding: 0 5px;
+}
+
+input[type="submit"], input[type="button"], input[type="reset"] {
+	background-image: url("../img/color_btn.png");
+	border: 1px solid #900000;
+	color: #FFFFFF;
+	font-weight: bold;
+	padding: 1px 4px;
+}
+
+.message {
+	background-color: #F0F8FF;
+	border: 1px solid #FFCC00;
+	color: #FF0000;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	margin-bottom: 0;
+	margin-top: 0;
+	padding: 0;
+}
+
+.message li {
+	height: 25px;
+	line-height: 25px;
+	margin-bottom: 3px;
+	margin-top: 3px;
+	padding: 3px;
+}
+
+.message li.infomsg {
+	background-color: #DFFFDF;
+	border: 2px solid #9FCF9F;
+	color: #62993E;
+}
+
+.error {
+	float: left;
+	padding: 5px;
+}
+
+.errors {
+	color: red;
+	vertical-align: middle;
+}
+
+img.errors {
+	padding-right: 5px;
+}
+
+.errors input {
+	border: 1px solid red;
+}
+
+.errors textarea {
+	border: 1px solid red;
+}
+
+.required {
+	color: red;
+	padding-left: 2px;
+}
+
+.rich-stglpanel-body {
+	overflow: auto;
+}
+
+h2.titulo {
+	font-size: 16px;
+}
+
+h4 {
+	color: #666666;
+}
+
+h5 {
+	color: #006699;
+	font-size: 14px;
+}
+
+.separatorTitulo {
+	background-color: #666666;
+	background-image: none !important;
+	height: 2px;
+}
+
+.separatorSubTitulo {
+	background-color: #006699;
+	background-image: none !important;
+	height: 1px;
+}
+
+#Wrapper {
+	background-image: none;
+}
+
+.actionButton {
+	padding: 3px;
+}
+
+#mensagemPagina {
+	color: #000000;
+	font-size: 14px;
+}
+
+input[disabled="disabled"] {
+	border: 1px none !important;
+}
+
+table thead tr th.collumnHeaderWrap {
+	white-space: normal;
+}
+
+.Clear {
+	clear: both;
+	font-size: 0;
+	height: 0;
+	line-height: 0;
+}
+
+div.message {
+	background: none no-repeat scroll left center transparent;
+	border: 0 none;
+	color: #000000;
+	font-size: 12px;
+	list-style: none outside none;
+	margin: 5px 0 8px 3px;
+	padding: 1px 0 0 20px;
+}
+
+div.message infomessage {
+	color: green;
+	font-size: 20px;
+}
+
+div.message errormessage {
+	color: red;
+	font-size: 30px;
+}
+
+div.message warnmessage {
+	color: yellow;
+	font-size: 40px;
+}
+
+.message {
+	background: none repeat scroll 0 0 transparent;
+	border: 0 none;
+	color: #000000;
+	font-size: 12px;
+	list-style: none inside none;
+	padding: 5px;
+}
+
+.message li {
+	background: none no-repeat scroll left center transparent;
+	border-color: -moz-use-text-color;
+	border-left: 1px solid;
+	border-style: solid;
+	border-width: 1px;
+	height: 40px;
+	line-height: 40px;
+	list-style: none outside none;
+	margin-left: -50px;
+	padding-left: 1px;
+	padding-top: 1px;
+}
+
+.message li.infomsg {
+	background-image: url("../img/msginfo.png");
+	background-position: 2% 50%;
+}
+
+.message li.errormsg {
+	background-color: antiquewhite;
+	background-image: url("../img/msgerror.png");
+	background-position: 2% 50%;
+}
+
+.message li.warnmsg {
+	background-color: lightyellow;
+	background-image: url("../img/msgwarn.png");
+	background-position: 2% 50%;
+}
+
+.centralizar {
+	text-align: center;
+}
+
+.alignmentRight {
+	text-align: right;
+}
+
+.scroll {
+	overflow: auto;
+}
+
+.scroll_div {
+	overflow: scroll;
+	width: 100%;
+	height: 100%;
+}

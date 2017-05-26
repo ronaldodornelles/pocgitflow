@@ -1,0 +1,280 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	template="/layout/template.xhtml">
+	
+	<ui:define name="conteudo">
+		<h:form name="formulario" id="formulario">
+			<ui:include src="/layout/modalAjaxStatus.xhtml" />
+			<a4j:outputPanel id="mensagemPanel">
+			<ui:include src="/layout/mensagens.xhtml" />
+			</a4j:outputPanel>
+			<h4>
+				<h:outputText rendered="#{manterGerenciadorAvaliacaoAction.isIncluindo}" value="Inclusão Gerenciador de Avaliações" />
+				<h:outputText rendered="#{manterGerenciadorAvaliacaoAction.isEditando}" value="Edição Gerenciador de Avaliações" />
+				<h:outputText rendered="#{manterGerenciadorAvaliacaoAction.isVisualizando}" value="Visualização Gerenciador de Avaliações" />
+			</h4>
+			<rich:separator styleClass="separatorTitulo" />
+			<br/>
+			<rich:panel>
+				<f:facet name="header">Gerenciador de Avaliações</f:facet>
+				<h:panelGrid columns="1">
+					<h3>Dados da Avaliação</h3>
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Período do Processo Avaliativo:</ui:define>
+						<rich:jQuery selector="#periodoProcessoInicio" query="setMask()" timing="onload"/>
+						<a4j:outputPanel id="periodoProcInicio">
+						<h:inputText value="#{manterGerenciadorAvaliacaoAction.avaliacao.periodoProcessoInicio}" id="periodoProcessoInicio" maxlength = "10" size="12" alt="date"  
+						validator="dateValidator" readonly="#{isVisualizar}" required="true">
+							<f:convertDateTime pattern="dd/MM/yyyy"/>
+						</h:inputText>
+						</a4j:outputPanel>
+						<h:outputText value=" a " />
+						<rich:jQuery selector="#periodoProcessoFim" query="setMask()" timing="onload"/>
+						<a4j:outputPanel id="periodoProcFim">
+						<h:inputText value="#{manterGerenciadorAvaliacaoAction.avaliacao.periodoProcessoFim}" id="periodoProcessoFim" maxlength = "10" size="12" alt="date"  
+						validator="dateValidator" readonly="#{isVisualizar}" required="true">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:inputText>
+						</a4j:outputPanel>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Período de Avaliação:</ui:define>
+						<rich:jQuery selector="#periodoInicio" query="setMask()" timing="onload"/>
+						<a4j:outputPanel id="periodoIni">
+						<h:inputText value="#{manterGerenciadorAvaliacaoAction.avaliacao.periodoInicio}" id="periodoInicio" maxlength = "10" size="12" alt="date"  
+						validator="dateValidator" readonly="#{isVisualizar}" required="true">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:inputText>
+						</a4j:outputPanel>
+						<h:outputText value=" a " />
+						<rich:jQuery selector="#periodoFim" query="setMask()" timing="onload"/>
+						<a4j:outputPanel id="periodoF">
+						<h:inputText value="#{manterGerenciadorAvaliacaoAction.avaliacao.periodoFim}" id="periodoFim" maxlength = "10" size="12" alt="date"  
+						validator="dateValidator" readonly="#{isVisualizar}" required="true">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:inputText>
+						</a4j:outputPanel>
+					</s:decorate>
+					
+					<h:panelGrid columns="1" id="formaDeIngresso" style="margin-top: 11px; margin-left: -4px;">
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Unidade Organizacional:</ui:define>
+						<a4j:outputPanel id="unidadeOrg">
+						<h:selectOneMenu value="#{manterGerenciadorAvaliacaoAction.uf}" id="uf" disabled="#{isVisualizar}" required="true">
+							<s:selectItems  value="#{manterGerenciadorAvaliacaoAction.carregarUfs()}" var="_uf"
+								label="#{_uf.desSigla}" noSelectionLabel="Selecione"/>
+							<s:convertEntity/>
+							<a4j:support event="onchange" reRender="nomUnidadeAdministrativa, equipePanel" ajaxSingle="true" focus="nomUnidadeAdministrativa" 
+										action="#{manterGerenciadorAvaliacaoAction.procurarNomeUnidAdm()}"/>
+						</h:selectOneMenu>
+						
+						<h:selectOneMenu value="#{manterGerenciadorAvaliacaoAction.unidadeAdministrativa}" id="nomUnidadeAdministrativa" 
+										disabled="#{isVisualizar}"  style="width: 370px;" required="true">
+							<s:selectItems  value="#{listUnidadeAdministrativa}" var="_nomUnidadeAdministrativa" 
+								label="#{_nomUnidadeAdministrativa.nomUnidadeAdministrativa}" noSelectionLabel="Selecione"/>
+							<s:convertEntity/>
+							<a4j:support event="onchange" reRender="equipePanel, mensagemPanel" ajaxSingle="true"
+										action="#{manterGerenciadorAvaliacaoAction.verificaSePreencheuUnidadeAdm()}"/>
+						</h:selectOneMenu>
+						</a4j:outputPanel>
+					</s:decorate>
+				</h:panelGrid>
+					
+				<s:decorate template="/layout/edit.xhtml">
+					<ui:define name="label">Tipo de Avaliação:</ui:define>
+					<a4j:outputPanel id="tipoAvaliacaoPanel">
+					<h:inputText value="#{manterGerenciadorAvaliacaoAction.tipoAvaliacao}" id="tipoAvaliacao" size="70"  
+						maxlength="150" readonly="true" required="true"
+						onkeypress="this.value=trataTxt(this.value);" onblur="this.value=trataTxt(this.value);" />
+					</a4j:outputPanel>
+					<a4j:commandButton style="margin-left: 4px; margin-bottom: -4px;" image="#{imagemUtil.getURLIcone('DETALHAR')}" ajaxSingle="true"
+							immediate="true" oncomplete="#{rich:component('consultarTipoAvaliacao')}.show();" rendered="#{!isVisualizar}"
+							reRender="consultarTipoAvaliacao, formConsultarTipoAvaliacao"/>
+				</s:decorate>
+				
+				<s:decorate template="/layout/edit.xhtml">
+					<ui:define name="label">Condutor do Processo de Avaliação:</ui:define>
+					<a4j:outputPanel id="condutorPanel">
+					<h:inputText style="margin-top: 18px;" value="#{manterGerenciadorAvaliacaoAction.condutor}" id="condutor" size="70"  
+						maxlength="150" readonly="true" required="true"
+						onkeypress="this.value=trataTxt(this.value);" onblur="this.value=trataTxt(this.value);"/>
+					</a4j:outputPanel>
+					<a4j:commandButton style="margin-left: 4px; margin-bottom: -4px;" image="#{imagemUtil.getURLIcone('DETALHAR')}" ajaxSingle="true"
+							action="#{manterGerenciadorAvaliacaoAction.prepararModalServidor()}" rendered="#{!isVisualizar}"
+							oncomplete="#{rich:component('consultarCondutorAvaliacao')}.show();" 
+							reRender="consultarCondutorAvaliacao, formConsultarCondutorAvaliacao"
+							immediate="true"/>
+				</s:decorate>
+				
+					<s:decorate template="/layout/edit.xhtml">
+					<ui:define name="label">Equipe  de Avaliação:</ui:define>
+					<a4j:outputPanel id="equipePanel">
+					<h:inputTextarea value="#{manterGerenciadorAvaliacaoAction.equipeString}" id="equipe" size="50" rows="3" cols="61" readonly="true"
+						onkeypress="this.value=trataTxt(this.value);" onblur="this.value=trataTxt(this.value);" required="true"/>
+					<a4j:commandButton style="margin-left: 4px; margin-bottom: 32px;" image="#{imagemUtil.getURLIcone('DETALHAR')}" ajaxSingle="true"
+							reRender="consultarEquipeAvaliacao, formConsultarEquipeAvaliacao" rendered="#{manterGerenciadorAvaliacaoAction.preencheuUnidadeAdm and !isVisualizar}"
+							immediate="true" oncomplete="#{rich:component('consultarEquipeAvaliacao')}.show();"/>
+					<h:commandButton style="margin-left: 4px; margin-bottom: 32px;" image="#{imagemUtil.getURLIcone('DETALHAR')}" ajaxSingle="true"
+					rendered="#{!manterGerenciadorAvaliacaoAction.preencheuUnidadeAdm and !isVisualizar}" action="#{manterGerenciadorAvaliacaoAction.mostraMensagemUnidAdm()}" immediate="true"/>
+					</a4j:outputPanel>
+				</s:decorate>
+				
+				<s:decorate template="/layout/edit.xhtml">
+					<ui:define name="label">Servidores Avaliados:</ui:define>
+					<a4j:commandButton ajaxSingle="true" action="#{manterGerenciadorAvaliacaoAction.procurarServidorParaAvaliacao()}"
+					oncomplete="#{rich:component('modalInserirNovoServidorAvaliacao')}.show();" 
+					reRender="panelDataTable, filtroPanel" value="Inserir Novo" rendered="#{!isVisualizar}"/>
+				</s:decorate>
+
+				<rich:panel id="panelTableAvaliados">
+				<h3><h:outputText value="Servidores Cadastrados para Avaliação" rendered="#{listServidoresAvaliados.size() > 0}"/></h3>
+				<a4j:outputPanel id="servidoresAvaliadosPanel">
+				<rich:dataTable id="servidoresAvaliadosDataTable" width="730" rows="10"
+				value="#{listServidoresAvaliados}" var="servidor" rendered="#{not empty listServidoresAvaliados}">
+				
+				<rich:column sortBy="#{servidor.pessoaFisica.nomPessoaFisica}">
+					<f:facet name="header">
+						<h:outputText value="Nome" />
+					</f:facet>
+					<h:outputText value="#{servidor.pessoaFisica.nomPessoaFisica}" />
+				</rich:column>
+				
+				<rich:column sortBy="#{servidor.unidadeAdministrativaExce.nomUnidadeAdministrativa}">
+					<f:facet name="header">
+						<h:outputText value="Unidade Exercício" />
+					</f:facet>
+					<h:outputText value="#{servidor.unidadeAdministrativaExce.nomUnidadeAdministrativa}" rendered="#{servidor.unidadeAdministrativaExce ne null and servidor.unidadeAdministrativaExce.nomUnidadeAdministrativa ne null}"/>
+				</rich:column>
+				
+				<rich:column>
+					<f:facet name="header">
+						<h:outputText value="Chefia" />
+					</f:facet>
+					<h:outputText value="#{manterGerenciadorAvaliacaoAction.buscarChefia(servidor)}" />
+				</rich:column>
+	
+				<rich:column style="width:80px" rendered="#{!isVisualizar}">
+					<f:facet name="header">
+						<h:outputText value="Ações" />
+					</f:facet>
+					<div align="center">
+						<a4j:commandButton style="margin-left: 4px;" image="#{imagemUtil.getURLIcone('DETALHAR')}" ajaxSingle="true"
+							rendered="#{!isVisualizar}" action="#{manterGerenciadorAvaliacaoAction.visualizarAvaliado(servidor)}"
+							oncomplete="#{rich:component('modalDetalheServidorAvaliado')}.show();" 
+							reRender="modalDetalheServidorAvaliado"
+							immediate="true"/>
+							
+						<a4j:commandButton style="margin-left: 4px;" image="#{imagemUtil.getURLIcone('CHEFIA')}" ajaxSingle="true"
+						title="Alterar Chefia Imediata" action="#{manterGerenciadorAvaliacaoAction.prepararModalChefia(servidor)}" rendered="#{!isVisualizar}"
+						oncomplete="#{rich:component('alterarChefiaAvaliacao')}.show();" 
+						reRender="alterarChefiaAvaliacao, formAlterarChefiaAvaliacao,"
+						immediate="true"/>
+						
+						<a4j:commandButton image="#{imagemUtil.getURLIcone('EXCLUIR')}" oncomplete="#{rich:component('modalExcluirServidor')}.show();" title="Excluir" immediate="true"
+						action="#{manterGerenciadorAvaliacaoAction.prepararModalServidorAvaliado(servidor)}" 
+						reRender="modalExcluirServidor"/>
+						
+					</div>
+				</rich:column>
+			</rich:dataTable>
+			<br />
+			<h:outputText id="totalOutputPesqu" style="font-weight:bold;"
+					value="Total: #{listServidoresAvaliados.size()}" 
+					rendered="#{not empty listServidoresAvaliados}"/>
+			<br />
+			<rich:datascroller align="center" for="servidoresAvaliadosDataTable"
+				renderIfSinglePage="false" />
+			</a4j:outputPanel>
+			</rich:panel>
+
+			</h:panelGrid>
+			</rich:panel>
+			<div align="right">
+				<a4j:commandButton action="#{manterGerenciadorAvaliacaoAction.salvar()}" value="Salvar" rendered="#{!isVisualizar and !isEditar}" reRender="formulario"/>
+				<a4j:commandButton action="#{manterGerenciadorAvaliacaoAction.editar()}" value="Salvar" rendered="#{!isVisualizar and !isIncluir}" reRender="formulario"/>
+				<h:commandButton action="#{manterGerenciadorAvaliacaoAction.voltar()}" value="Voltar" immediate="true"/>
+				<br class="Clear" />
+			</div>
+			<br />
+		</h:form>
+		<ui:include src="/pages/administracao/avaliacao/modal/modalConsultaCondutorAvaliacao.xhtml" />
+		<ui:include src="/pages/administracao/avaliacao/modal/modalAlterarChefiaAvaliacao.xhtml" />
+		<ui:include src="/pages/administracao/avaliacao/modal/modalConsultaTipoAvaliacao.xhtml" />	
+		<ui:include src="/pages/administracao/avaliacao/modal/modalConsultaEquipeAvaliacao.xhtml" />
+		<ui:include src="/pages/administracao/avaliacao/modal/modalInserirServidoresAvaliados.xhtml" />
+	
+	
+	
+	<rich:modalPanel id="modalExcluirServidor" width="350" height="170">
+		        <f:facet name="header">
+		            <h:panelGroup>
+		                <h:outputText value="Excluir Servidor"></h:outputText>
+		            </h:panelGroup>
+		        </f:facet>
+		        <f:facet name="controls">
+		            <h:panelGroup>
+		                <rich:componentControl for="modalExcluirServidor" attachTo="hidelink" operation="hide" event="onclick"/>
+		            </h:panelGroup>
+		        </f:facet>
+		       	<center>
+		       	<h3><h:outputText value="ATENÇÃO!"/>
+		       	<br/>
+		       	<br/>
+		       	<h:outputText value="O item selecionado será excluido."/>
+		       	<br/>
+		       	<h:outputText value="Tem certeza que deseja realizar esta exclusão?"/>
+		       	</h3>
+		       	</center>
+		        <br/>
+		        <h:form id="excluirModal">
+			        <div align="center">
+				        <a4j:commandButton value="Sim" action="#{manterGerenciadorAvaliacaoAction.excluirServidorAvaliado()}" oncomplete="#{rich:component('modalExcluirServidor')}.hide();" 
+				        reRender="servidoresAvaliadosPanel, modalInserirNovoServidorAvaliacao"/>
+				        <h:commandButton value="Não" oncomplete="#{rich:component('modalExcluirServidor')}.hide();" />
+			        </div>
+		        </h:form>
+		  </rich:modalPanel>
+		  
+		  
+		  <rich:modalPanel id="modalDetalheServidorAvaliado" width="500" height="400" style="background-color: white; overflow: auto">
+		        <f:facet name="header">
+		            <h:panelGroup>
+		                <h:outputText value="Detalhes"></h:outputText>
+		            </h:panelGroup>
+		        </f:facet>
+		        <h:form id="detalheAvaliado">
+			       	<h2><h:outputText style="font-weight:bold;" value="Detalhes da Avaliação do servidor: #{servidorSelecionado.pessoaFisica.nomPessoaFisica}"/></h2>
+			       	<rich:separator styleClass="separatorTitulo" />
+			       	<h3><h:outputText style="font-weight:bold;" value="Equipe de Avaliação"/></h3>
+			       	<div style="overflow-y:scroll;  max-height: 200px; width: 460px;">					
+							<a4j:outputPanel id="subFatoresPanel">
+								<a4j:repeat value="#{equipe.servidores}" var="servidorEquipe" id="repeatservidorEquipe" rowKeyVar="idx">
+									<h:panelGrid columns="2">
+										<h:outputText value="#{servidorEquipe.pessoaFisica.nomPessoaFisica}" />
+										<h:outputText value="(Desabilitado da equipe pois é o servidor avaliado)" rendered="#{servidorEquipe.desabilitadoEquipePorSerAvaliado}"/>
+										<h:outputText value="(Desabilitado da equipe pois é a chefia imediata)" rendered="#{servidorEquipe.desabilitadoEquipePorSerChefia}"/>
+									</h:panelGrid>
+								</a4j:repeat>
+							</a4j:outputPanel>
+						</div>
+			       	<br/>
+			       	<h3><h:outputText style="font-weight:bold;" value="Chefia Imediata"/></h3>
+			       	<h:outputText value="#{manterGerenciadorAvaliacaoAction.buscarChefiaDetalhes()}"/>
+		        <br/>
+		        <div align="right">
+			        <a4j:commandButton value="Fechar" oncomplete="#{rich:component('modalDetalheServidorAvaliado')}.hide();" reRender="#{listAvaliacao}"/>
+		        </div>
+		        </h:form>
+		  </rich:modalPanel>
+	
+	</ui:define>
+</ui:composition>

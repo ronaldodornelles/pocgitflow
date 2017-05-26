@@ -1,0 +1,98 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j" template="/layout/template.xhtml">
+
+	<ui:define name="conteudo">
+
+		<h:form name="formulario">
+		<a4j:outputPanel id="msgSincroPanel">
+			<ui:include src="/layout/modalAjaxStatus.xhtml" />
+			<ui:include src="/layout/mensagens.xhtml" />
+		</a4j:outputPanel>
+			<h3>Sincronizar via arquivo</h3>
+			<rich:separator styleClass="separatorTitulo" />
+			<br />
+			<br />
+			<fieldset>
+				<h:outputText style="font-size: 10px; font-style: oblique;" value="*Obs.: Somente serão aceitos para upload arquivos .xls e xlsx. Os nomes das planilhas (identificação de cada aba dentro do arquivo) deverão respeitar as nomenclaturas pré-definidas: 'IngressoIphan', 'IngressoServ', 'Aposenta', 'CargoEfetivo', 'CargoComis', 'FormAcad' e 'Depende'."></h:outputText>
+			</fieldset>
+			<div align="right">
+				<h:commandLink action="#{sincronizacaoAction.downloadPlanilhas}" value="Download Planilhas" immediate="true"/>
+			</div>
+			<br />
+			<h:panelGrid columns="1">
+				<s:decorate template="/layout/edit.xhtml">
+					<ui:define name="label">Arquivo(s) para Upload:</ui:define>
+					<rich:fileUpload
+						fileUploadListener="#{sincronizacaoAction.fileUpload_Listener}"
+						id="upload" acceptedTypes="xls, xlsx"
+						ontyperejected="alert('Somente arquivos .xls e .xlsx serão aceitos.');"
+						maxFilesQuantity="7" addControlLabel="Selecionar arquivo..."
+						clearAllControlLabel="Limpar Todos" clearControlLabel="Limpar"
+						cancelEntryControlLabel="Cancelar" progressLabel="Carregando"
+						stopControlLabel="Parar" uploadControlLabel="Carregar"
+						doneLabel="Finalizado">
+						<a4j:support event="onuploadcomplete" reRender="sincronizar" />
+						<a4j:support event="onclear" actionListener="#{sincronizacaoAction.clearUpload}" reRender="upload, sincronizar" />
+					</rich:fileUpload>
+				</s:decorate>
+			</h:panelGrid>
+				<div align="right">
+					<a4j:commandButton id="sincronizar" action="#{sincronizacaoAction.irSincronizacaoArquivo()}" oncomplete="#{rich:component('modalSincronizacaoArquivo')}.show();"
+						value="Realizar Sincronização" />
+					<br class="Clear" />
+				</div>
+
+		</h:form>
+
+		<rich:modalPanel id="modalMensagemErro" width="260" height="75">
+			<f:facet name="header">
+				<h:panelGroup>
+					<h:outputText value="Erro na Sincronização"></h:outputText>
+				</h:panelGroup>
+			</f:facet>
+			<h:outputText value="Houve um Erro durante a sincronização." />
+			<br></br>
+			<!-- <div style="width: 380px; height: 160px; overflow-y: scroll;">
+	       	<h:outputText value="#{sincronizacao.mensagemErro}" />
+	       	<br></br>
+	      	</div> -->
+			<div align="center">
+				<h:commandButton value="Fechar" ajaxSingle="true"
+					onclick="#{rich:component('modalMensagemErro')}.hide();" />
+			</div>
+		</rich:modalPanel>
+		
+		<rich:modalPanel id="modalSincronizacaoArquivo" width="350" height="120">
+		        <f:facet name="header">
+		            <h:panelGroup>
+		                <h:outputText>Sincronização via Arquivo</h:outputText>
+		            </h:panelGroup>
+		        </f:facet>
+		        <f:facet name="controls">
+		            <h:panelGroup>
+		                <rich:componentControl for="modalSincronizacao" attachTo="hidelink" operation="hide" event="onclick"/>
+		            </h:panelGroup>
+		        </f:facet>
+		       	<center>
+			       	<h3>
+			       		<h:outputText value="Deseja realmente iniciar a sincronização?"/>
+			       	</h3>
+		       	</center>
+		        <br/>
+		        <h:form id="sincroArquivoModal">
+			        <div align="center">
+				        <a4j:commandButton value="Sim" action="#{sincronizacaoAction.sincronizar()}" oncomplete="#{rich:component('modalSincronizacaoArquivo')}.hide();" reRender="msgSincroPanel"></a4j:commandButton>
+				        <h:commandButton value="Não" oncomplete="#{rich:component('modalSincronizacaoArquivo')}.hide();" />
+			        </div>
+		        </h:form>
+		  </rich:modalPanel>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE datasources PUBLIC "-//JBoss//DTD JBOSS JCA Config 1.5//EN" "http://www.jboss.org/j2ee/dtd/jboss-ds_1_5.dtd">
+<datasources>
+	<local-tx-datasource>
+		<jndi-name>sisgepDatasource</jndi-name>
+		<use-java-context>true</use-java-context>
+		<connection-url>jdbc:jtds:sqlserver://162.244.66.239:1433/sisgep_dev;user=sa;password=Join@_241010</connection-url>
+		<driver-class>net.sourceforge.jtds.jdbc.Driver</driver-class>
+		<user-name>sa</user-name>
+		<password>Join@_241010</password>
+	</local-tx-datasource>
+
+<!--    <local-tx-datasource> -->
+<!--       <jndi-name>sisgepDatasource</jndi-name> -->
+<!--       <use-java-context>true</use-java-context> -->
+<!--       <connection-url>jdbc:jtds:sqlserver://10.26.40.43:1433/SISGEP;user=usr_sisgep;password=@usr_sisgep@</connection-url> -->
+<!--       <driver-class>net.sourceforge.jtds.jdbc.Driver</driver-class> -->
+<!--   </local-tx-datasource> -->
+
+</datasources>

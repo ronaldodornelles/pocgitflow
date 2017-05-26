@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.org/rich"
+	contentType="text/html">
+	<html>
+		<head>
+			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+			<title>SISGEP</title>
+			<a:loadStyle src="resource:///stylesheet/theme.xcss" />
+			<a:loadStyle src="/stylesheet/theme.css" />
+			<a:loadStyle src="/stylesheet/sisgep.css" />
+
+			<script
+				src="#{facesContext.externalContext.requestContextPath}/js/jquery-2.2.1.min.js"
+				language="javascript" type="text/javascript" />
+			<script
+				src="#{facesContext.externalContext.requestContextPath}/js/jquery.meio.mask.js"
+				language="javascript" type="text/javascript" />
+			<script
+				src="#{facesContext.externalContext.requestContextPath}/js/jjquery.maskedinput-1.3.js"
+				language="javascript" type="text/javascript" />
+			<script
+				src="#{facesContext.externalContext.requestContextPath}/js/contagemRegressiva.js"
+				language="javascript" type="text/javascript" />
+			<script
+				src="#{facesContext.externalContext.requestContextPath}/js/util.js"
+				language="javascript" type="text/javascript" />
+			
+			<script 
+				src="#{facesContext.externalContext.requestContextPath}/js/mensagemModal.js" 
+				language="javascript" type="text/javascript" />
+				
+			<script type="text/javascript">
+				//<![CDATA[
+				javascript:window.history.forward(1);
+			   	jQuery.noConflict();
+			   	//]]>
+			 </script>
+			
+			<script type="text/javascript">
+			//<![CDATA[
+					var specialChars = [
+						{val:"a",let:"áàãâä"},
+						{val:"e",let:"éèêë"},
+						{val:"i",let:"íìîï"},
+						{val:"o",let:"óòõôö"},
+						{val:"u",let:"úùûü"},
+						{val:"c",let:"ç"},
+						{val:"A",let:"ÁÀÃÂÄ"},
+						{val:"E",let:"ÉÈÊË"},
+						{val:"I",let:"ÍÌÎÏ"},
+						{val:"O",let:"ÓÒÕÔÖ"},
+						{val:"U",let:"ÚÙÛÜ"},
+						{val:"C",let:"Ç"},
+						{val:"",let:"?!()"},
+						{val:"",let:"\|/"},
+						{val:"",let:"\""},
+						{val:"",let:"_"},
+						{val:"",let:"-"},
+						{val:"",let:"+"},
+						{val:"",let:"="},
+						{val:"",let:"§"},
+						{val:"",let:"¹"},
+						{val:"",let:"²"},
+						{val:"",let:"³"},
+						{val:"",let:"º"},
+						{val:"",let:"ª"},
+						{val:"",let:"°"}
+					];
+					
+					function trataTxt(str) {
+						var $spaceSymbol = ' ';
+						var regex;
+						var returnString = str;
+						for (var i = 0; i < specialChars.length; i++) {
+							regex = new RegExp("["+specialChars[i].let+"]", "g");
+							returnString = returnString.replace(regex, specialChars[i].val);
+							regex = null;
+						}
+						returnString = returnString.replace(/\s/g,$spaceSymbol).toUpperCase();
+						return returnString.replace(/[!#&§\*\(\)\{\}\[\]?:;<>%$;^~´`]/gi,"").toUpperCase();
+					};
+
+					function upperCase(str) {
+						var $spaceSymbol = ' ';
+						var regex;
+						var returnString = str;
+						for (var i = 0; i < specialChars.length; i++) {
+							regex = new RegExp("["+specialChars[i].let+"]", "g");
+							returnString = returnString.replace(regex, specialChars[i].val);
+							regex = null;
+						}
+						returnString = returnString.replace(/\s/g,$spaceSymbol).toUpperCase();
+						return returnString.toUpperCase();
+					};
+
+			//]]>
+			</script>
+			
+			<script type="text/javascript" language="javascript">
+					somenteNumerosFlutuante = function( e )	{
+					    var tecla = ( window.event ) ? e.keyCode : e.which;
+					    if ( tecla == 8 || tecla == 0 )
+					        return true;
+					    if ( tecla != 44 &amp;&amp; tecla &lt; 48 || tecla &gt; 57 )
+					        return false;
+					}					
+
+		    </script>
+			<script language="javascript" type="text/javascript">
+				somenteNumeros = function(e) {
+					var tecla = (window.event) ? event.keyCode : e.which;
+			        if (tecla &gt; 47 &amp;&amp; tecla &lt; 58) {
+						return true;
+					}
+					if (tecla == 8 || tecla == 0) {
+						return true;
+					}
+					return false;
+				}
+			</script>
+			
+				
+		</head>
+		<s:div id="barra-brasil-v3">
+			<span>
+				<s:div styleClass="imagemGov">
+					<a href="http://www.brasil.gov.br" target="_blank" class="brasilgov"/>
+				</s:div>
+        	</span>
+        </s:div>
+		<s:div styleClass="body">
+			<s:div>
+					<h:panelGrid columns="2">
+						<h:graphicImage value="/img/header_siscau1.png" onclick="window.open('http://www.iphan.gov.br', '_blank');" />
+						<h:graphicImage value="/img/header_siscau2.png" width="530px"/>
+					</h:panelGrid>
+			</s:div>
+			<s:div rendered="#{identity.loggedIn}">
+	  			<ui:include src="menu.xhtml"/>
+	  		</s:div>
+			<s:div styleClass="conteudo">
+				<br/>
+					<ui:insert name="conteudo" />
+				<br/>
+			</s:div>
+			<s:div styleClass="content-rodape">
+				<s:div id="footer">
+				</s:div>
+				<b>
+					<font size="1" color="#666666">Versão 1.0.0.1</font>
+				</b>
+			</s:div>
+		</s:div>
+		
+	</html>
+</f:view>

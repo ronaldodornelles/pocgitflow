@@ -1,0 +1,263 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:stella="http://stella.caelum.com.br/faces">
+
+			<rich:panel>
+				<f:facet name="header">Servidor</f:facet>
+				<h3><h:outputText value="Dados Pessoais"/></h3>
+				<rich:separator styleClass="separatorTitulo" />
+				
+				<h:panelGrid columns="2">
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Dt. Nascimento:</ui:define>
+						<rich:jQuery selector="#datNascimento" query="setMask()" timing="onload"/>
+						<h:inputText value="#{servidor.pessoaFisica.datNascimento}" id="datNascimento" disabled="true"  maxlength = "10" size="12" alt="date"  validator="dateValidator" >
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:inputText>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Sexo:</ui:define>
+						<h:selectOneMenu value="#{servidor.pessoaFisica.indSexo}" id="indSexo" disabled="true">
+							<f:selectItem itemLabel="Selecione"/>
+							<f:selectItem itemValue="M" itemLabel="Masculino"/>
+							<f:selectItem itemValue="F" itemLabel="Feminino"/>
+						</h:selectOneMenu>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Etnia/Cor:</ui:define>
+						<h:selectOneMenu value="#{servidor.pessoaFisica.codCorRaca}" id="codCorRaca" disabled="true" >
+							<s:selectItems  value="#{combosAuxiliarAction.getCorRacas()}" var="_corRaca" 
+								label="#{_corRaca.id}" noSelectionLabel="--"/>
+							<s:convertEntity/>
+							<a4j:support event="onchange" reRender="corRaca" ajaxSingle="true" focus="codCorRaca"/>
+						</h:selectOneMenu>
+						<h:selectOneMenu value="#{servidor.pessoaFisica.codCorRaca}" id="corRaca" disabled="true" >
+							<s:selectItems  value="#{combosAuxiliarAction.getCorRacas()}" var="_corRaca" 
+								label="#{_corRaca.nomCorRaca}" noSelectionLabel="Selecione"/>
+							<s:convertEntity/>
+							<a4j:support event="onchange" reRender="codCorRaca" ajaxSingle="true" focus="corRaca"/>
+						</h:selectOneMenu>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Estado Civil:</ui:define>
+						<h:selectOneMenu value="#{servidor.pessoaFisica.codEstadoCivil}" id="codEstadoCivil" disabled="true" >
+							<s:selectItems  value="#{combosAuxiliarAction.getEstadoCivils()}" var="_estadoCivil" 
+								label="#{_estadoCivil.id}" noSelectionLabel="--"/>
+							<s:convertEntity/>
+							<a4j:support event="onchange" reRender="estadoCivil" ajaxSingle="true" focus="codEstadoCivil"/>
+						</h:selectOneMenu>
+						<h:selectOneMenu value="#{servidor.pessoaFisica.codEstadoCivil}" id="estadoCivil" disabled="true" style="width:145px;" >
+							<s:selectItems  value="#{combosAuxiliarAction.getEstadoCivils()}" var="_estadoCivil" 
+								label="#{_estadoCivil.nomEstadoCivil}" noSelectionLabel="Selecione"/>
+							<s:convertEntity/>
+							<a4j:support event="onchange" reRender="codEstadoCivil" ajaxSingle="true" focus="estadoCivil"/>
+						</h:selectOneMenu>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Tipo Sanguíneo:</ui:define>
+						<h:selectOneMenu value="#{servidor.pessoaFisica.codGrupoSanguineo}" id="codGrupoSanguineo" disabled="true" style="width:50px">
+							<s:selectItems  value="#{combosAuxiliarAction.getGrupoSanguineos()}" var="_grupoSanguineo" 
+								label="#{_grupoSanguineo.desSigla}" noSelectionLabel="--"/>
+							<s:convertEntity/>
+						</h:selectOneMenu>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Escolaridade:</ui:define>
+						<h:selectOneMenu value="#{servidor.pessoaFisica.escolaridadePessoa}" id="escolaridadePessoaId" disabled="true" >
+							<s:selectItems  value="#{combosAuxiliarAction.getEscolaridadePessoas()}" var="_escolaridade" 
+								label="#{_escolaridade.id}" noSelectionLabel="--"/>
+							<s:convertEntity/>
+							<a4j:support event="onchange" reRender="escolaridadePessoa" ajaxSingle="true" focus="escolaridadePessoaId"/>
+						</h:selectOneMenu>
+						<h:selectOneMenu value="#{servidor.pessoaFisica.escolaridadePessoa}" id="escolaridadePessoa" disabled="true" style="width:140px;"  >
+							<s:selectItems  value="#{combosAuxiliarAction.getEscolaridadePessoas()}" var="_escolaridade" 
+								label="#{_escolaridade.txtDescricao}" noSelectionLabel="Selecione"/>
+							<s:convertEntity/>
+							<a4j:support event="onchange" reRender="escolaridadePessoaId" ajaxSingle="true" focus="escolaridadePessoa"/>
+						</h:selectOneMenu>
+					</s:decorate>
+										
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">UF:</ui:define>
+						<h:selectOneMenu value="#{combosAuxiliarAction.uf}" id="codUf" disabled="true" style="width:50px">
+							<s:selectItems  value="#{combosAuxiliarAction.getUfs()}" var="_uf" 
+								label="#{_uf.desSigla}" noSelectionLabel="--"/>
+							<s:convertEntity/>
+							<a4j:support event="onchange" reRender="nomMunicipio" ajaxSingle="true" action="#{combosAuxiliarAction.getNaturalidades()}" focus="nomMunicipio"/>
+						</h:selectOneMenu>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Naturalidade:</ui:define>
+						<h:selectOneMenu value="#{servidor.pessoaFisica.codMunicipio}" id="nomMunicipio" disabled="true"  >
+							<s:selectItems  value="#{combosAuxiliarAction.getNaturalidades()}" var="_municipio" 
+								label="#{_municipio.nomMunicipio}" noSelectionLabel="Selecione"/>
+							<s:convertEntity/>
+						</h:selectOneMenu>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Telefone Fixo:</ui:define>
+					<rich:jQuery selector="#telefoneFixo" query="setMask()" timing="onload"/>
+						<h:inputText value="#{servidor.pessoaFisica.pessoaContatoTel.txtContato}" id="telefoneFixo" size="14" readonly="true" alt="telefone" />
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Telefone Celular:</ui:define>
+						<rich:jQuery selector="#telefoneCelular" query="setMask()" timing="onload"/>
+						<h:inputText value="#{servidor.pessoaFisica.pessoaContatoCel.txtContato}" id="telefoneCelular" size="14" readonly="true" alt="telefone" />
+					</s:decorate>
+				</h:panelGrid>
+				<h:panelGrid columns="1">	
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">E-mail Pessoal:</ui:define>
+						<h:inputText value="#{servidor.pessoaFisica.pessoaContatoEmail.txtContato}" id="emailPessoal" readonly="true" 
+							maxlength="50" onkeypress="this.value=trataTxt(this.value);" onblur="this.value=trataTxt(this.value);" size="50"  />
+					</s:decorate>
+				</h:panelGrid>
+				
+				<h3><h:outputText value="Endereço"/></h3>
+				
+				<rich:separator styleClass="separatorTitulo" />
+				
+				<h:panelGrid columns="1">
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Logradouro:</ui:define>
+						<h:inputText value="#{servidor.pessoaFisica.pessoaEndereco.nomLogradouro}" id="nomLogradouro" maxlength="150" size="80"  readonly="true"  onkeypress="this.value=trataTxt(this.value);" onblur="this.value=trataTxt(this.value);"  />
+					</s:decorate>
+				</h:panelGrid>	
+					
+				<h:panelGrid columns="2">
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Número:</ui:define>
+						<h:inputText value="#{servidor.pessoaFisica.pessoaEndereco.numEndereco}" id="numEndereco" maxlength="6" readonly="true"  onkeypress="this.value=trataTxt(this.value);" onblur="this.value=trataTxt(this.value);"  />
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Bairro:</ui:define>
+						<h:inputText value="#{servidor.pessoaFisica.pessoaEndereco.nomBairro}" id="nomBairro" maxlength="150" readonly="true" onkeypress="this.value=trataTxt(this.value);" onblur="this.value=trataTxt(this.value);"  />
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">UF:</ui:define>
+						<h:selectOneMenu value="#{combosAuxiliarAction.uf2}" id="codUf" disabled="true"  style="width:50px">
+							<s:selectItems  value="#{combosAuxiliarAction.getUfs()}" var="_uf" 
+								label="#{_uf.desSigla}" noSelectionLabel="--"/>
+							<s:convertEntity/>
+							<a4j:support event="onchange" reRender="nomMunicipioEnd" ajaxSingle="true" action="#{combosAuxiliarAction.getMunicipios()}" focus="nomMunicipioEnd"/>
+						</h:selectOneMenu>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Cidade:</ui:define>
+						<h:selectOneMenu value="#{servidor.pessoaFisica.pessoaEndereco.municipio}" id="nomMunicipioEnd" disabled="true"  >
+							<s:selectItems  value="#{combosAuxiliarAction.getMunicipios()}" var="_municipio" 
+								label="#{_municipio.nomMunicipio}" noSelectionLabel="Selecione"/>
+							<s:convertEntity/>
+						</h:selectOneMenu>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">CEP:</ui:define>
+						<rich:jQuery selector="#codCep" query="setMask()" timing="onload"/>
+						<h:inputText value="#{servidor.pessoaFisica.pessoaEndereco.cep}" id="codCep" size="9" readonly="true" alt="cep" />
+					</s:decorate>
+				</h:panelGrid>
+				
+				<h:panelGrid columns="1">	
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Complemento:</ui:define>
+						<h:inputText value="#{servidor.pessoaFisica.pessoaEndereco.txtComplemento}" id="txtComplemento" maxlength="150" size="80" readonly="true"  onkeypress="this.value=trataTxt(this.value);" onblur="this.value=trataTxt(this.value);"  />
+					</s:decorate>
+				</h:panelGrid>
+				
+				<h3><h:outputText value="Filiação"/></h3>
+				<rich:separator styleClass="separatorTitulo" />
+				
+				<h:panelGrid columns="1">
+				
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Mãe:</ui:define>
+						<h:inputText value="#{servidor.pessoaFisica.nomMae}" id="nomMae" readonly="true"   maxlength="150" size="80" onkeypress="this.value=trataTxt(this.value);" onblur="this.value=trataTxt(this.value);"  />
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Pai:</ui:define>
+						<h:inputText value="#{servidor.pessoaFisica.nomPai}" id="nomPai" maxlength="150" readonly="true" size="80" onkeypress="this.value=trataTxt(this.value);" onblur="this.value=trataTxt(this.value);"  />
+					</s:decorate>
+					
+				</h:panelGrid>
+				
+				<h3><h:outputText value="Documentos"/></h3>
+				<rich:separator styleClass="separatorTitulo" />
+				
+				<h:panelGrid columns="2">
+				
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">CPF:</ui:define>
+						<rich:jQuery selector="#numCpf" query="setMask()" timing="onload"/>
+						<h:inputText value="#{servidor.pessoaFisica.numCpf}" id="numCpf" maxlength="14" readonly="true" 
+							alt="cpf">
+							<stella:validateCPF formatted="true"/>
+						</h:inputText>
+					</s:decorate>
+					
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Título de Eleitor:</ui:define>
+						<h:inputText value="#{servidor.pessoaFisica.numTituloEleitoral}" id="numTituloEleitoral" maxlength="12" readonly="true" 
+							onkeypress="return somenteNumeros(event);"/>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">RG:</ui:define>
+						<h:inputText value="#{servidor.pessoaFisica.numRg}" id="numRg" maxlength="20" readonly="true" />
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Data Emissão:</ui:define>
+						<rich:jQuery selector="#datEmissaoRg" query="setMask()" timing="onload"/>
+						<h:inputText value="#{servidor.pessoaFisica.datEmissaoRg}" id="datEmissaoRg" disabled="true"  maxlength = "10" size="12" alt="date"  validator="dateValidator" >
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:inputText>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Órgão Expedidor:</ui:define>
+						<h:inputText value="#{servidor.pessoaFisica.nomOrgaoEmi}" id="nomMae" readonly="true" 
+							maxlength="150" onkeypress="this.value=trataTxt(this.value);" onblur="this.value=trataTxt(this.value);" />
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">UF:</ui:define>
+						<h:selectOneMenu value="#{servidor.pessoaFisica.codUfRg}" id="codUfRg" disabled="true" style="width:50px">
+							<s:selectItems  value="#{combosAuxiliarAction.getUfs()}" var="_uf" 
+								label="#{_uf.desSigla}" noSelectionLabel="--"/>
+							<s:convertEntity/>
+						</h:selectOneMenu>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Pis/Pasep:</ui:define>
+						<h:inputText value="#{servidor.pessoaFisica.numNis}" id="numNis" maxlength="11" readonly="true" />
+					</s:decorate>
+				</h:panelGrid>
+			
+			</rich:panel>
+			
+</ui:composition>

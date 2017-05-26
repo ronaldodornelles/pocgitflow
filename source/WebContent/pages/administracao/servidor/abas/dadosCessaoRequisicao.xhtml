@@ -1,0 +1,109 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:stella="http://stella.caelum.com.br/faces">
+
+			<rich:panel id="panelCessaoReq">
+				<f:facet name="header">Servidor</f:facet>
+				<h3><h:outputText value="Cessão/Requisição"/></h3>
+				<rich:separator styleClass="separatorTitulo" />
+				
+				<h:panelGrid columns="1" id="panelCessaoReqTable">
+					
+				<rich:dataTable width="483" id="cessaoRequisicaoDataTable" rows="5"
+					value="#{manterCessaoRequisicaoAction.listarCessaoRequisicaos()}" var="_cessaoRequisicao" rendered="#{not empty manterCessaoRequisicaoAction.listarCessaoRequisicaos()}">
+				
+				<rich:column sortBy="#{_cessaoRequisicao.indTipoCessaoReq}">
+					<f:facet name="header">
+						<h:outputText value="Tipo" />
+					</f:facet>
+					<h:outputText value="#{_cessaoRequisicao.indTipoCessaoReq}" />
+				</rich:column>
+				
+				<rich:column sortBy="#{_cessaoRequisicao.orgao.nomOrgao}">
+					<f:facet name="header">
+						<h:outputText value="Órgão" />
+					</f:facet>
+					<h:outputText value="#{_cessaoRequisicao.orgao.nomOrgao}" />
+				</rich:column>
+				
+				<rich:column>
+					<f:facet name="header">
+						<h:outputText value="Dt. Cessão/Requisição" />
+					</f:facet>
+					<h:outputText value="#{_cessaoRequisicao.datCessaoRequisicao !=null ? manterServidorAction.formataData(_cessaoRequisicao.datCessaoRequisicao, 'dd/MM/yyyy') : '-'}" />
+				</rich:column>
+				
+				<rich:column style="width:80px">
+					<f:facet name="header">
+						<h:outputText value="Ações" />
+					</f:facet>
+					<div align="center">
+						<a4j:commandButton image="#{imagemUtil.getURLIcone('EDITAR')}" rendered="#{!isVisualizar}"
+							reRender="modalIncluirEditarCessaoReq" ajaxSingle="true"
+							title="Editar" oncomplete="#{rich:component('incluirEditarCessaoRequisicaoModal')}.show();"
+							action="#{manterCessaoRequisicaoAction.irEditarCessaoRequisicao(_cessaoRequisicao)}" style="padding-right: 2px;">
+						
+						</a4j:commandButton>
+						<a4j:commandButton image="#{imagemUtil.getURLIcone('DETALHAR')}"  ajaxSingle="true" 
+							reRender="modalIncluirEditarCessaoReq"
+							title="Visualizar" oncomplete="#{rich:component('incluirEditarCessaoRequisicaoModal')}.show();"
+							action="#{manterCessaoRequisicaoAction.irVisualizarCessaoRequisicao(_cessaoRequisicao)}" style="padding-right: 2px;"/>
+						
+						<a4j:commandButton image="#{imagemUtil.getURLIcone('EXCLUIR')}"
+							title="Excluir" rendered="#{!isVisualizar}" ajaxSingle="true"
+							action="#{manterCessaoRequisicaoAction.prepararExclusao(_cessaoRequisicao)}"
+							oncomplete="#{rich:component('modalExcluirReq')}.show();"
+							reRender="modalExcluirReq" />
+					</div>
+				</rich:column>
+			</rich:dataTable>
+			
+			<br />
+			<h:outputText id="totalOutputCesReq" style="font-weight:bold;"
+					value="Total: #{manterCessaoRequisicaoAction.listarCessaoRequisicaos().size()}" 
+					rendered="#{not empty manterCessaoRequisicaoAction.listarCessaoRequisicaos()}"/>
+			<br />
+			<rich:datascroller align="center" for="cessaoRequisicaoDataTable"
+				renderIfSinglePage="false" />
+					
+				</h:panelGrid>
+				
+			<div align="right">
+				<a4j:commandButton action="#{manterCessaoRequisicaoAction.incluirCessaoRequisicao()}" rendered="#{!isVisualizar}" 
+					value="Adicionar" reRender="modalIncluirEditarCessaoReq, incluirEditarCessaoRequisicaoModal" ajaxSingle="true"
+					oncomplete="#{rich:component('incluirEditarCessaoRequisicaoModal')}.show();"/>
+			</div>
+			
+			</rich:panel>
+			
+			<rich:modalPanel id="modalExcluirReq" width="350" height="160">
+		        <f:facet name="header">
+		            <h:panelGroup>
+		                <h:outputText value="Excluir Cessão/Requisição"></h:outputText>
+		            </h:panelGroup>
+		        </f:facet>
+		        <f:facet name="controls">
+		            <h:panelGroup>
+		                <rich:componentControl for="modalExcluirReq" attachTo="hidelink" operation="hide" event="onclick"/>
+		            </h:panelGroup>
+		        </f:facet>
+		       	<h3><h:outputText value="Deseja realmente excluir o Cessão/Requisição?"/></h3>
+		        <br/>
+	        	<div align="center">
+			        <a4j:commandButton value="Sim" action="#{manterCessaoRequisicaoAction.excluirCessaoRequisicao()}" ajaxSingle="true" reRender="cessaoRequisicaoDataTable, totalOutputCesReq, panelCessaoReq"
+			        	oncomplete="#{rich:component('modalExcluirReq')}.hide();"/>
+			        <a4j:commandButton value="Não" action="#{manterCessaoRequisicaoAction.cancelarModal()}" ajaxSingle="true"
+			        	oncomplete="#{rich:component('modalExcluirReq')}.hide();" />
+		        </div>
+		    </rich:modalPanel>
+			
+</ui:composition>

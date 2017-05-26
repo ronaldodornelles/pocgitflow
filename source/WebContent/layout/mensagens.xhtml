@@ -1,0 +1,21 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:c="http://java.sun.com/jstl/core">
+
+	<s:div styleClass="Error" id="formularioMessages" rendered="#{!reRenderModal}">
+		<rich:panel styleClass="message" style="padding:0" rendered="#{! empty facesContext.maximumSeverity}" id="message">
+			<rich:effect event="onclick" type="DropOut" params="duration:0.8" />
+			<h:messages globalOnly="true" layout="vertical" errorClass="errormsg"
+				errorStyle="padding-left:70px;" fatalClass="errormsg"
+				fatalStyle="padding-left:70px" infoClass="infomsg"
+				infoStyle="padding-left:70px" warnClass="warnmsg"
+				warnStyle="padding-left:70px" />
+		</rich:panel>
+	</s:div>
+</ui:composition>

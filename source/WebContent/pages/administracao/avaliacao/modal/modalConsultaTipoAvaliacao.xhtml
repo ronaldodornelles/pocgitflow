@@ -1,0 +1,82 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:stella="http://stella.caelum.com.br/faces">
+
+	<rich:modalPanel id="consultarTipoAvaliacao" moveable="false"
+		resizeable="false" onresize="false" width="670" height="500" style="background-color: white; overflow: auto">
+		
+		<f:facet name="header">
+            <h:panelGroup>
+                <h:outputText value="Tipo de Avaliação"></h:outputText>
+            </h:panelGroup>
+        </f:facet>		
+		<h:form name="formConsultarTipoAvaliacao" id="formConsultarTipoAvaliacao">
+			<ui:include src="/layout/mensagens.xhtml" />
+			<h4>Tipo de Avaliação</h4>
+			<rich:separator styleClass="separatorTitulo" /><br/>
+			<rich:panel>
+				<f:facet name="header">Filtro de pesquisa</f:facet>
+				<h:panelGrid columns="1">
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Titulo:</ui:define>
+						<h:inputText id="palavraChave" value="#{manterTipoAvaliacaoAction.palavraChave}" maxlength="250" size="57"/>
+					</s:decorate>
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Categoria:</ui:define>
+						<h:selectOneMenu value="#{manterTipoAvaliacaoAction.categoriaTipoBusca}" id="categoriaBusca" style="width: 200px;">
+							<s:selectItems value="#{manterTipoAvaliacaoAction.listCategoria}" var="categoria" label="#{categoria.titulo}" noSelectionLabel="Selecione"/>
+							<s:convertEntity/>
+							<a4j:support event="onchange" reRender="subCategoria" ajaxSingle="true" focus="categoriaBusca"/>
+						</h:selectOneMenu>
+						<h:selectOneMenu value="#{manterTipoAvaliacaoAction.subcategoriaBusca}" id="subCategoria" style="margin-left: 20px; width: 150px;">
+							<s:selectItems value="#{manterTipoAvaliacaoAction.categoriaTipoBusca.subcategorias}" var="subcateg" label="#{subcateg.descricao}" noSelectionLabel="Selecione"/>
+							<s:convertEntity/>
+						</h:selectOneMenu>
+					</s:decorate>
+				</h:panelGrid>
+			</rich:panel>
+			<div align="right">
+				<a4j:commandButton action="#{manterTipoAvaliacaoAction.procurarParaGerenciador()}" 
+					oncomplete="#{rich:component('consultarTipoAvaliacao')}.show();"
+					value="Consultar" reRender="consultarTipoAvaliacao"/>
+				<a4j:commandButton action="#{manterGerenciadorAvaliacaoAction.cancelarModalTipoAvaliacao()}" value="Cancelar"
+					oncomplete="#{reRenderModal ? false : rich:component('consultarTipoAvaliacao')}.hide()" reRender="consultarTipoAvaliacao"/>
+				<br class="Clear" />
+			</div>	
+			<br />
+			<rich:dataTable width="483" id="tipoAvaliacaoDataTable" rows="10" value="#{listTipoAvaliacao}" var="tipoAvaliacao" rendered="#{not empty listTipoAvaliacao}">
+				<rich:column sortBy="#{tipoAvaliacao.titulo}">
+					<f:facet name="header">
+						<h:outputText value="Título do Modelo" />
+					</f:facet>
+					<h:outputText value="#{tipoAvaliacao.titulo}" />
+				</rich:column>
+				
+				<rich:column style="width:80px">
+					<f:facet name="header">
+						<h:outputText value="Ações" />
+					</f:facet>
+					<div align="center">
+						<a4j:commandButton image="#{imagemUtil.getURLIcone('ADD')}" style="margin-bottom:-4px; padding-right: 2px;"
+							title="Vincular" oncomplete="#{reRenderModal ? false : rich:component('consultarTipoAvaliacao')}.hide()"
+							reRender="tipoAvaliacaoPanel"
+							action="#{manterGerenciadorAvaliacaoAction.vincularTipo(tipoAvaliacao)}"/>
+					</div>
+				</rich:column>
+			</rich:dataTable>
+			
+			<br />
+			<h:outputText id="totalOutput" style="font-weight:bold;" value="Total: #{listTipoAvaliacao.size()}" rendered="#{not empty listTipoAvaliacao}"/><br />
+			<rich:datascroller align="center" for="tipoAvaliacaoDataTable" renderIfSinglePage="false" />
+		</h:form>
+		
+	</rich:modalPanel>
+</ui:composition>

@@ -1,0 +1,196 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:stella="http://stella.caelum.com.br/faces">
+
+	<rich:modalPanel id="incluirCessaoRequisicaoModal" moveable="false"
+		resizeable="false" onresize="false" width="690" height="600" style="background-color: white;">
+		
+		<f:facet name="header">
+            <h:panelGroup>
+                <h:outputText value="Cessão/Requisição"></h:outputText>
+            </h:panelGroup>
+        </f:facet>
+		
+		<h:form name="modalIncluirCessaoReq" id="modalIncluirCessaoReq">
+			<s:div styleClass="Error" id="formularioMessages"
+				rendered="#{!reRenderModal}">
+				<rich:panel styleClass="message" style="padding:0"
+					rendered="#{! empty facesContext.maximumSeverity}">
+					<rich:effect event="onclick" type="DropOut" params="duration:0.8" />
+					<h:messages globalOnly="true" layout="vertical" errorClass="errormsg"
+						errorStyle="padding-left:70px;" fatalClass="errormsg"
+						fatalStyle="padding-left:70px" infoClass="infomsg"
+						infoStyle="padding-left:70px" warnClass="warnmsg"
+						warnStyle="padding-left:70px" />
+				</rich:panel>
+			</s:div>
+			<h4>
+				<h:outputText rendered="#{isIncluirCessaoRequisicao}" value="Inclução de Cessão/Requisição" />
+				<h:outputText rendered="#{isEditarCessaoRequisicao}" value="Edição de Cessão/Requisição" />
+				<h:outputText rendered="#{isVisualizarCessaoRequisicao}" value="Visualização de Cessão/Requisição" />
+			</h4>
+			<rich:separator styleClass="separatorTitulo" />
+			<br/>
+			<rich:panel id="modalCessaRequisicaoSitucao">
+				<f:facet name="header">Cessão/Requisição</f:facet>
+				<h:panelGrid columns="2">
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Tipo:</ui:define>
+						<h:selectOneMenu value="#{cessaoRequisicao.indTipoCessaoReq}" id="indTipoCessaoReq" disabled="#{isVisualizarCessaoRequisicao}" required="#{!isVisualizarCessaoRequisicao}" style="width:100px;">
+							<f:selectItem itemLabel="Selecione"/>
+							<f:selectItem itemValue="C" itemLabel="Cessão"/>
+							<f:selectItem itemValue="R" itemLabel="Requisição"/>
+						</h:selectOneMenu>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Ônus:</ui:define>
+						<h:selectOneMenu value="#{cessaoRequisicao.indOnus}" id="indOnus" required="#{!isVisualizarCessaoRequisicao}" disabled="#{isVisualizarCessaoRequisicao}" >
+							<f:selectItem itemLabel="--"/>
+							<f:selectItem itemValue="S" itemLabel="Sim"/>
+							<f:selectItem itemValue="N" itemLabel="Não"/>
+						</h:selectOneMenu>
+					</s:decorate>
+				</h:panelGrid>
+				<h:panelGrid columns="1">
+
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Órgão:</ui:define>
+						<h:selectOneMenu value="#{cessaoRequisicao.orgao}" id="orgao" disabled="#{isVisualizarCessaoRequisicao}" required="#{!isVisualizarCessaoRequisicao}" style="width:450px">
+							<s:selectItems  value="#{combosAuxiliarAction.getCondicaoCessaoRequisicaos()}" var="_orgao" 
+								label="#{_orgao.nomOrgao}" noSelectionLabel="Selecione"/>
+							<s:convertEntity/>
+						</h:selectOneMenu>
+					</s:decorate>
+				</h:panelGrid>	
+				<h:panelGrid columns="2">
+				
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Limitado:</ui:define>
+						<h:selectOneMenu value="#{cessaoRequisicao.indPrazoIlimitado}" id="isIlimitado" required="#{!isVisualizarCessaoRequisicao}" disabled="#{isVisualizarCessaoRequisicao}" >
+							<f:selectItem itemLabel="--"/>
+							<f:selectItem itemValue="S" itemLabel="Sim"/>
+							<f:selectItem itemValue="N" itemLabel="Não"/>
+							<a4j:support event="onchange" ajaxSingle="true" reRender="gridPrazo" action="#{manterServidorAction.verificaPrazoAfastamentoIlimitado()}"  />  
+						</h:selectOneMenu>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Prazo(anos):</ui:define>
+						<h:inputText value="#{cessaoRequisicao.numPrazo}" maxlength="2" id="prazoAnosAfastamento" readonly="#{cessaoRequisicao.indPrazoIlimitado.equals('N') or isVisualizarCessaoRequisicao}"
+							required="#{!cessaoRequisicao.indPrazoIlimitado.equals('N') and !isVisualizarCessaoRequisicao}" onkeypress="return somenteNumeros(event);">
+							<a4j:support event="onblur" action="#{manterServidorAction.calcularRenovacao()}" ajaxSingle="true" reRender="gridPrazo" />
+						</h:inputText>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Data da Apresentação:</ui:define>
+						<rich:jQuery selector="#datCessaoRequisicao" query="setMask()" timing="onload"/>
+						<h:inputText value="#{cessaoRequisicao.datCessaoRequisicao}" id="datCessaoRequisicao"  required="#{!isVisualizarCessaoRequisicao}" maxlength = "10" size="12" alt="date"  validator="dateValidator" >
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+							<a4j:support event="onblur" action="#{manterServidorAction.calcularRenovacao()}" ajaxSingle="true" reRender="gridPrazo" />
+						</h:inputText>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Data da Renovação: </ui:define>
+						<rich:jQuery selector="#datRenovacao" query="setMask()" timing="onload"/>
+						<h:inputText value="#{cessaoRequisicao.datRenovacao}" id="datRenovacao" readonly="true" maxlength = "10" size="12" alt="date"  validator="dateValidator" >
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:inputText>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Documento Legal:</ui:define>
+						<h:selectOneMenu value="#{cessaoRequisicao.indDocLegal}" style="width:100px;"
+							id="documentoLegalCessaoReq" disabled="#{isVisualizarCessaoRequisicao}" >
+							<f:selectItem itemLabel="Selecione"/>
+							<f:selectItem itemLabel="LEI" itemValue="1"/>                
+							<f:selectItem itemLabel="PORTARIA" itemValue="2"/>            
+							<f:selectItem itemLabel="DECRETO" itemValue="3"/>
+							<f:selectItem itemLabel="INSTRUCAO NORMATIVA" itemValue="4"/>
+							<f:selectItem itemLabel="DECRETO LEI" itemValue="5"/>         
+							<f:selectItem itemLabel="EXPOSICAO MOTIVOS" itemValue="6"/>       
+							<f:selectItem itemLabel="EDITAL" itemValue="7"/>              
+							<f:selectItem itemLabel="MEMORANDO" itemValue="8"/>           
+							<f:selectItem itemLabel="OFICIO" itemValue="9"/>                
+							<f:selectItem itemLabel="MEDIDA PROVISORIA" itemValue="10"/>     
+							<f:selectItem itemLabel="CONSTITUICAO FEDERAL" itemValue="11"/>  
+							<f:selectItem itemLabel="LEI COMPLEMENTAR" itemValue="12"/>      
+							<f:selectItem itemLabel="ATO DE CONCESSAO" itemValue="13"/>      
+							<f:selectItem itemLabel="ORDEM DE SERVICO" itemValue="14"/>      
+							<f:selectItem itemLabel="ATA" itemValue="15"/>                   
+							<f:selectItem itemLabel="ACAO CIVIL" itemValue="16"/>           
+							<f:selectItem itemLabel="NOTA" itemValue="17"/>                  
+							<f:selectItem itemLabel="CERTIDAO" itemValue="18"/>              
+							<f:selectItem itemLabel="CONTRATO" itemValue="19"/>              
+							<f:selectItem itemLabel="DECISAO JUDICIAL" itemValue="20"/>      
+							<f:selectItem itemLabel="OFICIO CIRCULAR" itemValue="21"/>       
+							<f:selectItem itemLabel="RESOLUCAO" itemValue="22"/>             
+							<f:selectItem itemLabel="ATO DO CONGRESSO" itemValue="23"/>      
+							<f:selectItem itemLabel="NORMA OPERACIONAL" itemValue="24"/>     
+							<f:selectItem itemLabel="OUTROS" itemValue="25"/>                
+							<f:selectItem itemLabel="REQUERIMENTO" itemValue="26"/>          
+							<f:selectItem itemLabel="APOSTILA" itemValue="27"/>              
+							<f:selectItem itemLabel="PARECER" itemValue="28"/>               
+							<f:selectItem itemLabel="NORMA COMPLEMENTAR" itemValue="29"/>    
+							<f:selectItem itemLabel="ATO" itemValue="30"/>
+						</h:selectOneMenu>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Número:</ui:define>
+						<h:inputText value="#{cessaoRequisicao.numDocLegal}" id="numDocumentoLegalCessaoReq" maxlength="6" size="6" onkeypress="return somenteNumeros(event);"/>
+					</s:decorate>
+					
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Data Publicação:</ui:define>
+						<rich:jQuery selector="#datPublicacaoDocCessaoReq" query="setMask()" timing="onload"/>
+						<h:inputText value="#{cessaoRequisicao.datPubilcacaoDoc}" id="datPublicacaoDocCessaoReq"  maxlength = "10" size="12" alt="date"  validator="dateValidator" >
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:inputText>
+					</s:decorate>
+					
+					
+				</h:panelGrid>
+				
+				<h:panelGrid columns="1">
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Observação:</ui:define>
+						<h:inputTextarea value="#{cessaoRequisicao.obsCessaoRequisicao}" id="obsCessaoRequisicao" maxlength="250" 
+						 onkeypress="this.value=trataTxt(this.value);" onblur="this.value=trataTxt(this.value);"  cols="60" rows="3" >
+						 <f:validateLength maximum="250"/>
+						</h:inputTextarea>
+					</s:decorate>
+				</h:panelGrid>
+				
+			</rich:panel>
+			<div align="right">
+				<a4j:commandButton action="#{manterServidorAction.salvarCessaoRequisicao()}"  
+					oncomplete="#{reRenderModal ? false : rich:component('incluirCessaoRequisicaoModal')}.hide()" value="Salvar" 
+						reRender="modalIncluirCessaoReq,cessaoRequisicaoDataTable, panelCessaoReq"/>
+				<a4j:commandButton action="#{manterServidorAction.voltarModal()}" value="Voltar" rendered="#{isVisualizarCessaoRequisicao}" reRender="modalIncluirCessaoReq, panelCessaoReq"
+					oncomplete="#{rich:component('incluirCessaoRequisicaoModal')}.hide()" ajaxSingle="true"/>
+				<a4j:commandButton action="#{manterServidorAction.cancelarModalCessaoRequisicao()}" value="Cancelar" reRender="modalIncluirCessaoReq, panelCessaoReq"
+					oncomplete="#{rich:component('incluirCessaoRequisicaoModal')}.hide()" ajaxSingle="true"/>
+				<br class="Clear" />
+			</div>
+
+		</h:form>
+	</rich:modalPanel>
+</ui:composition>

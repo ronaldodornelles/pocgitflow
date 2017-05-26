@@ -1,0 +1,161 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	template="/layout/template.xhtml">
+	
+	<ui:define name="conteudo">
+
+		<h:form name="formulario">
+		<a4j:outputPanel id="msgPanel">
+			<ui:include src="/layout/modalAjaxStatus.xhtml" />
+			<ui:include src="/layout/mensagens.xhtml" />
+		</a4j:outputPanel>
+			<h4>Histórico de Sincronizações - Relatório de Campos Atualizados</h4>
+			<rich:separator styleClass="separatorTitulo" />
+			<br/>
+			<h:panelGrid columns="3">
+				<s:decorate template="/layout/edit.xhtml">
+					<ui:define name="label">Usuário Responsável:</ui:define>
+					<h:outputText value="#{historicoSincronizacaoAction.sincronizacao.nomeUsuario}"/>
+				</s:decorate>
+				
+				<s:decorate template="/layout/edit.xhtml">
+					<ui:define name="label" >Data/Hora Inicial:</ui:define>
+					<h:outputText value="#{historicoSincronizacaoAction.sincronizacao.dataHoraInicio}">
+						<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+					</h:outputText>
+				</s:decorate>
+				
+				<s:decorate template="/layout/edit.xhtml">
+					<ui:define name="label" >Data/Hora Final:</ui:define>
+					<h:outputText value="#{historicoSincronizacaoAction.sincronizacao.dataHoraFim}">
+						<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+					</h:outputText>
+				</s:decorate>
+				
+			</h:panelGrid>
+			
+			<br></br>
+			
+			<h:panelGrid columns="1">
+		
+				<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Status: </ui:define>
+						<h:outputText rendered="#{historicoSincronizacaoAction.sincronizacao.status eq 'SUCESSO'}" value="Sucesso"/>
+						<h:outputText rendered="#{historicoSincronizacaoAction.sincronizacao.status eq 'ERRO'}" value="Erro"/>
+						<h:outputText rendered="#{historicoSincronizacaoAction.sincronizacao.status eq 'CONCLUÍDO COM RESSALVA'}" value="Concluído com ressalva"/>
+				</s:decorate>
+							
+			</h:panelGrid>
+			
+			
+			<h:panelGrid columns="1">
+				
+				<a4j:outputPanel rendered="#{historicoSincronizacaoAction.sincronizacao.status eq 'ERRO' or historicoSincronizacaoAction.sincronizacao.status eq 'CONCLUÍDO COM RESSALVA'}">
+					<fieldset>
+						<div style="width: 688px; height: 100px; overflow-y: scroll;">
+		       				<h:outputText value="#{historicoSincronizacaoAction.sincronizacao.mensagemErro}" />
+		      			</div>
+	      			</fieldset>
+				</a4j:outputPanel>
+			</h:panelGrid>
+			
+			<br></br>
+			<rich:separator styleClass="separatorTitulo" />
+			<br></br>
+			
+			<rich:panel>
+				<f:facet name="header">Filtro de pesquisa</f:facet>
+				<h:panelGrid columns="1">
+					<a4j:outputPanel id="pesquisaDetalhesPanel">
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">CPF usuário:</ui:define>
+						<h:inputText value="#{historicoSincronizacaoAction.cpfPesquisa}" id="numCpf" maxlength="14" alt="cpf">
+						<rich:jQuery selector="#numCpf" query="setMask()" timing="onload"/>
+						</h:inputText>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Filtrar por:</ui:define>
+						
+						<h:outputText value="CPF's incluídos"/>
+						<h:selectBooleanCheckbox value="#{historicoSincronizacaoAction.statusIncluido}" id="cpf_incluido"></h:selectBooleanCheckbox>
+						
+						<h:outputText style="margin-left: 25px;" value="CPF's alterados"/>
+						<h:selectBooleanCheckbox value="#{historicoSincronizacaoAction.statusAlterado}" id="cpf_alterado"></h:selectBooleanCheckbox>
+						
+					</s:decorate>
+					</a4j:outputPanel>
+				</h:panelGrid>
+			</rich:panel>
+			<div align="right">
+				<h:commandButton id="btnReset" value="Limpar" type="reset" />
+				<a4j:commandButton action="#{historicoSincronizacaoAction.procurarSincronizacaoHistorico()}"
+					value="Consultar" reRender="historicoSincronizacaoDataTablePanel, msgPanel" />
+			<br class="Clear" />
+			</div>
+			<br></br>
+			<a4j:outputPanel id="historicoSincronizacaoDataTablePanel">
+			<rich:dataTable width="483" id="historicoDataTable" rows="10"
+				value="#{historicoSincronizacaoAction.listHistoricoSincronizacao}" var="historicoSincronizacao" rendered="#{not empty listHistoricoSincronizacao}">
+				
+				<rich:column sortBy="#{historicoSincronizacaoAction.historicoSincronizacao.cpf}">
+					<f:facet name="header">
+						<h:outputText value="CPF" />
+					</f:facet>
+					<h:outputText value="#{util.formatCPF(historicoSincronizacao.cpf)}"/>
+				</rich:column>
+				
+				<rich:column sortBy="#{historicoSincronizacaoAction.historicoSincronizacao.nomeServidor}">
+					<f:facet name="header">
+						<h:outputText value="Nome Servidor"/>
+					</f:facet>
+					<h:outputText value="#{historicoSincronizacaoAction.historicoSincronizacao.nomeServidor}"/>
+				</rich:column>
+				
+				<rich:column sortBy="#{historicoSincronizacaoAction.historicoSincronizacao.statusHistoricoSincronizacao}">
+					<f:facet name="header">
+						<h:outputText value="Status" />
+					</f:facet>
+					<h:outputText value="#{historicoSincronizacaoAction.historicoSincronizacao.statusHistoricoSincronizacao}" />
+				</rich:column>
+				
+				<rich:column style="width:80px">
+					<f:facet name="header">
+						<h:outputText value="Ações" />
+					</f:facet>
+					<div align="center">
+						<a4j:commandButton image="#{imagemUtil.getURLIcone('DETALHAR')}"
+							title="Visualizar" action="#{historicoSincronizacaoAction.irVisualizarDetalhesPorCpf(historicoSincronizacao)}" reRender="formulario"/>
+					</div>
+				</rich:column>
+			</rich:dataTable>
+			</a4j:outputPanel>
+			<br/>
+			<h:outputText id="totalAlteracao" style="font-weight:bold;"
+					value="Total Alteração: #{historicoSincronizacaoAction.listTotalAlteracao.size()}" 
+					rendered="#{not empty listTotalAlteracao}"/>
+			<br/>		
+			<h:outputText id="totalServidoresAtualizados" style="font-weight:bold;"
+					value="Total de Servidores Atualizados: #{historicoSincronizacaoAction.totalRegistrosAtualizados}" 
+					rendered="#{totalRegistrosAtualizados > 0}"/>
+			<br></br>		
+			<br></br>	
+			<rich:datascroller align="center" for="historicoDataTable"
+				renderIfSinglePage="false" />
+			<br></br>
+			<div align="right">
+			<h:commandButton action="#{historicoSincronizacaoAction.irHistoricoSincronizacoes()}" value="Voltar para Histórico"/>
+			<h:commandButton action="#{historicoSincronizacaoAction.downloadFile}" value="Exportar XLS" immediate="true" rendered="#{listHistoricoSincronizacao.size() > 0}"/>
+			<br class="Clear" />
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>

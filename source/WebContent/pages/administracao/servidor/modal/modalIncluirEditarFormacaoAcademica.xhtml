@@ -1,0 +1,135 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:stella="http://stella.caelum.com.br/faces">
+
+	<rich:modalPanel id="incluirEditarFormacaoAcademicaModal" moveable="false" resizeable="false" 
+	onresize="false" width="720" height="550" style="background-color: white;">
+		
+		<f:facet name="header">
+            <h:panelGroup>
+                <h:outputText value="Formação Acadêmica"></h:outputText>
+            </h:panelGroup>
+        </f:facet>
+		
+		<a4j:form name="modalIncluirEditarFormacaoAcademica" id="modalIncluirEditarFormacaoAcademica">
+			<h4>
+				<h:outputText rendered="#{isIncluirFormacaoAcademica}" value="Inclusão de Formação Acadêmica" />
+				<h:outputText rendered="#{isEditarFormacaoAcademica}" value="Edição de Formação Acadêmica" />
+				<h:outputText rendered="#{isVisualizarFormacaoAcademica}" value="Visualização de Formação Acadêmica" />
+			</h4>
+			<rich:separator styleClass="separatorTitulo" />
+			<br/>
+			<rich:panel id="panelFormacaoAcademica">
+				<f:facet name="header">Formação Acadêmica</f:facet>
+				<h:panelGrid columns="1">
+				
+					<a4j:outputPanel id="formacaoAcademicaPanel">
+						<s:decorate template="/layout/edit.xhtml">
+							<ui:define name="label">Nome da Instituição:</ui:define>
+								<h:selectOneMenu value="#{manterFormacaoAcademicaAction.formacaoAcademica.instituicaoEnsino}" id="instituicaoEnsino" readonly="#{isVisualizarFormacaoAcademica}"  disabled="#{isVisualizarFormacaoAcademica}" required="#{!isVisualizarFormacaoAcademica}" style="width:450px">
+									<s:selectItems  value="#{combosAuxiliarAction.getInstituicoesEnsino()}" var="_instEnsino" 
+										label="#{_instEnsino.nomInstituicaoEnsino}" noSelectionLabel="Selecione"/>
+									<s:convertEntity/>
+								</h:selectOneMenu>
+							
+								<a4j:commandButton  image="#{imagemUtil.getURLIcone('ADD')}" style="margin-bottom:-4px;" ajaxSingle="true" rendered="#{!isVisualizarFormacaoAcademica and !isVisualizar}"
+									title="Adicionar" oncomplete="#{rich:component('incluirInstituicaoEnsinoModal')}.show();" immediate="true" action="#{manterFormacaoAcademicaAction.irIncluirIntituicaoEnsino()}" />
+						</s:decorate>
+					</a4j:outputPanel>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Tipo de Formação:</ui:define>
+						<h:selectOneMenu value="#{manterFormacaoAcademicaAction.formacaoAcademica.indTipoFormacao}" id="indTipoFormacao" readonly="#{isVisualizarFormacaoAcademica}"  disabled="#{isVisualizarFormacaoAcademica}" required="#{!isVisualizarFormacaoAcademica}" style="width:300px"> 
+							<f:selectItem itemLabel="Selecione"/>
+							<f:selectItem itemValue="0" itemLabel="CURSO TECNICO (NIVEL MEDIO COMPLETO)"/>      
+							<f:selectItem itemValue="1" itemLabel="GRADUACAO (NIVEL SUPERIOR COMPLETO)"/> 
+							<f:selectItem itemValue="2" itemLabel="POS-GRADUACAO"/>
+							<f:selectItem itemValue="3" itemLabel="ESPECIALIZACAO LATO SENSU"/>  
+							<f:selectItem itemValue="4" itemLabel="ESPECIALIZACAO STRICTO SENSU"/>  
+							<f:selectItem itemValue="5" itemLabel="MESTRADO"/>                            
+							<f:selectItem itemValue="6" itemLabel="DOUTORADO"/>                           
+							<f:selectItem itemValue="7" itemLabel="POS-DOUTORADO"/>
+						</h:selectOneMenu>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Curso:</ui:define>
+						<h:inputText value="#{manterFormacaoAcademicaAction.formacaoAcademica.nomCurso}" id="nomCurso" maxlength="150" size="60" required="#{!isVisualizarFormacaoAcademica}"
+							 onkeypress="this.value=trataTxt(this.value);" onblur="this.value=trataTxt(this.value);" onchange="this.value = this.value.trim()"
+							 readonly="#{isVisualizarFormacaoAcademica}"  disabled="#{isVisualizarFormacaoAcademica}" />
+					</s:decorate>
+					</h:panelGrid>
+					
+				  	<h:panelGrid columns="2" >
+													
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">UF:</ui:define>
+						<h:selectOneMenu value="#{combosAuxiliarAction.ufFormacaoAcademica}" id="codUf" readonly="#{isVisualizarFormacaoAcademica}"  disabled="#{isVisualizarFormacaoAcademica}"  immediate="true" required="#{!isVisualizarFormacaoAcademica}">
+							<s:selectItems  value="#{combosAuxiliarAction.getUfs()}" var="_uf" 
+								label="#{_uf.desSigla}" noSelectionLabel="Selecione"/>
+							<s:convertEntity/>
+							<a4j:support event="onchange"   reRender="nomMunicipio,municipio" ajaxSingle="true" action="#{combosAuxiliarAction.getMunicipiosFormacaoAcademica()}" focus="nomMunicipio"/>
+						</h:selectOneMenu>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml" id="municipio">
+						<ui:define name="label">Cidade/Municipio:</ui:define>
+						<h:selectOneMenu value="#{manterFormacaoAcademicaAction.formacaoAcademica.codMunicipio}" id="nomMunicipio" readonly="#{isVisualizarFormacaoAcademica}"  disabled="#{isVisualizarFormacaoAcademica}" required="#{!isVisualizarFormacaoAcademica}">
+							<s:selectItems  value="#{combosAuxiliarAction.getMunicipiosFormacaoAcademica()}" var="_municipio" 
+								label="#{_municipio.nomMunicipio}" noSelectionLabel="Selecione"/>
+							<s:convertEntity/>
+						</h:selectOneMenu>
+					</s:decorate>
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Carga Horária:</ui:define>
+						<rich:jQuery selector="formAcaoCarga" query="setMask()" timing="onload"/>
+						<h:inputText  alt ="carga" value="#{manterFormacaoAcademicaAction.formacaoAcademica.numCargaHoraria}" id="numCargaHoraria" maxlength="5" size="10" required="#{!isVisualizarFormacaoAcademica}" readonly="#{isVisualizarFormacaoAcademica}"  disabled="#{isVisualizarFormacaoAcademica}" onkeypress="return somenteNumeros(event);"/>
+					</s:decorate>
+					
+					</h:panelGrid>
+					<h:panelGrid columns="2" id="gridCursando">					
+					
+				 	<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Cursando:</ui:define>
+						<h:selectOneMenu value="#{manterFormacaoAcademicaAction.formacaoAcademica.indCursando}" id="indCursando" readonly="#{isVisualizarFormacaoAcademica}"  disabled="#{isVisualizarFormacaoAcademica}" required="#{!isVisualizarFormacaoAcademica}">
+							<f:selectItem itemLabel="--"/>
+							<f:selectItem itemValue="1" itemLabel="Sim"/>
+							<f:selectItem itemValue="0" itemLabel="Não"/>
+							<a4j:support event="onchange" ajaxSingle="true" action="#{manterFormacaoAcademicaAction.verificarStatusCurso()}" reRender="gridCursando"/>
+						</h:selectOneMenu>
+					</s:decorate>
+				
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Dt. de Conclusão: </ui:define>
+						<rich:jQuery selector="#datConclusaoCurso" query="setMask()" timing="onload"/>
+						<h:inputText value="#{manterFormacaoAcademicaAction.formacaoAcademica.datConclusaoCurso}" id="datConclusaoCurso" readonly="#{isVisualizarFormacaoAcademica or !manterFormacaoAcademicaAction.cursando}"  maxlength = "10" size="12" alt="date"  validator="dateValidator" >
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:inputText>
+					</s:decorate>
+				 	</h:panelGrid>
+		
+		</rich:panel>
+			<div align="right">
+				<a4j:commandButton id="btnSalvarFormacaoAcademica" action="#{manterFormacaoAcademicaAction.salvarFormacaoAcademica()}" value="Salvar" 
+					oncomplete="#{reRenderModal ? false : rich:component('incluirEditarFormacaoAcademicaModal')}.hide()" 
+					rendered="#{!isVisualizarFormacaoAcademica}" reRender="modalIncluirEditarFormacaoAcademica, dataTableFormacaoAcademica, panelFormaAcademica" />
+				<s:button value="Voltar" rendered="#{isVisualizarFormacaoAcademica}" immediate="true"
+					oncomplete="#{reRenderModal ? false : rich:component('incluirEditarFormacaoAcademicaModal')}.hide()"/>
+				<s:button value="Cancelar" rendered="#{!isVisualizarFormacaoAcademica}"  immediate="true"
+					oncomplete="#{reRenderModal ? false : rich:component('incluirEditarFormacaoAcademicaModal')}.hide()"/>
+				<br class="Clear" />
+			</div>
+
+		</a4j:form>
+	</rich:modalPanel>
+	<ui:include src="/pages/administracao/servidor/modal/modalIncluirInstituicaoEnsino.xhtml" />
+	
+</ui:composition>

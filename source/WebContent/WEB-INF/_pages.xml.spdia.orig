@@ -1,0 +1,526 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<diagram model-entity="SeamPagesDiagram">
+ <item ID="*" NAME="*" PATH="*" SHAPE="24,17,0,0" TYPE="page" model-entity="SeamPagesDiagramItem">
+  <output ID="/login.xhtml" NAME="output" PATH="/login.xhtml"
+   TARGET="#xlogin.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/login.xhtml" NAME="output1" PATH="/login.xhtml"
+   TARGET="#xlogin.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/home.xhtml" NAME="output2" PATH="/home.xhtml"
+   TARGET="#xhome.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/pages/administracao/pessoa/consultarPessoa.xhtml"
+   NAME="output3"
+   PATH="/pages/administracao/pessoa/consultarPessoa.xhtml"
+   TARGET="#xpages#xadministracao#xpessoa#xconsultarPessoa.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output
+   ID="/pages/administracao/areaAtuacao/consultarAreaAtuacao.xhtml"
+   NAME="output4"
+   PATH="/pages/administracao/areaAtuacao/consultarAreaAtuacao.xhtml"
+   TARGET="#xpages#xadministracao#xareaAtuacao#xconsultarAreaAtuacao.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output
+   ID="/pages/administracao/instituicaoEnsino/consultarInstituicaoEnsino.xhtml"
+   NAME="output5"
+   PATH="/pages/administracao/instituicaoEnsino/consultarInstituicaoEnsino.xhtml"
+   TARGET="#xpages#xadministracao#xinstituicaoEnsino#xconsultarInstituicaoEnsino.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/pages/administracao/servidor/consultarServidor.xhtml"
+   NAME="output6"
+   PATH="/pages/administracao/servidor/consultarServidor.xhtml"
+   TARGET="#xpages#xadministracao#xservidor#xconsultarServidor.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output
+   ID="/pages/administracao/avaliacao/consultarSubfatorAvaliacao.xhtml"
+   NAME="output7"
+   PATH="/pages/administracao/avaliacao/consultarSubfatorAvaliacao.xhtml"
+   TARGET="#xpages#xadministracao#xavaliacao#xconsultarSubfatorAvaliacao.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output
+<<<<<<< HEAD
+   ID="/pages/administracao/tipoAvaliacao/consultarTipoAvaliacao.xhtml"
+   NAME="output8"
+   PATH="/pages/administracao/tipoAvaliacao/consultarTipoAvaliacao.xhtml"
+   TARGET="#xpages#xadministracao#xtipoAvaliacao#xconsultarTipoAvaliacao.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output
+   ID="/pages/administracao/unidadeAdministrativa/consultarUnidadeAdmin.xhtml"
+   NAME="output9"
+=======
+   ID="/pages/administracao/unidadeAdministrativa/consultarUnidadeAdmin.xhtml"
+   NAME="output8"
+>>>>>>> c0b9f98229e6159cf0f262a3cc4a7ea360d35baf
+   PATH="/pages/administracao/unidadeAdministrativa/consultarUnidadeAdmin.xhtml"
+   TARGET="#xpages#xadministracao#xunidadeAdministrativa#xconsultarUnidadeAdmin.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output
+   ID="/pages/administracao/sincronizacao/mensagemSincronizacao.xhtml"
+<<<<<<< HEAD
+   NAME="output10"
+   PATH="/pages/administracao/sincronizacao/mensagemSincronizacao.xhtml"
+   TARGET="#xpages#xadministracao#xsincronizacao#xmensagemSincronizacao.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/pages/email/sincronizacaoConcluida.xhtml" NAME="output11"
+=======
+   NAME="output9"
+   PATH="/pages/administracao/sincronizacao/mensagemSincronizacao.xhtml"
+   TARGET="#xpages#xadministracao#xsincronizacao#xmensagemSincronizacao.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/pages/email/sincronizacaoConcluida.xhtml" NAME="output10"
+>>>>>>> c0b9f98229e6159cf0f262a3cc4a7ea360d35baf
+   PATH="/pages/email/sincronizacaoConcluida.xhtml"
+   TARGET="#xpages#xemail#xsincronizacaoConcluida.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output
+   ID="/pages/administracao/sincronizacao/historicoSincronizacao.xhtml"
+<<<<<<< HEAD
+   NAME="output12"
+=======
+   NAME="output11"
+>>>>>>> c0b9f98229e6159cf0f262a3cc4a7ea360d35baf
+   PATH="/pages/administracao/sincronizacao/historicoSincronizacao.xhtml"
+   TARGET="#xpages#xadministracao#xsincronizacao#xhistoricoSincronizacao.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output
+   ID="/pages/administracao/sincronizacao/detalhesSincronizacao.xhtml"
+<<<<<<< HEAD
+   NAME="output13"
+=======
+   NAME="output12"
+>>>>>>> c0b9f98229e6159cf0f262a3cc4a7ea360d35baf
+   PATH="/pages/administracao/sincronizacao/detalhesSincronizacao.xhtml"
+   TARGET="#xpages#xadministracao#xsincronizacao#xdetalhesSincronizacao.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output
+   ID="/pages/administracao/avaliacao/consultarSubfatorAvaliacao.xhtml"
+<<<<<<< HEAD
+   NAME="output14"
+   PATH="/pages/administracao/avaliacao/consultarSubfatorAvaliacao.xhtml"
+   TARGET="#xpages#xadministracao#xavaliacao#xconsultarSubfatorAvaliacao.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+=======
+   NAME="output13"
+   PATH="/pages/administracao/avaliacao/consultarSubfatorAvaliacao.xhtml"
+   TARGET="#xpages#xadministracao#xavaliacao#xconsultarSubfatorAvaliacao.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output
+   ID="/pages/administracao/avaliacao/consultarCategoriaAvaliacao.xhtml"
+   NAME="output14"
+   PATH="/pages/administracao/avaliacao/consultarCategoriaAvaliacao.xhtml"
+   TARGET="#xpages#xadministracao#xavaliacao#xconsultarCategoriaAvaliacao.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output
+   ID="/pages/administracao/avaliacao/consultarGerenciadorAvaliacoes.xhtml"
+   NAME="output15"
+   PATH="/pages/administracao/avaliacao/consultarGerenciadorAvaliacoes.xhtml"
+   TARGET="#xpages#xadministracao#xavaliacao#xconsultarGerenciadorAvaliacoes.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+>>>>>>> c0b9f98229e6159cf0f262a3cc4a7ea360d35baf
+ </item>
+ <item ID="#home.xhtml" NAME="#xhome.xhtml" PATH="/home.xhtml"
+  SHAPE="472,217,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item ID="#pages#administracao#servidor#consultarServidor.xhtml"
+  NAME="#xpages#xadministracao#xservidor#xconsultarServidor.xhtml"
+  PATH="/pages/administracao/servidor/consultarServidor.xhtml"
+  SHAPE="1304,425,0,0" TYPE="page" model-entity="SeamPagesDiagramItem">
+  <output ID="/pages/administracao/servidor/incluirEditarServidor.xhtml"
+   NAME="output"
+   PATH="/pages/administracao/servidor/incluirEditarServidor.xhtml"
+   TARGET="#xpages#xadministracao#xservidor#xincluirEditarServidor.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/pages/administracao/servidor/incluirEditarServidor.xhtml"
+   NAME="output1"
+   PATH="/pages/administracao/servidor/incluirEditarServidor.xhtml"
+   TARGET="#xpages#xadministracao#xservidor#xincluirEditarServidor.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/pages/administracao/servidor/incluirEditarServidor.xhtml"
+   NAME="output2"
+   PATH="/pages/administracao/servidor/incluirEditarServidor.xhtml"
+   TARGET="#xpages#xadministracao#xservidor#xincluirEditarServidor.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item ID="org.jboss.seam.security.NotLoggedInException"
+  NAME="exception:org.jboss.seam.security.NotLoggedInException"
+  PATH="org.jboss.seam.security.NotLoggedInException" SHAPE="24,217,0,0"
+  TYPE="exception" model-entity="SeamPagesDiagramItem">
+  <output ID="/login.xhtml" NAME="output" PATH="/login.xhtml"
+   TARGET="#xlogin.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item ID="org.jboss.seam.framework.EntityNotFoundException"
+  NAME="exception:org.jboss.seam.framework.EntityNotFoundException"
+  PATH="org.jboss.seam.framework.EntityNotFoundException"
+  SHAPE="24,473,0,0" TYPE="exception" model-entity="SeamPagesDiagramItem">
+  <output ID="/error.xhtml" NAME="output" PATH="/error.xhtml"
+   TARGET="#xerror.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item ID="javax.persistence.EntityNotFoundException"
+  NAME="exception:javax.persistence.EntityNotFoundException"
+  PATH="javax.persistence.EntityNotFoundException" SHAPE="24,577,0,0"
+  TYPE="exception" model-entity="SeamPagesDiagramItem">
+  <output ID="/error.xhtml" NAME="output" PATH="/error.xhtml"
+   TARGET="#xerror.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item ID="javax.persistence.EntityExistsException"
+  NAME="exception:javax.persistence.EntityExistsException"
+  PATH="javax.persistence.EntityExistsException" SHAPE="24,681,0,0"
+  TYPE="exception" model-entity="SeamPagesDiagramItem">
+  <output ID="/error.xhtml" NAME="output" PATH="/error.xhtml"
+   TARGET="#xerror.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item ID="javax.persistence.OptimisticLockException"
+  NAME="exception:javax.persistence.OptimisticLockException"
+  PATH="javax.persistence.OptimisticLockException" SHAPE="24,785,0,0"
+  TYPE="exception" model-entity="SeamPagesDiagramItem">
+  <output ID="/error.xhtml" NAME="output" PATH="/error.xhtml"
+   TARGET="#xerror.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item ID="org.jboss.seam.security.AuthorizationException"
+  NAME="exception:org.jboss.seam.security.AuthorizationException"
+  PATH="org.jboss.seam.security.AuthorizationException"
+  SHAPE="24,889,0,0" TYPE="exception" model-entity="SeamPagesDiagramItem">
+  <output ID="/error.xhtml" NAME="output" PATH="/error.xhtml"
+   TARGET="#xerror.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item ID="javax.faces.application.ViewExpiredException"
+  NAME="exception:javax.faces.application.ViewExpiredException"
+  PATH="javax.faces.application.ViewExpiredException" SHAPE="24,321,0,0"
+  TYPE="exception" model-entity="SeamPagesDiagramItem">
+  <output ID="/login.xhtml" NAME="output" PATH="/login.xhtml"
+   TARGET="#xlogin.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item NAME="exception:" SHAPE="24,993,0,0" TYPE="exception" model-entity="SeamPagesDiagramItem">
+  <output ID="/error.xhtml" NAME="output" PATH="/error.xhtml"
+   TARGET="#xerror.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item NAME="#xlogin.xhtml" PATH="/login.xhtml" SHAPE="472,17,0,0"
+  TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item NAME="#xerror.xhtml" PATH="/error.xhtml" SHAPE="472,473,0,0"
+  TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item
+  ID="#pages#administracao#unidadeAdministrativa#consultarUnidadeAdmin.xhtml"
+  NAME="#xpages#xadministracao#xunidadeAdministrativa#xconsultarUnidadeAdmin.xhtml"
+  PATH="/pages/administracao/unidadeAdministrativa/consultarUnidadeAdmin.xhtml"
+  SHAPE="472,217,0,0" TYPE="page" model-entity="SeamPagesDiagramItem">
+  <output
+   ID="/pages/administracao/unidadeAdministrativa/incluirEditarUnidadeAdmin.xhtml"
+   NAME="output"
+   PATH="/pages/administracao/unidadeAdministrativa/incluirEditarUnidadeAdmin.xhtml"
+   TARGET="#xpages#xadministracao#xunidadeAdministrativa#xincluirEditarUnidadeAdmin.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output
+   ID="/pages/administracao/unidadeAdministrativa/incluirEditarUnidadeAdmin.xhtml"
+   NAME="output1"
+   PATH="/pages/administracao/unidadeAdministrativa/incluirEditarUnidadeAdmin.xhtml"
+   TARGET="#xpages#xadministracao#xunidadeAdministrativa#xincluirEditarUnidadeAdmin.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output
+   ID="/pages/administracao/unidadeAdministrativa/incluirEditarUnidadeAdmin.xhtml"
+   NAME="output2"
+   PATH="/pages/administracao/unidadeAdministrativa/incluirEditarUnidadeAdmin.xhtml"
+   TARGET="#xpages#xadministracao#xunidadeAdministrativa#xincluirEditarUnidadeAdmin.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item
+  ID="#pages#administracao#unidadeAdministrativa#incluirEditarUnidadeAdmin.xhtml"
+  NAME="#xpages#xadministracao#xunidadeAdministrativa#xincluirEditarUnidadeAdmin.xhtml"
+  PATH="/pages/administracao/unidadeAdministrativa/incluirEditarUnidadeAdmin.xhtml"
+  SHAPE="88,217,0,0" TYPE="page" model-entity="SeamPagesDiagramItem">
+  <output
+   ID="/pages/administracao/unidadeAdministrativa/consultarUnidadeAdmin.xhtml"
+   NAME="output"
+   PATH="/pages/administracao/unidadeAdministrativa/consultarUnidadeAdmin.xhtml"
+   TARGET="#xpages#xadministracao#xunidadeAdministrativa#xconsultarUnidadeAdmin.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output
+   ID="/pages/administracao/unidadeAdministrativa/consultarUnidadeAdmin.xhtml"
+   NAME="output1"
+   PATH="/pages/administracao/unidadeAdministrativa/consultarUnidadeAdmin.xhtml"
+   TARGET="#xpages#xadministracao#xunidadeAdministrativa#xconsultarUnidadeAdmin.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output
+   ID="/pages/administracao/unidadeAdministrativa/consultarUnidadeAdmin.xhtml"
+   NAME="output2"
+   PATH="/pages/administracao/unidadeAdministrativa/consultarUnidadeAdmin.xhtml"
+   TARGET="#xpages#xadministracao#xunidadeAdministrativa#xconsultarUnidadeAdmin.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item ID="#pages#administracao#pessoa#consultarPessoa.xhtml"
+  NAME="#xpages#xadministracao#xpessoa#xconsultarPessoa.xhtml"
+  PATH="/pages/administracao/pessoa/consultarPessoa.xhtml"
+  SHAPE="24,1273,0,0" TYPE="page" model-entity="SeamPagesDiagramItem">
+  <output ID="/pages/administracao/pessoa/incluirEditarPessoa.xhtml"
+   NAME="output"
+   PATH="/pages/administracao/pessoa/incluirEditarPessoa.xhtml"
+   TARGET="#xpages#xadministracao#xpessoa#xincluirEditarPessoa.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/pages/administracao/pessoa/incluirEditarPessoa.xhtml"
+   NAME="output1"
+   PATH="/pages/administracao/pessoa/incluirEditarPessoa.xhtml"
+   TARGET="#xpages#xadministracao#xpessoa#xincluirEditarPessoa.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/pages/administracao/pessoa/incluirEditarPessoa.xhtml"
+   NAME="output2"
+   PATH="/pages/administracao/pessoa/incluirEditarPessoa.xhtml"
+   TARGET="#xpages#xadministracao#xpessoa#xincluirEditarPessoa.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item
+  ID="#pages#administracao#instituicaoEnsino#incluirEditarInstituicaoEnsino.xhtml"
+  NAME="#xpages#xadministracao#xinstituicaoEnsino#xincluirEditarInstituicaoEnsino.xhtml"
+  PATH="/pages/administracao/instituicaoEnsino/incluirEditarInstituicaoEnsino.xhtml"
+  SHAPE="24,1425,0,0" TYPE="page" model-entity="SeamPagesDiagramItem">
+  <output
+   ID="/pages/administracao/instituicaoEnsino/consultarInstituicaoEnsino.xhtml"
+   NAME="output"
+   PATH="/pages/administracao/instituicaoEnsino/consultarInstituicaoEnsino.xhtml"
+   TARGET="#xpages#xadministracao#xinstituicaoEnsino#xconsultarInstituicaoEnsino.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output
+   ID="/pages/administracao/instituicaoEnsino/consultarInstituicaoEnsino.xhtml"
+   NAME="output1"
+   PATH="/pages/administracao/instituicaoEnsino/consultarInstituicaoEnsino.xhtml"
+   TARGET="#xpages#xadministracao#xinstituicaoEnsino#xconsultarInstituicaoEnsino.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item ID="#pages#administracao#areaAtuacao#consultarAreaAtuacao.xhtml"
+  NAME="#xpages#xadministracao#xareaAtuacao#xconsultarAreaAtuacao.xhtml"
+  PATH="/pages/administracao/areaAtuacao/consultarAreaAtuacao.xhtml"
+  SHAPE="152,1761,0,0" TYPE="page" model-entity="SeamPagesDiagramItem">
+  <output
+   ID="/pages/administracao/areaAtuacao/incluirEditarAreaAtuacao.xhtml"
+   NAME="output"
+   PATH="/pages/administracao/areaAtuacao/incluirEditarAreaAtuacao.xhtml"
+   TARGET="#xpages#xadministracao#xareaAtuacao#xincluirEditarAreaAtuacao.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output
+   ID="/pages/administracao/areaAtuacao/incluirEditarAreaAtuacao.xhtml"
+   NAME="output1"
+   PATH="/pages/administracao/areaAtuacao/incluirEditarAreaAtuacao.xhtml"
+   TARGET="#xpages#xadministracao#xareaAtuacao#xincluirEditarAreaAtuacao.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output
+   ID="/pages/administracao/areaAtuacao/incluirEditarAreaAtuacao.xhtml"
+   NAME="output2"
+   PATH="/pages/administracao/areaAtuacao/incluirEditarAreaAtuacao.xhtml"
+   TARGET="#xpages#xadministracao#xareaAtuacao#xincluirEditarAreaAtuacao.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item ID="#pages#administracao#pessoa#incluirEditarPessoa.xhtml"
+  NAME="#xpages#xadministracao#xpessoa#xincluirEditarPessoa.xhtml"
+  PATH="/pages/administracao/pessoa/incluirEditarPessoa.xhtml"
+  SHAPE="536,1481,0,0" TYPE="page" model-entity="SeamPagesDiagramItem">
+  <output ID="/pages/administracao/pessoa/consultarPessoa.xhtml"
+   NAME="output"
+   PATH="/pages/administracao/pessoa/consultarPessoa.xhtml"
+   TARGET="#xpages#xadministracao#xpessoa#xconsultarPessoa.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/pages/administracao/pessoa/consultarPessoa.xhtml"
+   NAME="output1"
+   PATH="/pages/administracao/pessoa/consultarPessoa.xhtml"
+   TARGET="#xpages#xadministracao#xpessoa#xconsultarPessoa.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item
+  ID="#pages#administracao#instituicaoEnsino#consultarInstituicaoEnsino.xhtml"
+  NAME="#xpages#xadministracao#xinstituicaoEnsino#xconsultarInstituicaoEnsino.xhtml"
+  PATH="/pages/administracao/instituicaoEnsino/consultarInstituicaoEnsino.xhtml"
+  SHAPE="152,1761,0,0" TYPE="page" model-entity="SeamPagesDiagramItem">
+  <output
+   ID="/pages/administracao/instituicaoEnsino/incluirEditarInstituicaoEnsino.xhtml"
+   NAME="output"
+   PATH="/pages/administracao/instituicaoEnsino/incluirEditarInstituicaoEnsino.xhtml"
+   TARGET="#xpages#xadministracao#xinstituicaoEnsino#xincluirEditarInstituicaoEnsino.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output
+   ID="/pages/administracao/instituicaoEnsino/incluirEditarInstituicaoEnsino.xhtml"
+   NAME="output1"
+   PATH="/pages/administracao/instituicaoEnsino/incluirEditarInstituicaoEnsino.xhtml"
+   TARGET="#xpages#xadministracao#xinstituicaoEnsino#xincluirEditarInstituicaoEnsino.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output
+   ID="/pages/administracao/instituicaoEnsino/incluirEditarInstituicaoEnsino.xhtml"
+   NAME="output2"
+   PATH="/pages/administracao/instituicaoEnsino/incluirEditarInstituicaoEnsino.xhtml"
+   TARGET="#xpages#xadministracao#xinstituicaoEnsino#xincluirEditarInstituicaoEnsino.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item
+  ID="#pages#administracao#areaAtuacao#incluirEditarAreaAtuacao.xhtml"
+  NAME="#xpages#xadministracao#xareaAtuacao#xincluirEditarAreaAtuacao.xhtml"
+  PATH="/pages/administracao/areaAtuacao/incluirEditarAreaAtuacao.xhtml"
+  SHAPE="408,2145,0,0" TYPE="page" model-entity="SeamPagesDiagramItem">
+  <output
+   ID="/pages/administracao/areaAtuacao/consultarAreaAtuacao.xhtml"
+   NAME="output"
+   PATH="/pages/administracao/areaAtuacao/consultarAreaAtuacao.xhtml"
+   TARGET="#xpages#xadministracao#xareaAtuacao#xconsultarAreaAtuacao.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output
+   ID="/pages/administracao/areaAtuacao/consultarAreaAtuacao.xhtml"
+   NAME="output1"
+   PATH="/pages/administracao/areaAtuacao/consultarAreaAtuacao.xhtml"
+   TARGET="#xpages#xadministracao#xareaAtuacao#xconsultarAreaAtuacao.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item
+  NAME="#xpages#xadministracao#xsincronizacao#xmensagemSincronizacao.xhtml"
+  PATH="/pages/administracao/sincronizacao/mensagemSincronizacao.xhtml"
+  SHAPE="536,313,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item
+  NAME="#xpages#xadministracao#xservidor#xincluirEditarServidor.xhtml"
+  PATH="/pages/administracao/servidor/incluirEditarServidor.xhtml"
+  SHAPE="2040,673,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item
+  ID="#pages#administracao#sincronizacao#historicoSincronizacao.xhtml"
+  NAME="#xpages#xadministracao#xsincronizacao#xhistoricoSincronizacao.xhtml"
+  PATH="/pages/administracao/sincronizacao/historicoSincronizacao.xhtml"
+<<<<<<< HEAD
+  SHAPE="568,1097,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item ID="#pages#email#sincronizacaoConcluida.xhtml"
+  NAME="#xpages#xemail#xsincronizacaoConcluida.xhtml"
+  PATH="/pages/email/sincronizacaoConcluida.xhtml" SHAPE="568,993,0,0"
+=======
+  SHAPE="568,1121,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item ID="#pages#email#sincronizacaoConcluida.xhtml"
+  NAME="#xpages#xemail#xsincronizacaoConcluida.xhtml"
+  PATH="/pages/email/sincronizacaoConcluida.xhtml" SHAPE="568,1017,0,0"
+>>>>>>> c0b9f98229e6159cf0f262a3cc4a7ea360d35baf
+  TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item
+  ID="#pages#administracao#sincronizacao#detalhesSincronizacao.xhtml"
+  NAME="#xpages#xadministracao#xsincronizacao#xdetalhesSincronizacao.xhtml"
+  PATH="/pages/administracao/sincronizacao/detalhesSincronizacao.xhtml"
+<<<<<<< HEAD
+  SHAPE="568,1201,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item ID="#pages#administracao#servidor#listarCargofuncao.xhtml"
+  NAME="#xpages#xadministracao#xservidor#xlistarCargofuncao.xhtml"
+  PATH="/pages/administracao/servidor/listarCargofuncao.xhtml"
+  SHAPE="1272,841,0,0" TYPE="page" model-entity="SeamPagesDiagramItem">
+=======
+  SHAPE="568,1225,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item ID="#pages#administracao#servidor#listarCargofuncao.xhtml"
+  NAME="#xpages#xadministracao#xservidor#xlistarCargofuncao.xhtml"
+  PATH="/pages/administracao/servidor/listarCargofuncao.xhtml"
+  SHAPE="1272,865,0,0" TYPE="page" model-entity="SeamPagesDiagramItem">
+>>>>>>> c0b9f98229e6159cf0f262a3cc4a7ea360d35baf
+  <output ID="/pages/administracao/servidor/consultarServidor.xhtml"
+   NAME="output"
+   PATH="/pages/administracao/servidor/consultarServidor.xhtml"
+   TARGET="#xpages#xadministracao#xservidor#xconsultarServidor.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/pages/administracao/servidor/consultarServidor.xhtml"
+   NAME="output1"
+   PATH="/pages/administracao/servidor/consultarServidor.xhtml"
+   TARGET="#xpages#xadministracao#xservidor#xconsultarServidor.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/pages/administracao/servidor/consultarServidor.xhtml"
+   NAME="output2"
+   PATH="/pages/administracao/servidor/consultarServidor.xhtml"
+   TARGET="#xpages#xadministracao#xservidor#xconsultarServidor.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item
+  ID="#pages#administracao#servidor#modal#modalIncluirEditarCargoFuncao.xhtml"
+  NAME="#xpages#xadministracao#xservidor#xmodal#xmodalIncluirEditarCargoFuncao.xhtml"
+  PATH="/pages/administracao/servidor/modal/modalIncluirEditarCargoFuncao.xhtml"
+<<<<<<< HEAD
+  SHAPE="24,1513,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item
+  ID="#pages#administracao#tipoAvaliacao#consultarTipoAvaliacao.xhtml__duplicate1"
+  NAME="#xpages#xadministracao#xtipoAvaliacao#xconsultarTipoAvaliacao.xhtml"
+  PATH="/pages/administracao/tipoAvaliacao/consultarTipoAvaliacao.xhtml"
+  SHAPE="568,433,0,0" TYPE="page" model-entity="SeamPagesDiagramItem">
+  <output
+   ID="/pages/administracao/tipoAvaliacao/incluirEditarTipoAvaliacao.xhtml"
+   NAME="output"
+   PATH="/pages/administracao/tipoAvaliacao/incluirEditarTipoAvaliacao.xhtml"
+   TARGET="#xpages#xadministracao#xtipoAvaliacao#xincluirEditarTipoAvaliacao.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output
+   ID="/pages/administracao/tipoAvaliacao/incluirEditarTipoAvaliacao.xhtml"
+   NAME="output1"
+   PATH="/pages/administracao/tipoAvaliacao/incluirEditarTipoAvaliacao.xhtml"
+   TARGET="#xpages#xadministracao#xtipoAvaliacao#xincluirEditarTipoAvaliacao.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output
+   ID="/pages/administracao/tipoAvaliacao/incluirEditarTipoAvaliacao.xhtml"
+   NAME="output2"
+   PATH="/pages/administracao/tipoAvaliacao/incluirEditarTipoAvaliacao.xhtml"
+   TARGET="#xpages#xadministracao#xtipoAvaliacao#xincluirEditarTipoAvaliacao.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+=======
+  SHAPE="344,1585,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item
+  ID="#pages#administracao#avaliacao#consultarSubfatorAvaliacao.xhtml__duplicate1"
+  NAME="#xpages#xadministracao#xavaliacao#xconsultarSubfatorAvaliacao.xhtml"
+  PATH="/pages/administracao/avaliacao/consultarSubfatorAvaliacao.xhtml"
+  SHAPE="568,457,0,0" TYPE="page" model-entity="SeamPagesDiagramItem">
+  <output
+   ID="/pages/administracao/avaliacao/incluirEditarSubfatorAvaliacao.xhtml"
+   NAME="output"
+   PATH="/pages/administracao/avaliacao/incluirEditarSubfatorAvaliacao.xhtml"
+   TARGET="#xpages#xadministracao#xavaliacao#xincluirEditarSubfatorAvaliacao.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output
+   ID="/pages/administracao/avaliacao/incluirEditarSubfatorAvaliacao.xhtml"
+   NAME="output1"
+   PATH="/pages/administracao/avaliacao/incluirEditarSubfatorAvaliacao.xhtml"
+   TARGET="#xpages#xadministracao#xavaliacao#xincluirEditarSubfatorAvaliacao.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output
+   ID="/pages/administracao/avaliacao/incluirEditarSubfatorAvaliacao.xhtml"
+   NAME="output2"
+   PATH="/pages/administracao/avaliacao/incluirEditarSubfatorAvaliacao.xhtml"
+   TARGET="#xpages#xadministracao#xavaliacao#xincluirEditarSubfatorAvaliacao.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+>>>>>>> c0b9f98229e6159cf0f262a3cc4a7ea360d35baf
+ </item>
+ <item
+  ID="#pages#administracao#avaliacao#incluirEditarSubfatorAvaliacao.xhtml"
+  NAME="#xpages#xadministracao#xavaliacao#xincluirEditarSubfatorAvaliacao.xhtml"
+  PATH="/pages/administracao/avaliacao/incluirEditarSubfatorAvaliacao.xhtml"
+<<<<<<< HEAD
+  SHAPE="120,433,0,0" TYPE="page" model-entity="SeamPagesDiagramItem">
+=======
+  SHAPE="120,457,0,0" TYPE="page" model-entity="SeamPagesDiagramItem">
+>>>>>>> c0b9f98229e6159cf0f262a3cc4a7ea360d35baf
+  <output
+   ID="/pages/administracao/avaliacao/consultarSubfatorAvaliacao.xhtml"
+   NAME="output"
+   PATH="/pages/administracao/avaliacao/consultarSubfatorAvaliacao.xhtml"
+   TARGET="#xpages#xadministracao#xavaliacao#xconsultarSubfatorAvaliacao.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output
+   ID="/pages/administracao/avaliacao/incluirEditarSubfatorAvaliacao.xhtml"
+   NAME="output1"
+   PATH="/pages/administracao/avaliacao/incluirEditarSubfatorAvaliacao.xhtml"
+   TARGET="#xpages#xadministracao#xavaliacao#xincluirEditarSubfatorAvaliacao.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output
+   ID="/pages/administracao/avaliacao/consultarSubfatorAvaliacao.xhtml"
+   NAME="output2"
+   PATH="/pages/administracao/avaliacao/consultarSubfatorAvaliacao.xhtml"
+   TARGET="#xpages#xadministracao#xavaliacao#xconsultarSubfatorAvaliacao.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item
+<<<<<<< HEAD
+  ID="#pages#administracao#avaliacao#consultarSubfatorAvaliacao.xhtml__duplicate1"
+  NAME="#xpages#xadministracao#xavaliacao#xconsultarSubfatorAvaliacao.xhtml"
+  PATH="/pages/administracao/avaliacao/consultarSubfatorAvaliacao.xhtml"
+  SHAPE="568,433,0,0" TYPE="page" model-entity="SeamPagesDiagramItem">
+  <output
+   ID="/pages/administracao/avaliacao/incluirEditarSubfatorAvaliacao.xhtml"
+   NAME="output"
+   PATH="/pages/administracao/avaliacao/incluirEditarSubfatorAvaliacao.xhtml"
+   TARGET="#xpages#xadministracao#xavaliacao#xincluirEditarSubfatorAvaliacao.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output
+   ID="/pages/administracao/avaliacao/incluirEditarSubfatorAvaliacao.xhtml"
+   NAME="output1"
+   PATH="/pages/administracao/avaliacao/incluirEditarSubfatorAvaliacao.xhtml"
+   TARGET="#xpages#xadministracao#xavaliacao#xincluirEditarSubfatorAvaliacao.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output
+   ID="/pages/administracao/avaliacao/incluirEditarSubfatorAvaliacao.xhtml"
+   NAME="output2"
+   PATH="/pages/administracao/avaliacao/incluirEditarSubfatorAvaliacao.xhtml"
+   TARGET="#xpages#xadministracao#xavaliacao#xincluirEditarSubfatorAvaliacao.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item
+  NAME="#xpages#xadministracao#xtipoAvaliacao#xincluirEditarTipoAvaliacao.xhtml"
+  PATH="/pages/administracao/tipoAvaliacao/incluirEditarTipoAvaliacao.xhtml"
+  SHAPE="952,817,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+=======
+  ID="#pages#administracao#avaliacao#consultarCategoriaAvaliacao.xhtml__duplicate1"
+  NAME="#xpages#xadministracao#xavaliacao#xconsultarCategoriaAvaliacao.xhtml"
+  PATH="/pages/administracao/avaliacao/consultarCategoriaAvaliacao.xhtml"
+  SHAPE="568,1329,0,0" TYPE="page" model-entity="SeamPagesDiagramItem">
+  <output
+   ID="/pages/administracao/avaliacao/incluirEditarCategoriaAvaliacao.xhtml"
+   NAME="output"
+   PATH="/pages/administracao/avaliacao/incluirEditarCategoriaAvaliacao.xhtml"
+   TARGET="#xpages#xadministracao#xavaliacao#xincluirEditarCategoriaAvaliacao.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output
+   ID="/pages/administracao/avaliacao/incluirEditarCategoriaAvaliacao.xhtml"
+   NAME="output1"
+   PATH="/pages/administracao/avaliacao/incluirEditarCategoriaAvaliacao.xhtml"
+   TARGET="#xpages#xadministracao#xavaliacao#xincluirEditarCategoriaAvaliacao.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output
+   ID="/pages/administracao/avaliacao/incluirEditarCategoriaAvaliacao.xhtml"
+   NAME="output2"
+   PATH="/pages/administracao/avaliacao/incluirEditarCategoriaAvaliacao.xhtml"
+   TARGET="#xpages#xadministracao#xavaliacao#xincluirEditarCategoriaAvaliacao.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item
+  ID="#pages#administracao#avaliacao#incluirEditarCategoriaAvaliacao.xhtml"
+  NAME="#xpages#xadministracao#xavaliacao#xincluirEditarCategoriaAvaliacao.xhtml"
+  PATH="/pages/administracao/avaliacao/incluirEditarCategoriaAvaliacao.xhtml"
+  SHAPE="120,1585,0,0" TYPE="page" model-entity="SeamPagesDiagramItem">
+  <output
+   ID="/pages/administracao/avaliacao/consultarCategoriaAvaliacao.xhtml"
+   NAME="output"
+   PATH="/pages/administracao/avaliacao/consultarCategoriaAvaliacao.xhtml"
+   TARGET="#xpages#xadministracao#xavaliacao#xconsultarCategoriaAvaliacao.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output
+   ID="/pages/administracao/avaliacao/incluirEditarCategoriaAvaliacao.xhtml"
+   NAME="output1"
+   PATH="/pages/administracao/avaliacao/incluirEditarCategoriaAvaliacao.xhtml"
+   TARGET="#xpages#xadministracao#xavaliacao#xincluirEditarCategoriaAvaliacao.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output
+   ID="/pages/administracao/avaliacao/consultarCategoriaAvaliacao.xhtml"
+   NAME="output2"
+   PATH="/pages/administracao/avaliacao/consultarCategoriaAvaliacao.xhtml"
+   TARGET="#xpages#xadministracao#xavaliacao#xconsultarCategoriaAvaliacao.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item
+  NAME="#xpages#xadministracao#xavaliacao#xconsultarGerenciadorAvaliacoes.xhtml"
+  PATH="/pages/administracao/avaliacao/consultarGerenciadorAvaliacoes.xhtml"
+  SHAPE="568,481,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+>>>>>>> c0b9f98229e6159cf0f262a3cc4a7ea360d35baf
+</diagram>
